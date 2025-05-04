@@ -1,6 +1,15 @@
 ## Hi there 👋
 
-<!--
+<!--<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to Belovedbuy</title>
+</head>
+<body>
+  <h1>Belovedbuy</h1>
+  <p>Your trusted place for the best tech and gadget deals.</p>
+</body>
+</html>
 **Belovedbuy/Belovedbuy** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
 Here are some ideas to get you started:
