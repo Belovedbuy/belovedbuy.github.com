@@ -21,5 +21,19 @@ const products = [
     link: "https://www.amazon.com/dp/B08D57YX9X?tag=yourtag-20",
     category: "Smart Watches"
   },
-  // Add more products for Accessories, etc.
+  {
+    name: "Apple AirPods Pro",
+    description: "Noise cancellation, seamless Apple ecosystem integration, and great audio.",
+    image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/airpods-pro-2nd-gen-hero-geo-202209_FMT_WHH?wid=940&hei=1112&fmt=png-alpha&.v=1660709210760",
+    link: "https://www.amazon.com/dp/B0BDHWDR12?tag=yourtag-20",
+    category: "Accessories"
+  },
+  {
+    name: "Infinix Note 30",
+    description: "Budget-friendly phone with powerful battery and fast processor.",
+    image: "https://ng.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/21/5578652/1.jpg",
+    link: "https://www.amazon.com/dp/B0C4RZ47KY?tag=yourtag-20",
+    category: "Phones"
+  },
+  // Add more products below as needed
 ];
