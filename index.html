@@ -52,18 +52,16 @@
 
   <!-- Improved Search Script -->
   <script>
-    // Get the current page category from the URL
+    // Check the current page category from the URL
     const currentPage = window.location.pathname.split('/').pop().split('.')[0];
 
     // Filter products based on the current category page
-    const filteredProducts = products.filter(product => 
-      product.category.toLowerCase() === currentPage.toLowerCase() || currentPage === 'index'
-    );
+    const filteredProducts = currentPage === 'index' ? products : products.filter(product => product.category.toLowerCase() === currentPage.toLowerCase());
 
     // Get the featured products section to display the products
     const featuredProductsSection = document.getElementById('featured-products');
 
-    // Dynamically create and display product cards
+    // Dynamically create and display product cards for the filtered products
     filteredProducts.forEach(product => {
       const productCard = document.createElement('div');
       productCard.classList.add('product-card');
@@ -76,10 +74,10 @@
       featuredProductsSection.appendChild(productCard);
     });
 
-    // Improved Search Functionality
+    // Initialize Fuse.js for searching through the entire product data
     const fuse = new Fuse(products, {
-      keys: ['name', 'description'],
-      threshold: 0.4
+      keys: ['name', 'description', 'category'], // Search across name, description, and category
+      threshold: 0.4 // Adjust search threshold for better accuracy
     });
 
     const searchInput = document.getElementById('searchQuery');
@@ -95,15 +93,22 @@
         return;
       }
 
-      // Get results based on the category of the current page
-      const results = fuse.search(query).filter(result => {
-        const itemCategory = result.item.category.toLowerCase();
-        return currentPage === 'index' || itemCategory === currentPage;
-      });
+      // Get results from Fuse.js, filtered by the current page category (if not on index.html)
+      const results = fuse.search(query).map(result => result.item);
 
+      // If on category-specific page, filter results to match the category
+      if (currentPage !== 'index') {
+        const categoryResults = results.filter(item => item.category.toLowerCase() === currentPage.toLowerCase());
+        displayResults(categoryResults);
+      } else {
+        displayResults(results);
+      }
+    }
+
+    // Function to display the search results
+    function displayResults(results) {
       if (results.length > 0) {
-        results.forEach(result => {
-          const item = result.item;
+        results.forEach(item => {
           const div = document.createElement('div');
           div.classList.add('product-result');
           div.innerHTML = `
