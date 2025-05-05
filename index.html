@@ -26,8 +26,8 @@
       
       <!-- Search Bar in Navigation -->
       <li>
-        <form action="search_results.html" method="GET" style="display: inline;">
-          <input type="text" name="query" placeholder="Search..." />
+        <form id="searchForm" action="javascript:void(0);" method="GET" style="display: inline;">
+          <input type="text" id="searchQuery" placeholder="Search..." />
           <button type="submit">Search</button>
         </form>
       </li>
@@ -39,7 +39,7 @@
     <h2>Our Featured Products</h2>
 
     <!-- Anker PowerCore -->
-    <div class="product-card">
+    <div class="product-card" data-name="Anker PowerCore 10000mAh" data-description="Fast-charging, compact power bank. Perfect for long trips.">
       <img src="https://applepremiumstore.com.ng/wp-content/uploads/2022/07/71lbfrt5CVS._AC_SL1500_.jpg" alt="Anker PowerCore 10000" />
       <h3>Anker PowerCore 10000mAh</h3>
       <p>Fast-charging, compact power bank. Perfect for long trips.</p>
@@ -47,7 +47,7 @@
     </div>
 
     <!-- Samsung Galaxy S21 -->
-    <div class="product-card">
+    <div class="product-card" data-name="Samsung Galaxy S21" data-description="Latest model with stunning features. Great performance and camera quality.">
       <img src="https://ng.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/36/484158/1.jpg?7340" alt="Samsung Galaxy S21" />
       <h3>Samsung Galaxy S21</h3>
       <p>Latest model with stunning features. Great performance and camera quality.</p>
@@ -55,7 +55,7 @@
     </div>
 
     <!-- Fitbit Smartwatch -->
-    <div class="product-card">
+    <div class="product-card" data-name="Fitbit Smartwatch" data-description="Track your fitness journey with this stylish and functional smartwatch.">
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScEtxTSufX-Yw3lKlP-EtTeRf4tSRfA0TyOg&s" alt="Fitbit Smartwatch" />
       <h3>Fitbit Smartwatch</h3>
       <p>Track your fitness journey with this stylish and functional smartwatch.</p>
@@ -64,10 +64,61 @@
 
   </section>
 
+  <!-- Search Results Section -->
+  <section id="searchResults" style="display:none;">
+    <h2>Search Results</h2>
+    <div id="searchResultsContent"></div>
+  </section>
+
   <!-- Footer Section -->
   <footer>
     <p>&copy; 2025 Belovedbuy. All rights reserved. As an Amazon Associate, we earn from qualifying purchases.</p>
   </footer>
+
+  <!-- JavaScript to handle search functionality -->
+  <script>
+    // Event listener for the search form submission
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent the form from submitting normally
+
+      const query = document.getElementById('searchQuery').value.toLowerCase(); // Get the search query
+      const products = document.querySelectorAll('.product-card'); // Get all product cards
+      let resultsFound = false;
+      const searchResultsContainer = document.getElementById('searchResultsContent'); // Where to display results
+      const searchResultsSection = document.getElementById('searchResults');
+
+      // Clear any previous search results
+      searchResultsContainer.innerHTML = '';
+
+      // Loop through each product and check if it matches the search query
+      products.forEach(function(product) {
+        const productName = product.getAttribute('data-name').toLowerCase();
+        const productDescription = product.getAttribute('data-description').toLowerCase();
+
+        if (productName.includes(query) || productDescription.includes(query)) {
+          resultsFound = true;
+
+          // Create a product result item to display
+          const productResult = document.createElement('div');
+          productResult.classList.add('product-result');
+          productResult.innerHTML = `
+            <h3>${product.querySelector('h3').textContent}</h3>
+            <p>${product.querySelector('p').textContent}</p>
+            <a href="${product.querySelector('a').href}" target="_blank">Buy Now on Amazon</a>
+          `;
+          searchResultsContainer.appendChild(productResult);
+        }
+      });
+
+      // Show the search results section
+      if (resultsFound) {
+        searchResultsSection.style.display = 'block';
+      } else {
+        searchResultsContainer.innerHTML = 'No results found for "' + query + '"';
+        searchResultsSection.style.display = 'block';
+      }
+    });
+  </script>
 
 </body>
 </html>
