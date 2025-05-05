@@ -1,114 +1,103 @@
-/* General Body and Layout */
-body {
-  font-family: Arial, sans-serif;
+/* style.css */
+
+/* Reset some default browser styles */
+* {
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
+  box-sizing: border-box;
+}
+
+/* Body Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
   color: #333;
+  line-height: 1.6;
 }
 
+/* Header Section */
 header {
-  background-color: #333;
-  color: #fff;
+  background-color: #4CAF50;
+  color: white;
   text-align: center;
-  padding: 50px 20px;
+  padding: 50px;
 }
 
-header h1 {
-  font-size: 36px;
-}
-
-header p {
-  font-size: 18px;
-}
-
-/* Navigation Styling */
+/* Navigation Menu */
 nav {
   background-color: #333;
+  overflow: hidden;
 }
 
 nav ul {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
-  margin: 0;
   text-align: center;
 }
 
 nav ul li {
   display: inline-block;
-  margin-right: 20px;
 }
 
 nav ul li a {
+  color: white;
   text-decoration: none;
-  color: #fff;
-  font-size: 18px;
-  padding: 10px 20px;
+  padding: 14px 20px;
   display: inline-block;
 }
 
 nav ul li a:hover {
-  background-color: #ff6600; /* Hover color */
+  background-color: #575757;
 }
 
 /* Featured Products Section */
 #featured-products {
-  padding: 50px 20px;
-  text-align: center;
-}
-
-#featured-products h2 {
-  font-size: 28px;
-  margin-bottom: 20px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .product-card {
-  display: inline-block;
-  width: 30%;
-  margin: 20px 1%;
-  background-color: #fff;
+  background-color: white;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  text-align: center;
+  margin: 10px;
 }
 
 .product-card img {
   width: 100%;
   height: auto;
+  border-radius: 8px;
 }
 
 .product-card h3 {
-  font-size: 22px;
-  margin-top: 10px;
-}
-
-.product-card p {
-  font-size: 16px;
-  margin-top: 10px;
+  margin: 15px 0;
+  font-size: 18px;
 }
 
 .product-card a {
-  display: inline-block;
-  margin-top: 15px;
-  text-decoration: none;
-  background-color: #ff6600;
-  color: #fff;
+  background-color: #4CAF50;
+  color: white;
   padding: 10px 20px;
-  font-size: 18px;
+  text-decoration: none;
   border-radius: 5px;
 }
 
 .product-card a:hover {
-  background-color: #ff4500;
+  background-color: #45a049;
 }
 
 /* Footer Section */
 footer {
   text-align: center;
+  padding: 20px;
   background-color: #333;
-  color: #fff;
-  padding: 20px 0;
-}
-
-footer p {
-  font-size: 14px;
+  color: white;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
 }
