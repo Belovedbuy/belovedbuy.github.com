@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Belovedbuy - Your Ultimate Tech Store</title>
-  <link rel="stylesheet" href="style.css"> <!-- Link to your stylesheet -->
+  <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
 </head>
 <body>
@@ -25,7 +25,9 @@
       <li><a href="accessories.html">Accessories</a></li>
       <li><a href="about.html">About Us</a></li>
       <li>
-        <input type="text" id="searchQuery" placeholder="Search..." oninput="handleSearch()" />
+        <form id="searchForm" onsubmit="event.preventDefault(); handleSearch();">
+          <input type="text" id="searchQuery" placeholder="Search phones, accessories..." />
+        </form>
       </li>
     </ul>
   </nav>
@@ -57,7 +59,6 @@
       <p>Track your fitness journey with this stylish and functional smartwatch.</p>
       <a href="https://www.amazon.com/dp/B08D57YX9X?tag=yourtag-20" target="_blank">Buy Now on Amazon</a>
     </div>
-
   </section>
 
   <!-- Search Results Section -->
@@ -71,28 +72,13 @@
     <p>&copy; 2025 Belovedbuy. All rights reserved. As an Amazon Associate, we earn from qualifying purchases.</p>
   </footer>
 
+  <!-- Link to products.js -->
+  <script src="products.js"></script>
+
   <!-- Improved Search Script -->
   <script>
-    const productsData = [
-      {
-        name: "Anker PowerCore 10000mAh",
-        description: "Fast-charging, compact power bank. Perfect for long trips.",
-        link: "https://www.amazon.com/dp/B0194WDVHI?tag=yourtag-20"
-      },
-      {
-        name: "Samsung Galaxy S21",
-        description: "Latest model with stunning features. Great performance and camera quality.",
-        link: "https://www.amazon.com/dp/B08HRZXB77?tag=yourtag-20"
-      },
-      {
-        name: "Fitbit Smartwatch",
-        description: "Track your fitness journey with this stylish and functional smartwatch.",
-        link: "https://www.amazon.com/dp/B08D57YX9X?tag=yourtag-20"
-      }
-    ];
-
-    const fuse = new Fuse(productsData, {
-      keys: ['name', 'description'],
+    const fuse = new Fuse(products, {
+      keys: ['name', 'description', 'category'],
       threshold: 0.4
     });
 
@@ -101,7 +87,7 @@
     const searchResultsContent = document.getElementById('searchResultsContent');
 
     function handleSearch() {
-      const query = searchInput.value.trim();
+      const query = searchInput.value.trim().toLowerCase();
       searchResultsContent.innerHTML = '';
 
       if (query === '') {
@@ -115,8 +101,9 @@
         results.forEach(result => {
           const item = result.item;
           const div = document.createElement('div');
-          div.classList.add('product-result');
+          div.classList.add('product-card');
           div.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" />
             <h3>${item.name}</h3>
             <p>${item.description}</p>
             <a href="${item.link}" target="_blank">Buy Now on Amazon</a>
