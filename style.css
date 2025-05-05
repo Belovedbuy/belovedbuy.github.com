@@ -14,7 +14,7 @@ body {
   color: #333;
   line-height: 1.6;
   min-height: 100vh;
-  padding-bottom: 80px; /* Add space so content doesn't hide under footer */
+  padding-bottom: 80px; /* Space to avoid overlap with footer */
 }
 
 /* Header Section */
@@ -99,10 +99,11 @@ nav ul li a:hover {
 /* Footer Section */
 footer {
   text-align: center;
-  padding: 20px;
+  padding: 10px;            /* Smaller height */
+  font-size: 12px;          /* Smaller text */
   background-color: #333;
   color: white;
-  position: relative;
-  bottom: 0;
+  position: static;         /* No overlap */
   width: 100%;
+  margin-top: 40px;         /* Space above footer */
 }
