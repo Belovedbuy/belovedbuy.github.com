@@ -1,44 +1,111 @@
-/* Belovedbuy custom styles */
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* General Reset */
+* {
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
+  box-sizing: border-box;
 }
 
-header {
-  background-color: #111;
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-}
-
-h1 {
-  font-size: 2.5em;
-  margin: 0;
-}
-
-p {
+/* Body */
+body {
+  font-family: Arial, sans-serif;
+  background: #f9f9f9;
   color: #333;
 }
 
-section {
-  padding: 30px;
+/* Header */
+header {
+  background-color: #222;
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
 }
 
-.product-preview {
-  background-color: #fff;
-  border-radius: 10px;
+header h1 {
+  font-size: 2.5em;
+}
+
+header p {
+  margin-top: 10px;
+  font-size: 1.2em;
+}
+
+.cta-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #ff6347;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.cta-button:hover {
+  background-color: #e5533b;
+}
+
+/* Feature Sections */
+.feature-section {
+  margin: 40px 0;
   padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.feature-section h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2em;
+}
+
+.feature-section p {
+  text-align: center;
+  font-size: 1.1em;
+  margin-bottom: 20px;
+}
+
+/* Product Cards */
+.product-list, .deal-list {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.product-card, .deal-card {
+  background: #fff;
+  padding: 15px;
+  width: 200px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+}
+
+.product-card img, .deal-card img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+a {
+  color: #ff6347;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  color: #e5533b;
+}
+
+/* Footer */
 footer {
   text-align: center;
-  padding: 15px;
+  padding: 20px;
   background-color: #222;
-  color: #ccc;
-  font-size: 0.9em;
+  color: white;
+}
+
+footer a {
+  color: #ff6347;
+  text-decoration: none;
 }
