@@ -1,145 +1,114 @@
-/* ========== GLOBAL RESET ========== */
-* {
+/* General Body and Layout */
+body {
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-/* ========== BODY ========== */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f4f4f4;
   color: #333;
-  line-height: 1.6;
 }
 
-/* ========== HEADER ========== */
 header {
-  background-color: #003366;
-  color: white;
-  padding: 30px 20px;
+  background-color: #333;
+  color: #fff;
   text-align: center;
+  padding: 50px 20px;
 }
 
 header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
+  font-size: 36px;
 }
 
 header p {
-  font-size: 1.2rem;
+  font-size: 18px;
 }
 
-/* ========== NAVIGATION ========== */
+/* Navigation Styling */
 nav {
-  background-color: #004080;
-  padding: 10px;
-  text-align: center;
+  background-color: #333;
 }
 
 nav ul {
-  list-style: none;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
 }
 
 nav ul li {
-  display: inline;
-  margin: 0 15px;
+  display: inline-block;
+  margin-right: 20px;
 }
 
 nav ul li a {
-  color: white;
   text-decoration: none;
-  font-weight: bold;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 20px;
+  display: inline-block;
 }
 
 nav ul li a:hover {
-  text-decoration: underline;
+  background-color: #ff6600; /* Hover color */
 }
 
-/* ========== INTRO SECTION ========== */
-.intro {
-  padding: 30px 20px;
-  text-align: center;
-  background-color: #ffffff;
-}
-
-.intro h2 {
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
-
-.intro p {
-  max-width: 700px;
-  margin: 0 auto;
-  font-size: 1.1rem;
-  color: #555;
-}
-
-/* ========== PRODUCT CATEGORY SECTION ========== */
-.category {
-  padding: 40px 20px;
-  max-width: 1200px;
-  margin: auto;
-}
-
-.category h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 30px;
-  color: #003366;
-}
-
-/* ========== PRODUCT CARDS ========== */
-.card {
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
-  padding: 20px;
+/* Featured Products Section */
+#featured-products {
+  padding: 50px 20px;
   text-align: center;
 }
 
-.card img {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 15px;
+#featured-products h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
 }
 
-.card h3 {
-  color: #003366;
-  margin-bottom: 10px;
-  font-size: 1.3rem;
-}
-
-.card p {
-  color: #555;
-  font-size: 1rem;
-  margin-bottom: 15px;
-}
-
-.card a {
+.product-card {
   display: inline-block;
-  background-color: #ff9900;
-  color: white;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
-
-.card a:hover {
-  background-color: #cc7a00;
-}
-
-/* ========== FOOTER ========== */
-footer {
-  background-color: #003366;
-  color: white;
-  text-align: center;
+  width: 30%;
+  margin: 20px 1%;
+  background-color: #fff;
   padding: 20px;
-  margin-top: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.product-card img {
+  width: 100%;
+  height: auto;
+}
+
+.product-card h3 {
+  font-size: 22px;
+  margin-top: 10px;
+}
+
+.product-card p {
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.product-card a {
+  display: inline-block;
+  margin-top: 15px;
+  text-decoration: none;
+  background-color: #ff6600;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 18px;
+  border-radius: 5px;
+}
+
+.product-card a:hover {
+  background-color: #ff4500;
+}
+
+/* Footer Section */
+footer {
+  text-align: center;
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+}
+
+footer p {
+  font-size: 14px;
+}
