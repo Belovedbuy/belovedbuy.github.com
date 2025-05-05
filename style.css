@@ -22,7 +22,7 @@ header {
   background-color: #4CAF50;
   color: white;
   text-align: center;
-  padding: 50px;
+  padding: 50px 20px;
 }
 
 /* Navigation Menu */
@@ -39,6 +39,7 @@ nav ul {
 
 nav ul li {
   display: inline-block;
+  margin: 5px;
 }
 
 nav ul li a {
@@ -54,26 +55,36 @@ nav ul li a:hover {
 
 /* Search Bar Styles */
 nav form {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 10px;
+  padding: 10px;
 }
 
 nav input[type="text"] {
-  padding: 8px;
+  padding: 10px;
   font-size: 14px;
   border: none;
-  border-radius: 4px;
-  width: 200px; /* Adjust the width of the search bar */
+  border-radius: 20px 0 0 20px;
+  width: 220px;
+  transition: width 0.3s ease-in-out;
+  outline: none;
+}
+
+nav input[type="text"]:focus {
+  width: 300px;
 }
 
 nav button {
   background-color: #4CAF50;
   color: white;
-  padding: 8px 16px;
+  padding: 10px 16px;
   border: none;
-  border-radius: 4px;
+  border-radius: 0 20px 20px 0;
   cursor: pointer;
-  margin-left: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
 nav button:hover {
@@ -82,10 +93,11 @@ nav button:hover {
 
 /* Featured Products Section */
 #featured-products {
-  padding: 20px;
+  padding: 30px 20px;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   flex-wrap: wrap;
+  gap: 20px;
 }
 
 /* Product Card Styling */
@@ -96,7 +108,6 @@ nav button:hover {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   width: 250px;
   text-align: center;
-  margin: 10px;
 }
 
 .product-card img {
@@ -124,14 +135,33 @@ nav button:hover {
   background-color: #45a049;
 }
 
+/* Search Results Section */
+#searchResults {
+  padding: 20px;
+  text-align: center;
+}
+
+.product-result {
+  margin: 15px auto;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-result h3 {
+  margin-bottom: 10px;
+}
+
 /* Footer Section */
 footer {
   text-align: center;
-  padding: 10px;            /* Smaller height */
-  font-size: 12px;          /* Smaller text */
+  padding: 10px;
+  font-size: 12px;
   background-color: #333;
   color: white;
-  position: static;         /* No overlap */
   width: 100%;
-  margin-top: 40px;         /* Space above footer */
+  margin-top: 40px;
 }
