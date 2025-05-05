@@ -1,4 +1,3 @@
-// products.js
 const products = [
   {
     name: "Anker PowerCore 10000mAh",
@@ -24,7 +23,7 @@ const products = [
   {
     name: "Apple AirPods Pro",
     description: "Noise cancellation, seamless Apple ecosystem integration, and great audio.",
-    image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/airpods-pro-2nd-gen-hero-geo-202209_FMT_WHH?wid=940&hei=1112&fmt=png-alpha&.v=1660709210760",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfFgzjwa7ilzxD1uAMjYAUVZ44N4S6U5icfA&s",  // Updated image URL
     link: "https://www.amazon.com/dp/B0BDHWDR12?tag=yourtag-20",
     category: "Accessories"
   },
