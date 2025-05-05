@@ -47,9 +47,10 @@
     <p>&copy; 2025 Belovedbuy. All rights reserved. As an Amazon Associate, we earn from qualifying purchases.</p>
   </footer>
 
-  <!-- Improved Search Script -->
-  <script src="products.js"></script> <!-- Link to the products data -->
+  <!-- Products Data -->
+  <script src="products.js"></script>
 
+  <!-- Improved Search Script -->
   <script>
     // Get the current page category from the URL
     const currentPage = window.location.pathname.split('/').pop().split('.')[0];
@@ -74,8 +75,8 @@
       `;
       featuredProductsSection.appendChild(productCard);
     });
-    
-    // Improved Search Script (same as before)
+
+    // Improved Search Functionality
     const fuse = new Fuse(products, {
       keys: ['name', 'description'],
       threshold: 0.4
@@ -94,7 +95,11 @@
         return;
       }
 
-      const results = fuse.search(query);
+      // Get results based on the category of the current page
+      const results = fuse.search(query).filter(result => {
+        const itemCategory = result.item.category.toLowerCase();
+        return currentPage === 'index' || itemCategory === currentPage;
+      });
 
       if (results.length > 0) {
         results.forEach(result => {
@@ -118,4 +123,3 @@
 
 </body>
 </html>
-
