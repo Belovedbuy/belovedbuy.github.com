@@ -2,28 +2,116 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>BelovedBuy - Tech Product Reviews</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BelovedBuy - Tech Picks</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f2f5;
+    }
+
+    header {
+      background-color: #232f3e;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .product-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .product-card {
+      background-color: white;
+      width: 300px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: auto;
+    }
+
+    .product-info {
+      padding: 15px;
+    }
+
+    .product-info h2 {
+      font-size: 18px;
+      margin: 0 0 10px;
+      color: #333;
+    }
+
+    .product-info a {
+      display: inline-block;
+      margin-top: 10px;
+      text-decoration: none;
+      background-color: #ff9900;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .product-info a:hover {
+      background-color: #e68a00;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #232f3e;
+      color: white;
+      margin-top: 40px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Welcome to BelovedBuy</h1>
-  <p>Explore our top tech product picks with reviews and deals!</p>
 
-  <div class="product">
-    <img src="images/tozo.jpg" alt="TOZO A1 Earbuds">
-    <h2>TOZO A1 Wireless Earbuds</h2>
-    <p>Premium bass sound, lightweight and waterproof earbuds with AI mic & 32 EQ presets.</p>
-    <a href="product1.html">Read More</a> |
-    <a href="https://amzn.to/3EDnXe4" target="_blank">Buy on Amazon</a>
-  </div>
+  <header>
+    <h1>BelovedBuy - Best Tech Deals</h1>
+    <p>Top-rated tech gadgets just for you</p>
+  </header>
 
-  <div class="product">
-    <img src="images/redthunder.jpg" alt="RedThunder Gaming Combo">
-    <h2>RedThunder K10 Gaming Keyboard Combo</h2>
-    <p>3-in-1 RGB backlit gaming keyboard, 7D mouse & soft wrist rest for gamers.</p>
-    <a href="product2.html">Read More</a> |
-    <a href="https://amzn.to/4iNaaQ0" target="_blank">Buy on Amazon</a>
-  </div>
+  <section class="product-list">
+    <div class="product-card">
+      <img src="https://github.com/Belovedbuy/belovedbuy.github.com/blob/main/tozo.jpg?raw=true" alt="TOZO Earbuds">
+      <div class="product-info">
+        <h2>TOZO A1 Wireless Earbuds</h2>
+        <a href="product1.html">View Product</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://github.com/Belovedbuy/belovedbuy.github.com/blob/main/redthunder.jpg?raw=true" alt="RedThunder Gaming Combo">
+      <div class="product-info">
+        <h2>RedThunder Gaming Keyboard Set</h2>
+        <a href="product2.html">View Product</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 BelovedBuy. All rights reserved.
+  </footer>
+
 </body>
 </html>
-
