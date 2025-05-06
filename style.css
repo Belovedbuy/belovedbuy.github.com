@@ -1,125 +1,128 @@
-/* Base Reset */
+/* Reset & Base styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Page Layout */
 body {
-  background: linear-gradient(45deg, #ff7e5f, #feb47b); /* Gradient background */
-  color: #222;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to bottom right, #ffffff, #f3f6fb);
+  color: #333;
   line-height: 1.6;
   padding: 20px;
+}
+
+/* Header styles */
+header {
+  text-align: center;
+  margin-bottom: 40px;
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+  padding: 40px 20px;
+  border-radius: 10px;
+  color: white;
+}
+
+header h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+header p {
   font-size: 16px;
+  opacity: 0.9;
 }
 
-/* Product Container */
-.container {
-  max-width: 800px;
-  margin: auto;
-  background: #fff;
+/* Section titles */
+section h2 {
+  font-size: 26px;
+  color: #222;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Product Card styles */
+.product-card {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 25px;
+  margin: 20px auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+  transform: scale(1.02);
+}
+
+.product-card img {
+  width: 100%;
+  max-height: 350px;
+  object-fit: contain;
   border-radius: 12px;
-  padding: 30px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
-/* Product Title */
-h1 {
-  font-size: 28px;
+.product-card h3 {
+  font-size: 22px;
   color: #111;
   margin-bottom: 10px;
-  text-align: center;
 }
 
-/* Product Image */
-.product-image {
-  width: 100%;
-  max-width: 400px;
-  display: block;
-  margin: 20px auto;
-  border-radius: 10px;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
-}
-
-/* Description and Features */
-.description {
-  font-size: 18px;
-  color: #444;
-  margin-bottom: 20px;
-  line-height: 1.6;
-}
-
-ul.features {
-  margin-bottom: 25px;
-  padding-left: 20px;
-}
-
-ul.features li {
-  margin-bottom: 8px;
-  color: #333;
-}
-
-/* Price and Rating */
-.price-box {
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 15px;
-  color: #e65c00;
-  text-align: center;
-}
-
-.rating {
-  color: #f39c12;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-/* Amazon Affiliate Button */
-a.btn-primary {
-  display: inline-block;
-  padding: 14px 28px;
-  background-color: #ff6f00;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: bold;
+.product-card p {
   font-size: 16px;
-  box-shadow: 0 5px 15px rgba(255, 111, 0, 0.4);
-  transition: background 0.3s ease, transform 0.2s ease;
-  margin-top: 15px;
-  text-align: center;
+  color: #555;
+  margin-bottom: 15px;
 }
 
-a.btn-primary:hover {
-  background-color: #e65c00;
+/* Call-to-action button */
+.product-card a {
+  background-color: #ff6b00;
+  color: #fff;
+  padding: 12px 20px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  display: inline-block;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);
+  letter-spacing: 1px;
+  margin-top: 10px;
+}
+
+.product-card a:hover {
+  background-color: #e05c00;
   transform: scale(1.05);
 }
 
-/* Footer / Disclaimer */
+/* Footer styles */
 footer {
-  font-size: 13px;
-  margin-top: 40px;
-  color: #777;
   text-align: center;
-  padding-top: 10px;
+  margin-top: 60px;
+  font-size: 14px;
+  color: #666;
+  padding: 20px;
+  border-top: 1px solid #ccc;
 }
 
-/* Responsive for Mobile */
+/* Responsive Design */
 @media (max-width: 768px) {
-  h1 {
+  body {
+    padding: 10px;
+  }
+
+  .product-card {
+    padding: 20px 15px;
+  }
+
+  header h1 {
+    font-size: 24px;
+  }
+
+  section h2 {
     font-size: 22px;
-  }
-
-  .container {
-    padding: 15px;
-  }
-
-  a.btn-primary {
-    width: 100%;
-    text-align: center;
-    font-size: 18px;
   }
 }
