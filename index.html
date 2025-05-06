@@ -150,7 +150,111 @@
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
-  <script>
+  <script><script>
+// Utility to render a single product card
+function renderProduct(product, id) {
+  const wrap = document.createElement('div');
+  wrap.className = 'product-card';
+  wrap.id = id;
+  wrap.innerHTML = `
+    <img src="${product.image}" alt="${product.title}">
+    <div class="product-info">
+      <h2>${product.title}</h2>
+      <p>${product.description}</p>
+      <a href="${product.link}" target="_blank">View Product</a>
+      <button class="delete-btn" onclick="attemptDelete('${id}')">Delete Product</button>
+    </div>`;
+  document.getElementById('productList').appendChild(wrap);
+}
+
+// Load persisted products
+function loadProducts() {
+  const stored = JSON.parse(localStorage.getItem('myProducts') || '[]');
+  stored.forEach(item => renderProduct(item, item.id));
+}
+
+// Persist products array
+function saveProducts(arr) {
+  localStorage.setItem('myProducts', JSON.stringify(arr));
+}
+
+// On page load
+document.addEventListener('DOMContentLoaded', () => {
+  loadProducts();
+  // Show delete buttons only if authorized
+  if (sessionStorage.getItem('authorized') === 'true') {
+    document.querySelectorAll('.delete-btn')
+      .forEach(b=>b.style.display='inline-block');
+    document.getElementById('productForm').style.display='block';
+  }
+});
+
+// Password & form logic
+function showPasswordModal() {
+  document.getElementById('passwordModal').style.display='flex';
+}
+function checkPassword() {
+  if (document.getElementById('passwordInput').value === '20071961Bc@') {
+    sessionStorage.setItem('authorized','true');
+    document.getElementById('passwordModal').style.display='none';
+    document.querySelectorAll('.delete-btn').forEach(b=>b.style.display='inline-block');
+    document.getElementById('productForm').style.display='block';
+  } else {
+    alert('Incorrect password!');
+  }
+}
+
+// Add product
+function addProduct() {
+  const t = document.getElementById('productTitle').value.trim(),
+        i = document.getElementById('productImage').value.trim(),
+        d = document.getElementById('productDescription').value.trim(),
+        l = document.getElementById('productLink').value.trim();
+  if (!t||!i||!d||!l) return alert('Please fill in all fields!');
+
+  const id = 'prod_' + Date.now();
+  const product = { title:t, image:i, description:d, link:l, id };
+  // render & save
+  renderProduct(product, id);
+  const arr = JSON.parse(localStorage.getItem('myProducts')||'[]');
+  arr.push(product);
+  saveProducts(arr);
+
+  // reset form
+  document.getElementById('productForm').reset();
+}
+
+// Delete with password prompt
+function attemptDelete(id) {
+  const pwd = prompt('Enter password to delete:');
+  if (pwd === '20071961Bc@') {
+    document.getElementById(id).remove();
+    // remove from storage
+    const arr = JSON.parse(localStorage.getItem('myProducts')||'[]')
+                  .filter(p=>p.id!==id);
+    saveProducts(arr);
+  } else {
+    alert('Incorrect password!');
+  }
+}
+
+// (Your Fuse.js search code stays exactly as-is below)
+let fuse = new Fuse([
+  { name:"TOZO A1 Wireless Earbuds", link:"product1.html", features:"..." },
+  { name:"RedThunder Gaming Keyboard Set", link:"product2.html", features:"..." },
+  { name:"FDGAO 20W Wireless Charger", link:"product3.html", features:"..." }
+], { keys:['name','features'], threshold:0.3 });
+
+document.getElementById('searchBox').addEventListener('input', e=>{
+  const results = fuse.search(e.target.value).map(r=>r.item);
+  const list = document.getElementById('resultsList');
+  list.innerHTML = '';
+  results.forEach(i=>{
+    list.innerHTML += `<li><a href="${i.link}">${i.name}</a></li>`;
+  });
+});
+</script>
+
     let fuse = new Fuse([
       { name:"TOZO A1 Wireless Earbuds", link:"product1.html", features:"Lightweight, waterproof, immersive sound, 32 EQ presets" },
       { name:"RedThunder Gaming Keyboard Set", link:"product2.html", features:"RGB lighting, mechanical keys, anti-ghosting" },
