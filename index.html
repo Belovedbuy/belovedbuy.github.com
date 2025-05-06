@@ -87,7 +87,6 @@
       margin-top: 40px;
     }
 
-    /* Search Box Styling */
     #searchBox {
       width: 100%;
       padding: 10px;
@@ -96,7 +95,6 @@
       border: 1px solid #ccc;
     }
 
-    /* Results List Styling */
     #resultsList {
       list-style: none;
       padding: 0;
@@ -115,6 +113,54 @@
       color: #333;
       font-weight: bold;
     }
+
+    /* Add Product Button & Form */
+    .add-product-section {
+      text-align: center;
+      margin: 30px auto;
+    }
+
+    .add-product-form {
+      display: none;
+      max-width: 500px;
+      margin: 0 auto 30px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+
+    .add-product-form input, .add-product-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .add-product-form button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .add-button {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .add-button:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
 <body>
@@ -130,7 +176,20 @@
   <!-- Search Results -->
   <ul id="resultsList"></ul>
 
-  <section class="product-list">
+  <!-- Add Product Section -->
+  <div class="add-product-section">
+    <button class="add-button" onclick="toggleForm()">➕ Add New Product</button>
+    <div id="productForm" class="add-product-form">
+      <input type="text" id="productTitle" placeholder="Product Title">
+      <input type="text" id="productImage" placeholder="Image URL">
+      <textarea id="productDescription" placeholder="Product Description"></textarea>
+      <input type="text" id="productLink" placeholder="Amazon Affiliate Link">
+      <button onclick="addProduct()">✅ Add to Page</button>
+    </div>
+  </div>
+
+  <section class="product-list" id="productList">
+    <!-- Static products -->
     <div class="product-card">
       <img src="https://github.com/Belovedbuy/belovedbuy.github.com/blob/main/tozo.jpg?raw=true" alt="TOZO Earbuds">
       <div class="product-info">
@@ -169,6 +228,7 @@
     &copy; 2025 BelovedBuy. All rights reserved.
   </footer>
 
+  <!-- Script section -->
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
   <script>
     let fuse;
@@ -178,13 +238,11 @@
       { name: "FDGAO 20W Wireless Charger", link: "product3.html", features: "20W fast charging pad for iPhone, Samsung, Pixel & AirPods" }
     ];
 
-    // Initialize Fuse.js search
     fuse = new Fuse(data, {
       keys: ['name', 'features'],
-      threshold: 0.3 // lower = stricter match
+      threshold: 0.3
     });
 
-    // Handle search input
     document.getElementById('searchBox').addEventListener('input', function () {
       const searchTerm = this.value.trim();
       const resultList = document.getElementById('resultsList');
@@ -199,6 +257,39 @@
         resultList.appendChild(li);
       });
     });
+
+    // Toggle form visibility
+    function toggleForm() {
+      const form = document.getElementById('productForm');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Add new product
+    function addProduct() {
+      const title = document.getElementById('productTitle').value;
+      const img = document.getElementById('productImage').value;
+      const desc = document.getElementById('productDescription').value;
+      const link = document.getElementById('productLink').value;
+
+      if (!title || !img || !desc || !link) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      const container = document.createElement('div');
+      container.classList.add('product-card');
+      container.innerHTML = `
+        <img src="${img}" alt="${title}">
+        <div class="product-info">
+          <h2>${title}</h2>
+          <p>${desc}</p>
+          <a href="${link}" target="_blank">Buy on Amazon</a>
+        </div>
+      `;
+
+      document.getElementById('productList').appendChild(container);
+      toggleForm();
+    }
   </script>
 
 </body>
