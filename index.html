@@ -43,6 +43,7 @@
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
       overflow: hidden;
       transition: transform 0.3s;
+      position: relative;
     }
 
     .product-card:hover {
@@ -205,6 +206,17 @@
       background-color: #218838;
     }
 
+    .delete-btn {
+      background-color: #dc3545;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -245,7 +257,7 @@
 
   <section class="product-list" id="productList">
     <!-- Static products -->
-    <div class="product-card">
+    <div class="product-card" id="product1">
       <img src="https://github.com/Belovedbuy/belovedbuy.github.com/blob/main/tozo.jpg?raw=true" alt="TOZO Earbuds">
       <div class="product-info">
         <h2>TOZO A1 Wireless Earbuds</h2>
@@ -253,10 +265,11 @@
         <p>Rating: ⭐ 4.3 (84,296 reviews)</p>
         <p>Lightweight, waterproof, immersive sound, 32 EQ presets, and more!</p>
         <a href="product1.html">View Product</a>
+        <button class="delete-btn" onclick="showDeleteModal('product1')">Delete Product</button>
       </div>
     </div>
 
-    <div class="product-card">
+    <div class="product-card" id="product2">
       <img src="https://github.com/Belovedbuy/belovedbuy.github.com/blob/main/redthunder.jpg?raw=true" alt="RedThunder Gaming Combo">
       <div class="product-info">
         <h2>RedThunder Gaming Keyboard Set</h2>
@@ -264,10 +277,11 @@
         <p>Rating: ⭐ 4.5 (15,456 reviews)</p>
         <p>RGB lighting, mechanical keys, anti-ghosting, and more!</p>
         <a href="product2.html">View Product</a>
+        <button class="delete-btn" onclick="showDeleteModal('product2')">Delete Product</button>
       </div>
     </div>
 
-    <div class="product-card">
+    <div class="product-card" id="product3">
       <img src="https://raw.githubusercontent.com/Belovedbuy/belovedbuy.github.com/1879dc874eb83cb15548cd8e6ba97b8bce56a58c/wirelesscharger.jpg" alt="FDGAO Wireless Charger">
       <div class="product-info">
         <h2>FDGAO 20W Wireless Charger – Fastest & Cheapest Under $10</h2>
@@ -275,6 +289,7 @@
         <p>Rating: ⭐ 3.9 (11,562 reviews)</p>
         <p>Reliable 20W fast charging pad for iPhone, Samsung, Pixel & AirPods – just $9.99.</p>
         <a href="product3.html">View Product</a>
+        <button class="delete-btn" onclick="showDeleteModal('product3')">Delete Product</button>
       </div>
     </div>
   </section>
@@ -334,18 +349,19 @@
       const image = document.getElementById('productImage').value;
       const description = document.getElementById('productDescription').value;
       const link = document.getElementById('productLink').value;
-      
+
       if (title && image && description && link) {
         const productList = document.getElementById('productList');
         const newProductCard = document.createElement('div');
         newProductCard.classList.add('product-card');
-        
+
         newProductCard.innerHTML = `
           <img src="${image}" alt="${title}">
           <div class="product-info">
             <h2>${title}</h2>
             <p>${description}</p>
             <a href="${link}">View Product</a>
+            <button class="delete-btn" onclick="showDeleteModal('${newProductCard.id}')">Delete Product</button>
           </div>
         `;
         productList.appendChild(newProductCard);
@@ -354,6 +370,33 @@
         document.getElementById('productForm').style.display = 'none';
       } else {
         alert('Please fill out all fields!');
+      }
+    }
+
+    function showDeleteModal(productId) {
+      const passwordModal = document.createElement('div');
+      passwordModal.classList.add('password-modal');
+      passwordModal.innerHTML = `
+        <div class="modal-content">
+          <h2>Enter Password to Delete Product</h2>
+          <input type="password" id="deletePasswordInput" placeholder="Enter password">
+          <button onclick="checkDeletePassword('${productId}')">Submit</button>
+        </div>
+      `;
+      document.body.appendChild(passwordModal);
+      passwordModal.style.display = 'flex';
+    }
+
+    function checkDeletePassword(productId) {
+      const enteredPassword = document.getElementById('deletePasswordInput').value;
+      const correctPassword = '20071961Bc@';
+      if (enteredPassword === correctPassword) {
+        const productToDelete = document.getElementById(productId);
+        productToDelete.remove();
+        alert('Product deleted successfully!');
+        document.querySelector('.password-modal').style.display = 'none';
+      } else {
+        alert('Incorrect password!');
       }
     }
   </script>
