@@ -1,8 +1,23 @@
+/* General Body Styling */
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+/* Heading Style */
+h1 {
+  color: #333;
+}
+
+/* Product Card Style */
 .product-card {
   background: white;
   width: 300px;
   border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s;
   position: relative;
@@ -46,6 +61,7 @@
   background-color: #e68a00;
 }
 
+/* Delete Button Style */
 .delete-btn {
   background: #dc3545;
   color: white;
@@ -56,7 +72,137 @@
   top: 10px;
   right: 10px;
   cursor: pointer;
-  display: none;
+  display: none; /* Initially hidden */
 }
 
-/* Other CSS remains unchanged */
+/* Add Product Button */
+.add-product-btn {
+  display: inline-block;
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.add-product-btn:hover {
+  background-color: #218838;
+}
+
+/* Add Product Form Styling */
+.add-product-form {
+  display: none;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.add-product-form input,
+.add-product-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.add-product-form button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.add-product-form button:hover {
+  background-color: #0056b3;
+}
+
+/* Password Modal Styling */
+.password-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.password-modal .modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+}
+
+.password-modal input {
+  padding: 10px;
+  width: 100%;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.password-modal button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.password-modal button:hover {
+  background: #0056b3;
+}
+
+/* Search Box Styling */
+#searchBox {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Results List Styling */
+#resultsList {
+  list-style: none;
+  padding: 0;
+}
+
+#resultsList li {
+  margin: 5px 0;
+  background: #fff;
+  padding: 8px;
+  border-radius: 5px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+#resultsList li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Product List Styling */
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 30px;
+}
