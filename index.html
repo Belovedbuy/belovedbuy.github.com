@@ -10,41 +10,66 @@
   <title>BelovedBuy - Tech Picks</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Add your existing CSS here */
-
-    /* Modify for delete functionality */
-    .product-card {
-      background-color: white;
-      width: 300px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      transition: transform 0.3s;
-      position: relative;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f2f5;
     }
-
-    .product-card input[type="checkbox"] {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      z-index: 10;
-    }
-
-    /* Styling for Delete Selected Button */
-    .delete-selected-btn {
-      margin: 20px auto;
-      display: block;
-      background-color: #dc3545;
+    header {
+      background-color: #232f3e;
       color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 { margin: 0; }
+
+    /* Prevent overlap between form and products */
+    .add-product-form {
+      margin-top: 40px;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 2;
+    }
+    .product-list {
+      position: relative;
+      z-index: 1;
     }
 
-    .delete-selected-btn:hover {
-      background-color: #c82333;
+    /* Your existing styles… */
+    .product-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 30px; }
+    .product-card { background: white; width: 300px; border-radius:12px; box-shadow:0 0 15px rgba(0,0,0,0.1); overflow:hidden; transition:transform .3s; position: relative; }
+    .product-card:hover { transform: translateY(-5px); }
+    .product-card img { width:100%; height:auto; }
+    .product-info { padding:15px; }
+    .product-info h2 { font-size:18px; margin:0 0 10px; color:#333; }
+    .product-info a { display:inline-block; margin-top:10px; text-decoration:none; background-color:#ff9900; color:white; padding:10px 15px; border-radius:5px; font-weight:bold; }
+    .product-info a:hover { background-color:#e68a00; }
+
+    /* Search box & results */
+    #searchBox { width:100%; padding:10px; margin:20px 0; border-radius:8px; border:1px solid #ccc; }
+    #resultsList { list-style:none; padding:0; }
+    #resultsList li { margin:5px 0; background:#fff; padding:8px; border-radius:5px; box-shadow:0 0 4px rgba(0,0,0,0.1); }
+    #resultsList li a { text-decoration:none; color:#333; font-weight:bold; }
+
+    /* Add-product form & button */
+    .add-product-section { text-align:center; margin:30px auto; }
+    .add-product-btn { background:#28a745; color:white; padding:10px 20px; border-radius:6px; text-decoration:none; font-weight:bold; }
+    .add-product-btn:hover { background:#218838; }
+    .add-product-form input, .add-product-form textarea { width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px; }
+    .add-product-form button { background:#28a745; color:white; padding:10px 15px; border:none; border-radius:5px; cursor:pointer; font-weight:bold; }
+
+    /* Password modal */
+    .password-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; }
+    .password-modal .modal-content { background:white; padding:20px; border-radius:10px; max-width:400px; width:100%; text-align:center; }
+    .password-modal input { padding:10px; margin:10px 0; width:80%; border:1px solid #ccc; border-radius:5px; }
+    .password-modal button { padding:10px 20px; background:#28a745; color:white; border:none; cursor:pointer; }
+    .password-modal button:hover { background:#218838; }
+
+    /* Delete button - hidden until authorized */
+    .delete-btn {
+      background:#dc3545; color:white; padding:5px 10px; border-radius:5px; font-size:12px;
+      position:absolute; top:10px; right:10px; cursor:pointer; display:none;
     }
   </style>
 </head>
@@ -55,13 +80,11 @@
     <p>Top-rated tech gadgets just for you</p>
   </header>
 
-  <!-- Search Box -->
+  <!-- Search -->
   <input type="text" id="searchBox" placeholder="Search tech products...">
-
-  <!-- Search Results -->
   <ul id="resultsList"></ul>
 
-  <!-- Add Product Section -->
+  <!-- Add Product -->
   <div class="add-product-section">
     <a href="#" class="add-product-btn" onclick="showPasswordModal()">+ Add Product</a>
   </div>
@@ -75,7 +98,7 @@
     </div>
   </div>
 
-  <!-- Product Form Section -->
+  <!-- Product Form -->
   <div id="productForm" class="add-product-form">
     <input type="text" id="productTitle" placeholder="Product Title">
     <input type="text" id="productImage" placeholder="Image URL">
@@ -84,11 +107,9 @@
     <button onclick="addProduct()">✅ Add to Page</button>
   </div>
 
-  <!-- Product List Section -->
+  <!-- Product List -->
   <section class="product-list" id="productList">
-    <!-- Static Products with Checkboxes -->
     <div class="product-card" id="product1">
-      <input type="checkbox" class="delete-checkbox" data-product="product1">
       <img src="https://github.com/Belovedbuy/belovedbuy.github.com/blob/main/tozo.jpg?raw=true" alt="TOZO Earbuds">
       <div class="product-info">
         <h2>TOZO A1 Wireless Earbuds</h2>
@@ -96,11 +117,11 @@
         <p>Rating: ⭐ 4.3 (84,296 reviews)</p>
         <p>Lightweight, waterproof, immersive sound, 32 EQ presets, and more!</p>
         <a href="product1.html">View Product</a>
+        <button class="delete-btn" onclick="showDeleteModal('product1')">Delete Product</button>
       </div>
     </div>
 
     <div class="product-card" id="product2">
-      <input type="checkbox" class="delete-checkbox" data-product="product2">
       <img src="https://github.com/Belovedbuy/belovedbuy.github.com/blob/main/redthunder.jpg?raw=true" alt="RedThunder Gaming Combo">
       <div class="product-info">
         <h2>RedThunder Gaming Keyboard Set</h2>
@@ -108,11 +129,11 @@
         <p>Rating: ⭐ 4.5 (15,456 reviews)</p>
         <p>RGB lighting, mechanical keys, anti-ghosting, and more!</p>
         <a href="product2.html">View Product</a>
+        <button class="delete-btn" onclick="showDeleteModal('product2')">Delete Product</button>
       </div>
     </div>
 
     <div class="product-card" id="product3">
-      <input type="checkbox" class="delete-checkbox" data-product="product3">
       <img src="https://raw.githubusercontent.com/Belovedbuy/belovedbuy.github.com/1879dc874eb83cb15548cd8e6ba97b8bce56a58c/wirelesscharger.jpg" alt="FDGAO Wireless Charger">
       <div class="product-info">
         <h2>FDGAO 20W Wireless Charger – Fastest & Cheapest Under $10</h2>
@@ -120,96 +141,66 @@
         <p>Rating: ⭐ 3.9 (11,562 reviews)</p>
         <p>Reliable 20W fast charging pad for iPhone, Samsung, Pixel & AirPods – just $9.99.</p>
         <a href="product3.html">View Product</a>
+        <button class="delete-btn" onclick="showDeleteModal('product3')">Delete Product</button>
       </div>
     </div>
   </section>
 
-  <!-- Delete Selected Button -->
-  <button class="delete-selected-btn" onclick="deleteSelectedProducts()">Delete Selected</button>
+  <footer>&copy; 2025 BelovedBuy. All rights reserved.</footer>
 
-  <footer>
-    &copy; 2025 BelovedBuy. All rights reserved.
-  </footer>
-
-  <!-- Script section -->
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
   <script>
-    let fuse;
-    let data = [
-      { name: "TOZO A1 Wireless Earbuds", link: "product1.html", features: "Lightweight, waterproof, immersive sound, 32 EQ presets" },
-      { name: "RedThunder Gaming Keyboard Set", link: "product2.html", features: "RGB lighting, mechanical keys, anti-ghosting" },
-      { name: "FDGAO 20W Wireless Charger", link: "product3.html", features: "20W fast charging pad for iPhone, Samsung, Pixel & AirPods" }
-    ];
+    let fuse = new Fuse([
+      { name:"TOZO A1 Wireless Earbuds", link:"product1.html", features:"Lightweight, waterproof, immersive sound, 32 EQ presets" },
+      { name:"RedThunder Gaming Keyboard Set", link:"product2.html", features:"RGB lighting, mechanical keys, anti-ghosting" },
+      { name:"FDGAO 20W Wireless Charger", link:"product3.html", features:"20W fast charging pad for iPhone, Samsung, Pixel & AirPods" }
+    ], { keys:['name','features'], threshold:0.3 });
 
-    fuse = new Fuse(data, {
-      keys: ['name', 'features'],
-      threshold: 0.3
-    });
-
-    document.getElementById('searchBox').addEventListener('input', function() {
-      const query = this.value;
-      const results = fuse.search(query);
-      const resultsList = document.getElementById('resultsList');
-      resultsList.innerHTML = '';
-
-      results.forEach(result => {
-        const li = document.createElement('li');
-        const link = document.createElement('a');
-        link.href = result.item.link;
-        link.textContent = result.item.name;
-        li.appendChild(link);
-        resultsList.appendChild(li);
+    document.getElementById('searchBox').addEventListener('input', e=>{
+      const results = fuse.search(e.target.value).map(r=>r.item);
+      const list = document.getElementById('resultsList');
+      list.innerHTML = '';
+      results.forEach(i=>{
+        list.innerHTML += `<li><a href="${i.link}">${i.name}</a></li>`;
       });
     });
 
-    function deleteSelectedProducts() {
-      const checkboxes = document.querySelectorAll('.delete-checkbox:checked');
-      checkboxes.forEach(checkbox => {
-        const productId = checkbox.getAttribute('data-product');
-        const productElement = document.getElementById(productId);
-        productElement.remove();
-      });
+    function showPasswordModal(){
+      document.getElementById('passwordModal').style.display='flex';
     }
-
-    function showPasswordModal() {
-      document.getElementById('passwordModal').style.display = 'flex';
+    function checkPassword(){
+      if(document.getElementById('passwordInput').value==='20071961Bc@'){
+        document.getElementById('passwordModal').style.display='none';
+        document.getElementById('productForm').style.display='block';
+        document.querySelectorAll('.delete-btn').forEach(b=>b.style.display='inline-block');
+      } else alert('Incorrect password!');
     }
-
-    function checkPassword() {
-      const password = document.getElementById('passwordInput').value;
-      const correctPassword = '20071961Bc@';
-
-      if (password === correctPassword) {
-        document.getElementById('passwordModal').style.display = 'none';
-        document.getElementById('productForm').style.display = 'block';
-      } else {
-        alert("Incorrect password!");
-      }
+    function addProduct(){
+      const t=document.getElementById('productTitle').value,
+            i=document.getElementById('productImage').value,
+            d=document.getElementById('productDescription').value,
+            l=document.getElementById('productLink').value;
+      if(t&&i&&d&&l){
+        const id='prod'+Date.now(),
+              wrap=document.createElement('div');
+        wrap.className='product-card'; wrap.id=id;
+        wrap.innerHTML=`
+          <img src="${i}" alt="${t}">
+          <div class="product-info">
+            <h2>${t}</h2>
+            <p>${d}</p>
+            <a href="${l}">View Product</a>
+            <button class="delete-btn" onclick="showDeleteModal('${id}')">Delete Product</button>
+          </div>`;
+        document.getElementById('productList').appendChild(wrap);
+        document.getElementById('productForm').reset();
+      } else alert('Please fill in all fields!');
     }
-
-    function addProduct() {
-      const title = document.getElementById('productTitle').value;
-      const image = document.getElementById('productImage').value;
-      const description = document.getElementById('productDescription').value;
-      const link = document.getElementById('productLink').value;
-
-      const productList = document.getElementById('productList');
-      const newProduct = document.createElement('div');
-      newProduct.classList.add('product-card');
-      
-      newProduct.innerHTML = `
-        <input type="checkbox" class="delete-checkbox" data-product="newProduct">
-        <img src="${image}" alt="${title}">
-        <div class="product-info">
-          <h2>${title}</h2>
-          <p>${description}</p>
-          <a href="${link}">View Product</a>
-        </div>
-      `;
-      productList.appendChild(newProduct);
-
-      document.getElementById('productForm').reset();
-      document.getElementById('productForm').style.display = 'none';
+    function showDeleteModal(id){
+      const pwd=prompt('Enter password to delete:');
+      if(pwd==='20071961Bc@') document.getElementById(id).remove();
+      else alert('Incorrect password!');
     }
   </script>
 </body>
