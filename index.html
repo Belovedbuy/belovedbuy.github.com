@@ -298,30 +298,30 @@
       threshold: 0.3
     });
 
-    document.getElementById('searchBox').addEventListener('input', function () {
-      const searchTerm = this.value.trim();
-      const resultList = document.getElementById('resultsList');
-      resultList.innerHTML = '';
-
-      if (searchTerm.length === 0) return;
-
-      const results = fuse.search(searchTerm);
-      results.slice(0, 5).forEach(result => {
-        const li = document.createElement('li');
-        li.innerHTML = `<a href="${result.item.link}">${result.item.name}</a>`;
-        resultList.appendChild(li);
-      });
+    document.getElementById('searchBox').addEventListener('input', function() {
+      const query = this.value;
+      const result = fuse.search(query).map(result => result.item);
+      displayResults(result);
     });
 
-    // Show password modal
+    function displayResults(results) {
+      const resultList = document.getElementById('resultsList');
+      resultList.innerHTML = '';
+      results.forEach(result => {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="${result.link}">${result.name}</a>`;
+        resultList.appendChild(li);
+      });
+    }
+
     function showPasswordModal() {
       document.getElementById('passwordModal').style.display = 'flex';
     }
 
-    // Check entered password
     function checkPassword() {
       const enteredPassword = document.getElementById('passwordInput').value;
-      if (enteredPassword === '20071961Bc@') {
+      const correctPassword = '20071961Bc@';
+      if (enteredPassword === correctPassword) {
         document.getElementById('passwordModal').style.display = 'none';
         document.getElementById('productForm').style.display = 'block';
       } else {
@@ -329,34 +329,33 @@
       }
     }
 
-    // Add new product
     function addProduct() {
       const title = document.getElementById('productTitle').value;
-      const img = document.getElementById('productImage').value;
-      const desc = document.getElementById('productDescription').value;
+      const image = document.getElementById('productImage').value;
+      const description = document.getElementById('productDescription').value;
       const link = document.getElementById('productLink').value;
-
-      if (!title || !img || !desc || !link) {
-        alert("Please fill all fields");
-        return;
+      
+      if (title && image && description && link) {
+        const productList = document.getElementById('productList');
+        const newProductCard = document.createElement('div');
+        newProductCard.classList.add('product-card');
+        
+        newProductCard.innerHTML = `
+          <img src="${image}" alt="${title}">
+          <div class="product-info">
+            <h2>${title}</h2>
+            <p>${description}</p>
+            <a href="${link}">View Product</a>
+          </div>
+        `;
+        productList.appendChild(newProductCard);
+        alert('Product added successfully!');
+        document.getElementById('productForm').reset();
+        document.getElementById('productForm').style.display = 'none';
+      } else {
+        alert('Please fill out all fields!');
       }
-
-      const container = document.createElement('div');
-      container.classList.add('product-card');
-      container.innerHTML = `
-        <img src="${img}" alt="${title}">
-        <div class="product-info">
-          <h2>${title}</h2>
-          <p>${desc}</p>
-          <a href="${link}" target="_blank">Buy on Amazon</a>
-        </div>
-      `;
-
-      document.getElementById('productList').appendChild(container);
-      document.getElementById('productForm').reset();
-      document.getElementById('productForm').style.display = 'none';
     }
   </script>
-
 </body>
 </html>
