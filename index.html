@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="google-site-verification" content="lFdFW6P3xa8RC4ow9WxS7-T-XonLJo1moXETK0ae3GE" />
+  <meta name="google-site-verification" content="lFdFW6P3xa8RC4ow9WxS7-T-XonLJo1moXETK0ae3GE" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="TOZO earbuds and RedThunder gaming keyboard reviews with Amazon links. Find the best tech products on BelovedBuy.">
-<meta name="keywords" content="TOZO A1 earbuds, RedThunder gaming keyboard, Amazon tech deals, wireless earbuds, gaming accessories">
-<meta name="author" content="BelovedBuy">
-
+  <meta name="description" content="TOZO earbuds and RedThunder gaming keyboard reviews with Amazon links. Find the best tech products on BelovedBuy.">
+  <meta name="keywords" content="TOZO A1 earbuds, RedThunder gaming keyboard, Amazon tech deals, wireless earbuds, gaming accessories">
+  <meta name="author" content="BelovedBuy">
   <title>BelovedBuy - Tech Picks</title>
   <link rel="stylesheet" href="style.css">
   <style>
@@ -87,9 +86,37 @@
       color: white;
       margin-top: 40px;
     }
-  </style>
-</head><script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
 
+    /* Search Box Styling */
+    #searchBox {
+      width: 100%;
+      padding: 10px;
+      margin: 20px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    /* Results List Styling */
+    #resultsList {
+      list-style: none;
+      padding: 0;
+    }
+
+    #resultsList li {
+      margin: 5px 0;
+      background: #fff;
+      padding: 8px;
+      border-radius: 5px;
+      box-shadow: 0 0 4px rgba(0,0,0,0.1);
+    }
+
+    #resultsList li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+  </style>
+</head>
 <body>
 
   <header>
@@ -97,11 +124,20 @@
     <p>Top-rated tech gadgets just for you</p>
   </header>
 
+  <!-- Search Box -->
+  <input type="text" id="searchBox" placeholder="Search tech products...">
+
+  <!-- Search Results -->
+  <ul id="resultsList"></ul>
+
   <section class="product-list">
     <div class="product-card">
       <img src="https://github.com/Belovedbuy/belovedbuy.github.com/blob/main/tozo.jpg?raw=true" alt="TOZO Earbuds">
       <div class="product-info">
         <h2>TOZO A1 Wireless Earbuds</h2>
+        <p>Price: <strong>$19.99</strong> (Save 33%)</p>
+        <p>Rating: ⭐ 4.3 (84,296 reviews)</p>
+        <p>Lightweight, waterproof, immersive sound, 32 EQ presets, and more!</p>
         <a href="product1.html">View Product</a>
       </div>
     </div>
@@ -110,7 +146,21 @@
       <img src="https://github.com/Belovedbuy/belovedbuy.github.com/blob/main/redthunder.jpg?raw=true" alt="RedThunder Gaming Combo">
       <div class="product-info">
         <h2>RedThunder Gaming Keyboard Set</h2>
+        <p>Price: <strong>$49.99</strong></p>
+        <p>Rating: ⭐ 4.5 (15,456 reviews)</p>
+        <p>RGB lighting, mechanical keys, anti-ghosting, and more!</p>
         <a href="product2.html">View Product</a>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <img src="https://raw.githubusercontent.com/Belovedbuy/belovedbuy.github.com/1879dc874eb83cb15548cd8e6ba97b8bce56a58c/wirelesscharger.jpg" alt="FDGAO Wireless Charger">
+      <div class="product-info">
+        <h2>FDGAO 20W Wireless Charger – Fastest & Cheapest Under $10</h2>
+        <p>Price: <strong>$9.99</strong> (Save 23%)</p>
+        <p>Rating: ⭐ 3.9 (11,562 reviews)</p>
+        <p>Reliable 20W fast charging pad for iPhone, Samsung, Pixel & AirPods – just $9.99.</p>
+        <a href="product3.html">View Product</a>
       </div>
     </div>
   </section>
@@ -119,50 +169,37 @@
     &copy; 2025 BelovedBuy. All rights reserved.
   </footer>
 
-</body>
-<script>
-  let fuse;
-  let data = [];
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+  <script>
+    let fuse;
+    let data = [
+      { name: "TOZO A1 Wireless Earbuds", link: "product1.html", features: "Lightweight, waterproof, immersive sound, 32 EQ presets" },
+      { name: "RedThunder Gaming Keyboard Set", link: "product2.html", features: "RGB lighting, mechanical keys, anti-ghosting" },
+      { name: "FDGAO 20W Wireless Charger", link: "product3.html", features: "20W fast charging pad for iPhone, Samsung, Pixel & AirPods" }
+    ];
 
-  // Load product data from JSON
-  fetch('products.json')
-    .then(response => response.json())
-    .then(products => {
-      data = products;
-      fuse = new Fuse(data, {
-        keys: ['name', 'features'],
-        threshold: 0.3 // lower = stricter match
+    // Initialize Fuse.js search
+    fuse = new Fuse(data, {
+      keys: ['name', 'features'],
+      threshold: 0.3 // lower = stricter match
+    });
+
+    // Handle search input
+    document.getElementById('searchBox').addEventListener('input', function () {
+      const searchTerm = this.value.trim();
+      const resultList = document.getElementById('resultsList');
+      resultList.innerHTML = '';
+
+      if (searchTerm.length === 0) return;
+
+      const results = fuse.search(searchTerm);
+      results.slice(0, 5).forEach(result => {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="${result.item.link}">${result.item.name}</a>`;
+        resultList.appendChild(li);
       });
     });
+  </script>
 
-  // Handle search input
-  document.getElementById('searchBox').addEventListener('input', function () {
-    const searchTerm = this.value.trim();
-    const resultList = document.getElementById('resultsList');
-    resultList.innerHTML = '';
-
-    if (searchTerm.length === 0) return;
-
-    const results = fuse.search(searchTerm);
-    results.slice(0, 5).forEach(result => {
-      const li = document.createElement('li');
-      li.innerHTML = `<a href="${result.item.link}">${result.item.name}</a>`;
-      resultList.appendChild(li);
-    });
-  });
-</script>
-
+</body>
 </html>
-<!-- In the <head> -->
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
-
-<!-- In the body -->
-<input type="text" id="searchBox" placeholder="Search tech products..." />
-<ul id="resultsList"></ul>
-<div class="product-card">
-  <img src="https://raw.githubusercontent.com/Belovedbuy/belovedbuy.github.com/1879dc874eb83cb15548cd8e6ba97b8bce56a58c/wirelesscharger.jpg" alt="FDGAO Wireless Charger">
-  <h2>FDGAO 20W Wireless Charger – Fastest & Cheapest Under $10</h2>
-  <p>Reliable 20W fast charging pad for iPhone, Samsung, Pixel & AirPods – just $9.99. Anti-slip, smart cooling, and highly rated by 11,000+ users.</p>
-  <a href="product3.html" class="button">View Product</a>
-</div>
-
