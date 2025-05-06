@@ -1,130 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Belovedbuy - Your Ultimate Tech Store</title>
-  <link rel="stylesheet" href="style.css"> <!-- Link to your stylesheet -->
-  <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RedThunder K10 Wired Gaming Keyboard & Mouse Combo</title>
+  <meta name="description" content="Get the RedThunder K10 Wired Gaming Keyboard & Mouse Combo with RGB Backlit, Mechanical Feel, Anti-ghosting, 7D 7200 DPI Mouse & Soft Leather Wrist Rest—only $37.99!">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Header Section -->
   <header>
-    <h1>Welcome to Belovedbuy</h1>
-    <p>Find the best tech products at unbeatable prices!</p>
+    <h1>RedThunder K10 Gaming Keyboard & Mouse Combo</h1>
+    <p><strong>Amazon’s Choice</strong> — ★4.4/5 (996 reviews)</p>
   </header>
 
-  <!-- Navigation Menu -->
-  <nav>
+  <section class="product-overview">
+    <img src="https://m.media-amazon.com/images/I/61V3QyE3fjL._AC_SL1500_.jpg" alt="RedThunder K10 Combo" style="max-width:400px;">
+    <p class="price">Only <strong>$37.99</strong> <span class="savings">Save 12%</span></p>
+    <p><a href="https://amzn.to/4m28iWn" target="_blank" class="btn-primary">🛒 Buy on Amazon</a></p>
+  </section>
+
+  <section class="features">
+    <h2>Key Features & Benefits</h2>
     <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="powerbanks.html">Power Banks</a></li>
-      <li><a href="phones.html">Phones</a></li>
-      <li><a href="smartwatches.html">Smart Watches</a></li>
-      <li><a href="accessories.html">Accessories</a></li>
-      <li><a href="about.html">About Us</a></li>
-      <li>
-        <input type="text" id="searchQuery" placeholder="Search..." oninput="handleSearch()" />
-      </li>
+      <li><strong>RGB Backlit Keyboard:</strong> 7 dynamic lighting modes for style.</li>
+      <li><strong>Mechanical Feel:</strong> Anti-ghosting keys for precise gaming.</li>
+      <li><strong>7200 DPI 7-Button Mouse:</strong> Adjustable sensitivity to suit your play.</li>
+      <li><strong>Soft Leather Wrist Rest:</strong> Ergonomic comfort for marathon sessions.</li>
+      <li><strong>Plug & Play USB:</strong> No drivers needed—just plug in and play.</li>
     </ul>
-  </nav>
-
-  <!-- Featured Products Section -->
-  <section id="featured-products">
-    <h2>Our Featured Products</h2>
-    <!-- Product Cards will be dynamically inserted here based on category -->
   </section>
 
-  <!-- Search Results Section -->
-  <section id="searchResults" style="display:none;">
-    <h2>Search Results</h2>
-    <div id="searchResultsContent"></div>
+  <section class="why-buy">
+    <h2>Who This Is Perfect For</h2>
+    <p>If you want pro-level features on a budget, the K10 combo is made for:</p>
+    <ul>
+      <li>Competitive FPS and MOBA gamers</li>
+      <li>Streamers craving eye-catching RGB</li>
+      <li>Anyone upgrading from a basic membrane keyboard</li>
+    </ul>
   </section>
 
-  <!-- Footer Section -->
+  <section class="reviews">
+    <h2>Customer Reviews</h2>
+    <blockquote>
+      “Fantastic value—keyboard feels great, lighting is vibrant, and the mouse is super responsive.”<br>
+      — ★★★★★ “Best gaming combo under $40!”  
+    </blockquote>
+    <p><a href="https://amzn.to/4m28iWn#customerReviews" target="_blank">Read all 996 reviews on Amazon →</a></p>
+  </section>
+
   <footer>
-    <p>&copy; 2025 Belovedbuy. All rights reserved. As an Amazon Associate, we earn from qualifying purchases.</p>
+    <p>&copy; 2025 Belovedbuy. As an Amazon Associate, we earn from qualifying purchases.</p>
   </footer>
-
-  <!-- Products Data -->
-  <script src="products.js"></script>
-
-  <!-- Improved Search Script -->
-  <script>
-    // Check the current page category from the URL
-    const currentPage = window.location.pathname.split('/').pop().split('.')[0];
-
-    // Filter products based on the current category page
-    const filteredProducts = currentPage === 'index' ? products : products.filter(product => product.category.toLowerCase() === currentPage.toLowerCase());
-
-    // Get the featured products section to display the products
-    const featuredProductsSection = document.getElementById('featured-products');
-
-    // Dynamically create and display product cards for the filtered products
-    filteredProducts.forEach(product => {
-      const productCard = document.createElement('div');
-      productCard.classList.add('product-card');
-      productCard.innerHTML = `
-        <img src="${product.image}" alt="${product.name}" />
-        <h3>${product.name}</h3>
-        <p>${product.description}</p>
-        <a href="${product.link}" target="_blank">Buy Now on Amazon</a>
-      `;
-      featuredProductsSection.appendChild(productCard);
-    });
-
-    // Initialize Fuse.js for searching through the entire product data
-    const fuse = new Fuse(products, {
-      keys: ['name', 'description', 'category'], // Search across name, description, and category
-      threshold: 0.4 // Adjust search threshold for better accuracy
-    });
-
-    const searchInput = document.getElementById('searchQuery');
-    const searchResultsSection = document.getElementById('searchResults');
-    const searchResultsContent = document.getElementById('searchResultsContent');
-
-    function handleSearch() {
-      const query = searchInput.value.trim();
-      searchResultsContent.innerHTML = '';
-
-      if (query === '') {
-        searchResultsSection.style.display = 'none';
-        return;
-      }
-
-      // Get results from Fuse.js, filtered by the current page category (if not on index.html)
-      const results = fuse.search(query).map(result => result.item);
-
-      // If on category-specific page, filter results to match the category
-      if (currentPage !== 'index') {
-        const categoryResults = results.filter(item => item.category.toLowerCase() === currentPage.toLowerCase());
-        displayResults(categoryResults);
-      } else {
-        displayResults(results);
-      }
-    }
-
-    // Function to display the search results
-    function displayResults(results) {
-      if (results.length > 0) {
-        results.forEach(item => {
-          const div = document.createElement('div');
-          div.classList.add('product-result');
-          div.innerHTML = `
-            <h3>${item.name}</h3>
-            <p>${item.description}</p>
-            <a href="${item.link}" target="_blank">Buy Now on Amazon</a>
-          `;
-          searchResultsContent.appendChild(div);
-        });
-        searchResultsSection.style.display = 'block';
-      } else {
-        searchResultsContent.innerHTML = `<p>No results found for "<strong>${query}</strong>".</p>`;
-        searchResultsSection.style.display = 'block';
-      }
-    }
-  </script>
 
 </body>
 </html>
