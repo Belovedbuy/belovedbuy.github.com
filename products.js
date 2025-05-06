@@ -81,3 +81,5 @@ document.addEventListener("DOMContentLoaded", () => {
   const metaDesc = document.querySelector("meta[name='description']");
   if (metaDesc) metaDesc.setAttribute("content", product.description);
 });
+<link rel="stylesheet" href="css/style.css">
+
