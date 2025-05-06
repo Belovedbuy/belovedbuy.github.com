@@ -1,3 +1,4 @@
+(
 /* General Body Styling */
 body {
   font-family: Arial, sans-serif;
@@ -70,22 +71,67 @@ a:hover {
   font-weight: bold;
 }
 
-/* Floating Add Product Button */
-.add-product-btn {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background-color: #28a745;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 50px;
-  font-size: 16px;
-  text-decoration: none;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  z-index: 1000;
-  transition: background 0.3s ease;
+/* Add Product Section */
+.add-product-section {
+  text-align: center;
+  margin: 30px auto;
 }
 
-.add-product-btn:hover {
-  background-color: #218838;
+.add-product-form {
+  display: none;
+  max-width: 500px;
+  margin: 0 auto 30px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
 }
+
+.add-product-form input, .add-product-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.add-product-form button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.add-button {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background-color: #0056b3;
+}
+
+/* Delete Button Styling */
+.delete-button {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+})
