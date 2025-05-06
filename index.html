@@ -1,21 +1,163 @@
-<section id="product-list">
-  <h2>Our Top Picks</h2>
-  <div class="grid"></div>
-</section>
+<!-- index.html (Homepage) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Belovedbuy - Affordable Tech & Gadgets</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Welcome to Belovedbuy</h1>
+    <p>Top gadgets at affordable prices!</p>
+  </header>
 
-<script src="products.js"></script>
-<script>
-  const grid = document.querySelector('#product-list .grid');
+  <section id="featured-products">
+    <h2>Featured Products</h2>
+    <div class="product-card">
+      <img src="images/tozo-a1.jpg" alt="TOZO A1 Earbuds">
+      <h3>TOZO A1 Wireless Earbuds</h3>
+      <p>Lightweight Bluetooth 5.3 Earbuds with deep bass and waterproof design.</p>
+      <a href="products/tozo-a1.html">Learn More</a>
+    </div>
 
-  products.forEach(p => {
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.innerHTML = `
-      <img src="${p.image}" alt="${p.name}" />
-      <h3>${p.name}</h3>
-      <p class="price">$${p.price} <small>Save ${p.savings}</small></p>
-      <a href="product.html?id=${p.id}" class="btn-primary">View Details →</a>
-    `;
-    grid.appendChild(card);
-  });
-</script>
+    <div class="product-card">
+      <img src="images/redthunder.jpg" alt="RedThunder K10 Combo">
+      <h3>RedThunder K10 Gaming Combo</h3>
+      <p>RGB Mechanical-feel Keyboard + 7D Mouse for elite gaming setup.</p>
+      <a href="products/redthunder-k10.html">Learn More</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Belovedbuy. We earn from qualifying Amazon purchases.</p>
+  </footer>
+</body>
+</html>
+
+<!-- products/tozo-a1.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOZO A1 Wireless Earbuds - Belovedbuy</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header>
+    <h1>TOZO A1 Wireless Earbuds</h1>
+  </header>
+
+  <section class="product-detail">
+    <img src="../images/tozo-a1.jpg" alt="TOZO A1 Earbuds">
+    <p><strong>Price:</strong> $19.99 (33% off!)</p>
+    <p>Experience premium sound, AI call clarity, and 32 EQ presets in a lightweight, waterproof design. Loved by 84,000+ users!</p>
+    <a href="https://amzn.to/3EF6eTx" target="_blank">🛒 Buy Now on Amazon</a>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Belovedbuy</p>
+  </footer>
+</body>
+</html>
+
+<!-- products/redthunder-k10.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RedThunder K10 Gaming Combo - Belovedbuy</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header>
+    <h1>RedThunder K10 Gaming Combo</h1>
+  </header>
+
+  <section class="product-detail">
+    <img src="../images/redthunder.jpg" alt="RedThunder K10">
+    <p><strong>Price:</strong> $37.99</p>
+    <p>Enjoy immersive RGB lighting, a 7D mouse with 7200 DPI, and an ergonomic wrist rest. Plug & play simplicity!</p>
+    <a href="https://amzn.to/4m28iWn" target="_blank">🛒 Buy Now on Amazon</a>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Belovedbuy</p>
+  </footer>
+</body>
+</html>
+
+/* css/style.css */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+header, footer {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+#featured-products {
+  padding: 30px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.product-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 300px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.product-card a {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 16px;
+  background-color: #ff6f00;
+  color: white;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: bold;
+}
+
+.product-detail {
+  padding: 30px;
+  text-align: center;
+}
+
+.product-detail img {
+  width: 300px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.product-detail a {
+  display: inline-block;
+  padding: 12px 20px;
+  background-color: #0073e6;
+  color: white;
+  border-radius: 25px;
+  font-weight: bold;
+  text-decoration: none;
+  margin-top: 10px;
+}
