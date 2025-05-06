@@ -1,48 +1,48 @@
+<!-- product.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Belovedbuy | Tech Deals</title>
-  <link rel="stylesheet" href="style.css"> <!-- Correct link to your CSS file -->
+  <meta charset="UTF-8">
+  <title id="page-title">Loading…</title>
+  <meta name="description" id="page-desc" content="">
+  <meta name="keywords" id="page-keys" content="">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="product-detail"></div>
 
-  <header>
-    <h1>Belovedbuy Product Page</h1>
-    <p>Carefully Curated Gadgets & Deals from Amazon</p>
-  </header>
+  <script src="products.js"></script>
+  <script>
+    // 1. Read product id from URL
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id');
+    const product = products.find(p => p.id === id);
+    if (!product) {
+      document.getElementById('product-detail').textContent = 'Product not found';
+      throw new Error('No product');
+    }
 
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="powerbanks.html">Power Banks</a></li>
-      <li><a href="phones.html">Phones</a></li>
-      <li><a href="smartwatches.html">Smart Watches</a></li>
-      <li><a href="accessories.html">Accessories</a></li>
-    </ul>
-  </nav>
+    // 2. Set SEO tags
+    document.title = product.seo.title;
+    document.getElementById('page-desc').setAttribute('content', product.seo.description);
+    document.getElementById('page-keys').setAttribute('content', product.seo.keywords);
 
-  <section class="category">
-    <h2>🚀 Featured Tech Products</h2>
-
-    <div class="card">
-      <h3>Anker Wireless Power Bank</h3>
-      <img src="https://via.placeholder.com/250x150" alt="Anker Power Bank">
-      <p>Fast-charging, slim design, and perfect for your phone on the go.</p>
-      <a href="https://www.amazon.com/dp/YOURID1?tag=yourtag-20" target="_blank">Buy Now on Amazon</a>
-    </div>
-
-    <div class="card">
-      <h3>Samsung Galaxy A15</h3>
-      <img src="https://via.placeholder.com/250x150" alt="Samsung Galaxy A15">
-      <p>Affordable Android smartphone with great camera and battery life.</p>
-      <a href="https://www.amazon.com/dp/YOURID2?tag=yourtag-20" target="_blank">View Product</a>
-    </div>
-
-    <div class="card">
-      <h3>NoiseFit Smart Watch</h3>
-      <img src="https://via.placeholder.com/250x150" alt="NoiseFit Smart Watch">
-      <p>Track steps, sleep, an
-
-        
+    // 3. Render detail
+    const container = document.getElementById('product-detail');
+    container.innerHTML = `
+      <header>
+        <h1>${product.name}</h1>
+        <p>★${product.rating}/5 (${product.reviews} reviews)</p>
+      </header>
+      <img src="${product.image}" alt="${product.name}" class="product-image">
+      <p class="price">$${product.price} <small>Save ${product.savings}</small></p>
+      <a href="${product.affiliateLink}" target="_blank" class="btn-primary">Buy on Amazon</a>
+      <section>
+        <h2>Why We Love It</h2>
+        <p>${product.description}</p>
+        <ul>${product.features.map(f => `<li>${f}</li>`).join('')}</ul>
+      </section>
+    `;
+  </script>
+</body>
+</html>
