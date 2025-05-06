@@ -1,100 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RedThunder K10 Wired Gaming Keyboard & Mouse Combo - Belovedbuy</title>
-  <meta name="description" content="Discover the RedThunder K10 Gaming Combo and TOZO T6 Wireless Earbuds – perfect for gamers, music lovers, and remote work.">
-  <meta name="keywords" content="RedThunder K10, TOZO T6, gaming keyboard, wireless earbuds, RGB keyboard, Bluetooth earbuds">
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+<section id="product-list">
+  <h2>Our Top Picks</h2>
+  <div class="grid"></div>
+</section>
 
-  <!-- Page Header -->
-  <header>
-    <h1>RedThunder K10 Wired Gaming Keyboard & Mouse Combo</h1>
-    <p><strong>Amazon’s Choice</strong> • ★4.4/5 (<em>996 reviews</em>)</p>
-  </header>
+<script src="products.js"></script>
+<script>
+  const grid = document.querySelector('#product-list .grid');
 
-  <!-- Featured Products Section -->
-  <section id="featured-products">
-    <h2>🔥 Featured Products on Belovedbuy</h2>
-    <div class="product-card">
-      <img src="https://m.media-amazon.com/images/I/61V3QyE3fjL._AC_SL1500_.jpg" alt="RedThunder K10 Gaming Combo">
-      <h3>RedThunder K10 Gaming Combo</h3>
-      <p>RGB mechanical-feel keyboard, 7D 7200 DPI mouse & soft wrist rest—perfect for gamers and streamers.</p>
-      <a href="https://amzn.to/4m28iWn" target="_blank" class="btn-primary">Learn More & Buy →</a>
-    </div>
-  </section>
-
-  <!-- 🎧 New Earbuds Section -->
-  <section id="featured-earbuds">
-    <h2>🎧 TOZO T6 Wireless Earbuds</h2>
-    <div class="product-card">
-      <img src="https://m.media-amazon.com/images/I/71bhWgQpppL._AC_SL1500_.jpg" alt="TOZO T6 Wireless Earbuds">
-      <h3>TOZO T6 True Wireless Earbuds</h3>
-      <p>Smart touch controls, IPX8 waterproofing, and crystal-clear sound. Enjoy 45 hours playtime with the charging case.</p>
-      <a href="https://amzn.to/3WX1aGg" target="_blank" class="btn-primary">Shop the TOZO T6 on Amazon →</a>
-    </div>
-  </section>
-
-  <!-- Product Overview -->
-  <section class="product-overview">
-    <img src="https://m.media-amazon.com/images/I/61V3QyE3fjL._AC_SL1500_.jpg" alt="RedThunder K10 Gaming Keyboard and Mouse Combo" class="product-image">
-    <div class="overview-text">
-      <p class="price">Only <strong>$37.99</strong> <span class="savings">(Save 12%)</span></p>
-      <p>Elevate your gaming setup with the RedThunder K10 3-in-1 combo. Engineered for precision, comfort, and style—this bundle includes:</p>
-      <ul class="quick-features">
-        <li>RGB backlit mechanical-feel keyboard</li>
-        <li>7D 7200 DPI gaming mouse</li>
-        <li>Soft leather wrist rest for ergonomic support</li>
-      </ul>
-      <a href="https://amzn.to/4m28iWn" target="_blank" class="btn-primary">🛒 Grab the Deal on Amazon</a>
-    </div>
-  </section>
-
-  <!-- Detailed Features -->
-  <section class="features">
-    <h2>In-Depth Features & Specifications</h2>
-    <h3>RGB Backlit Keyboard</h3>
-    <p>Choose from <strong>7 dynamic lighting modes</strong> to match your mood or game theme. Each key offers <strong>anti-ghosting</strong> support for reliable performance in fast-paced fights.</p>
-    <h3>7D 7200 DPI Gaming Mouse</h3>
-    <p>Adjust sensitivity on-the-fly with 7 DPI levels up to 7200 DPI. The 7 programmable buttons let you map macros and shortcuts, giving you an edge in competitive play.</p>
-    <h3>Ergonomic Wrist Support</h3>
-    <p>The soft PU leather wrist rest reduces fatigue during marathon sessions. Its non-slip base keeps your hands steady for pinpoint accuracy.</p>
-    <h3>Build & Connectivity</h3>
-    <p>Constructed with durable ABS plastic and braided cables, the K10 combo is built to last. Simply <strong>plug & play</strong> with USB connectivity—no drivers required.</p>
-  </section>
-
-  <!-- Why Buy Section -->
-  <section class="why-buy">
-    <h2>Why Choose the RedThunder K10?</h2>
-    <ul>
-      <li><strong>Value for Money:</strong> Pro-level features at just $37.99.</li>
-      <li><strong>Versatility:</strong> Suited for FPS, MOBA, RTS, or casual gaming.</li>
-      <li><strong>Comfort:</strong> Ergonomic design for hours of play.</li>
-      <li><strong>Style:</strong> Vibrant RGB lighting to customize your battlestation.</li>
-    </ul>
-  </section>
-
-  <!-- Customer Reviews -->
-  <section class="reviews">
-    <h2>What Gamers Are Saying</h2>
-    <blockquote>
-      “The RedThunder K10 is hands down the best budget combo I’ve used. The keyboard feels like mech switches, and the mouse is super responsive!”<br>
-      — <strong>GamerX23</strong>
-    </blockquote>
-    <blockquote>
-      “RGB lighting is crisp, and wrist rest is a lifesaver during long streams. Highly recommend!”<br>
-      — <strong>StreamQueen</strong>
-    </blockquote>
-    <p><a href="https://amzn.to/4m28iWn#customerReviews" target="_blank">Read all 996 real reviews on Amazon &rarr;</a></p>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 Belovedbuy. As an Amazon Associate, we earn from qualifying purchases.</p>
-  </footer>
-
-</body>
-</html>
+  products.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.innerHTML = `
+      <img src="${p.image}" alt="${p.name}" />
+      <h3>${p.name}</h3>
+      <p class="price">$${p.price} <small>Save ${p.savings}</small></p>
+      <a href="product.html?id=${p.id}" class="btn-primary">View Details →</a>
+    `;
+    grid.appendChild(card);
+  });
+</script>
