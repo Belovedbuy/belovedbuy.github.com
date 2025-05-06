@@ -1,70 +1,117 @@
-body {
-  font-family: Arial, sans-serif;
+/* Base Reset */
+* {
   margin: 0;
   padding: 0;
-  background-color: #f5f5f5;
-  color: #333;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-header, footer {
-  background-color: #333;
-  color: white;
+/* Page Layout */
+body {
+  background-color: #f9f9f9;
+  color: #222;
+  line-height: 1.6;
   padding: 20px;
-  text-align: center;
 }
 
-#featured-products {
-  padding: 30px 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-}
-
-.product-card {
-  background: white;
+.container {
+  max-width: 1000px;
+  margin: auto;
+  background: #fff;
   border-radius: 12px;
-  padding: 20px;
-  max-width: 300px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
 }
 
-.product-card img {
+/* Product Title */
+h1 {
+  font-size: 28px;
+  color: #111;
+  margin-bottom: 10px;
+}
+
+/* Product Image */
+.product-image {
   width: 100%;
-  height: auto;
+  max-width: 400px;
+  display: block;
+  margin: 20px auto;
   border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.product-card a {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 10px 16px;
-  background-color: #ff6f00;
-  color: white;
-  text-decoration: none;
-  border-radius: 25px;
-  font-weight: bold;
-}
-
-.product-detail {
-  padding: 30px;
-  text-align: center;
-}
-
-.product-detail img {
-  width: 300px;
-  border-radius: 10px;
+/* Description and Features */
+.description {
+  font-size: 16px;
+  color: #444;
   margin-bottom: 20px;
 }
 
-.product-detail a {
-  display: inline-block;
-  padding: 12px 20px;
-  background-color: #0073e6;
-  color: white;
-  border-radius: 25px;
+ul.features {
+  margin-bottom: 25px;
+  padding-left: 20px;
+}
+
+ul.features li {
+  margin-bottom: 8px;
+  color: #333;
+}
+
+/* Price and Rating */
+.price-box {
+  font-size: 22px;
   font-weight: bold;
+  margin-bottom: 15px;
+  color: #e65c00;
+}
+
+.rating {
+  color: #f39c12;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Amazon Affiliate Button */
+a.btn-primary {
+  display: inline-block;
+  padding: 14px 28px;
+  background-color: #ff6f00;
+  color: white;
   text-decoration: none;
-  margin-top: 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  box-shadow: 0 5px 15px rgba(255, 111, 0, 0.4);
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin-top: 15px;
+}
+
+a.btn-primary:hover {
+  background-color: #e65c00;
+  transform: scale(1.05);
+}
+
+/* Footer / Disclaimer */
+footer {
+  font-size: 13px;
+  margin-top: 40px;
+  color: #777;
+  text-align: center;
+}
+
+/* Responsive for Mobile */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 22px;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  a.btn-primary {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+  }
 }
