@@ -1,38 +1,27 @@
+// products.js
 const products = [
   {
-    name: "Anker PowerCore 10000mAh",
-    description: "Fast-charging, compact power bank. Perfect for long trips.",
-    image: "https://applepremiumstore.com.ng/wp-content/uploads/2022/07/71lbfrt5CVS._AC_SL1500_.jpg",
-    link: "https://www.amazon.com/dp/B0194WDVHI?tag=yourtag-20",
-    category: "Power Banks"
+    id: 'redthunder-k10',
+    name: 'RedThunder K10 Gaming Combo',
+    image: 'https://…jpg',
+    price: 37.99,
+    savings: '12%',
+    rating: 4.4,
+    reviews: 996,
+    description: 'RGB backlit mechanical-feel keyboard, 7D 7200 DPI mouse & soft wrist rest',
+    features: [
+      '7 dynamic RGB modes',
+      'Anti-ghosting keys',
+      '7200 DPI adjustable mouse',
+      'Ergonomic PU leather wrist rest',
+      'Plug & play USB'
+    ],
+    affiliateLink: 'https://amzn.to/4m28iWn',
+    seo: {
+      title: 'RedThunder K10 Wired Gaming Keyboard & Mouse Combo – Belovedbuy',
+      description: 'Discover the RedThunder K10 Gaming Combo: RGB keyboard, 7200 DPI mouse…',
+      keywords: 'gaming keyboard, RGB, 7200 DPI'
+    }
   },
-  {
-    name: "Samsung Galaxy S21",
-    description: "Latest model with stunning features. Great performance and camera quality.",
-    image: "https://ng.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/36/484158/1.jpg?7340",
-    link: "https://www.amazon.com/dp/B08HRZXB77?tag=yourtag-20",
-    category: "Phones"
-  },
-  {
-    name: "Fitbit Smartwatch",
-    description: "Track your fitness journey with this stylish and functional smartwatch.",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScEtxTSufX-Yw3lKlP-EtTeRf4tSRfA0TyOg&s",
-    link: "https://www.amazon.com/dp/B08D57YX9X?tag=yourtag-20",
-    category: "Smart Watches"
-  },
-  {
-    name: "Apple AirPods Pro",
-    description: "Noise cancellation, seamless Apple ecosystem integration, and great audio.",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfFgzjwa7ilzxD1uAMjYAUVZ44N4S6U5icfA&s",  // Updated image URL
-    link: "https://www.amazon.com/dp/B0BDHWDR12?tag=yourtag-20",
-    category: "Accessories"
-  },
-  {
-    name: "Infinix Note 30",
-    description: "Budget-friendly phone with powerful battery and fast processor.",
-    image: "https://ng.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/21/5578652/1.jpg",
-    link: "https://www.amazon.com/dp/B0C4RZ47KY?tag=yourtag-20",
-    category: "Phones"
-  },
-  // Add more products below as needed
+  // …other products like TOZO A1 with id 'tozo-a1'
 ];
