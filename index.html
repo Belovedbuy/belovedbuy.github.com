@@ -28,26 +28,6 @@
       margin: 0;
     }
 
-    /* Add Product Button */
-    .add-product-btn {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background-color: #28a745;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 50px;
-      font-size: 16px;
-      text-decoration: none;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      z-index: 1000;
-      transition: background 0.3s ease;
-    }
-
-    .add-product-btn:hover {
-      background-color: #218838;
-    }
-
     .product-list {
       display: flex;
       flex-wrap: wrap;
@@ -181,6 +161,50 @@
     .add-button:hover {
       background-color: #0056b3;
     }
+
+    /* Password Modal */
+    .password-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .password-modal .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .password-modal input {
+      padding: 10px;
+      margin: 10px 0;
+      width: 80%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .password-modal button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .password-modal button:hover {
+      background-color: #218838;
+    }
+
   </style>
 </head>
 <body>
@@ -190,9 +214,6 @@
     <p>Top-rated tech gadgets just for you</p>
   </header>
 
-  <!-- Floating Add Product Button -->
-  <a href="add-product.html" class="add-product-btn">+ Add Product</a>
-
   <!-- Search Box -->
   <input type="text" id="searchBox" placeholder="Search tech products...">
 
@@ -201,14 +222,25 @@
 
   <!-- Add Product Section -->
   <div class="add-product-section">
-    <button class="add-button" onclick="toggleForm()">➕ Add New Product</button>
-    <div id="productForm" class="add-product-form">
-      <input type="text" id="productTitle" placeholder="Product Title">
-      <input type="text" id="productImage" placeholder="Image URL">
-      <textarea id="productDescription" placeholder="Product Description"></textarea>
-      <input type="text" id="productLink" placeholder="Amazon Affiliate Link">
-      <button onclick="addProduct()">✅ Add to Page</button>
+    <a href="#" class="add-product-btn" onclick="showPasswordModal()">+ Add Product</a>
+  </div>
+
+  <!-- Password Modal -->
+  <div class="password-modal" id="passwordModal">
+    <div class="modal-content">
+      <h2>Enter Password</h2>
+      <input type="password" id="passwordInput" placeholder="Enter password">
+      <button onclick="checkPassword()">Submit</button>
     </div>
+  </div>
+
+  <!-- Product Form Section -->
+  <div id="productForm" class="add-product-form">
+    <input type="text" id="productTitle" placeholder="Product Title">
+    <input type="text" id="productImage" placeholder="Image URL">
+    <textarea id="productDescription" placeholder="Product Description"></textarea>
+    <input type="text" id="productLink" placeholder="Amazon Affiliate Link">
+    <button onclick="addProduct()">✅ Add to Page</button>
   </div>
 
   <section class="product-list" id="productList">
@@ -281,10 +313,20 @@
       });
     });
 
-    // Toggle form visibility
-    function toggleForm() {
-      const form = document.getElementById('productForm');
-      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    // Show password modal
+    function showPasswordModal() {
+      document.getElementById('passwordModal').style.display = 'flex';
+    }
+
+    // Check entered password
+    function checkPassword() {
+      const enteredPassword = document.getElementById('passwordInput').value;
+      if (enteredPassword === '20071961Bc@') {
+        document.getElementById('passwordModal').style.display = 'none';
+        document.getElementById('productForm').style.display = 'block';
+      } else {
+        alert('Incorrect password!');
+      }
     }
 
     // Add new product
@@ -311,7 +353,8 @@
       `;
 
       document.getElementById('productList').appendChild(container);
-      toggleForm();
+      document.getElementById('productForm').reset();
+      document.getElementById('productForm').style.display = 'none';
     }
   </script>
 
