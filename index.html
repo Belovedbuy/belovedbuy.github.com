@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BelovedBuy - Tech Picks</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    /* Your custom styles... */
-  </style>
 </head>
 <body>
   <header>
@@ -46,15 +43,60 @@
 
   <!-- Product List -->
   <section class="product-list" id="productList">
-    <!-- Existing products remain unchanged -->
-    <!-- Your existing product cards here... -->
+    <!-- Existing products -->
+    <div class="product-card" id="product1">
+      <img src="https://github.com/Belovedbuy/belovedbuy.github.com/blob/main/tozo.jpg?raw=true" alt="TOZO Earbuds">
+      <div class="product-info">
+        <h2>TOZO A1 Wireless Earbuds</h2>
+        <p>Price: <strong>$19.99</strong> (Save 33%)</p>
+        <p>Rating: ⭐ 4.3 (84,296 reviews)</p>
+        <p>Lightweight, waterproof, immersive sound, 32 EQ presets, and more!</p>
+        <a href="product1.html">View Product</a>
+        <button class="delete-btn" onclick="attemptDelete('product1')">Delete Product</button>
+      </div>
+    </div>
+    <div class="product-card" id="product2">
+      <img src="https://github.com/Belovedbuy/belovedbuy.github.com/blob/main/redthunder.jpg?raw=true" alt="RedThunder Gaming Combo">
+      <div class="product-info">
+        <h2>RedThunder Gaming Keyboard Set</h2>
+        <p>Price: <strong>$49.99</strong></p>
+        <p>Rating: ⭐ 4.5 (15,456 reviews)</p>
+        <p>RGB lighting, mechanical keys, anti-ghosting, and more!</p>
+        <a href="product2.html">View Product</a>
+        <button class="delete-btn" onclick="attemptDelete('product2')">Delete Product</button>
+      </div>
+    </div>
+    <div class="product-card" id="product3">
+      <img src="https://raw.githubusercontent.com/Belovedbuy/belovedbuy.github.com/1879dc874eb83cb15548cd8e6ba97b8bce56a58c/wirelesscharger.jpg" alt="FDGAO Wireless Charger">
+      <div class="product-info">
+        <h2>FDGAO 20W Wireless Charger – Fastest & Cheapest Under $10</h2>
+        <p>Price: <strong>$9.99</strong> (Save 23%)</p>
+        <p>Rating: ⭐ 3.9 (11,562 reviews)</p>
+        <p>Reliable 20W fast charging pad for iPhone, Samsung, Pixel & AirPods – just $9.99.</p>
+        <a href="product3.html">View Product</a>
+        <button class="delete-btn" onclick="attemptDelete('product3')">Delete Product</button>
+      </div>
+    </div>
   </section>
 
   <footer>&copy; 2025 BelovedBuy. All rights reserved.</footer>
 
   <script>
-    // JavaScript logic for product rendering, search, and password management
-    // Ensure all new products are rendered with the same structure as existing ones
+    // Load products from local storage
+    function loadProducts() {
+      const products = JSON.parse(localStorage.getItem('myProducts') || '[]');
+      products.forEach(item => renderProduct(item, item.id));
+      
+      // Check if authorized and show delete buttons
+      if (sessionStorage.getItem('authorized') === 'true') {
+        document.querySelectorAll('.delete-btn').forEach(button => {
+          button.style.display = 'inline-block';
+        });
+        document.getElementById('productForm').style.display = 'block';
+      }
+    }
+
+    // Render a product card
     function renderProduct(p, id) {
       const wrap = document.createElement('div');
       wrap.className = 'product-card';
@@ -70,8 +112,99 @@
           <button class="delete-btn" onclick="attemptDelete('${id}')">Delete Product</button>
         </div>
       `;
+      
+      // Check if authorized to show delete button for new products
+      if (sessionStorage.getItem('authorized') === 'true') {
+        wrap.querySelector('.delete-btn').style.display = 'inline-block';
+      }
+      
       document.getElementById('productList').appendChild(wrap);
     }
+
+    // Save products to local storage
+    function saveProducts(arr) {
+      localStorage.setItem('myProducts', JSON.stringify(arr));
+    }
+
+    // Show password modal
+    function showPasswordModal() {
+      document.getElementById('passwordModal').style.display = 'flex';
+    }
+
+    // Check password
+    function checkPassword() {
+      const password = document.getElementById('passwordInput').value;
+      if (password === '20071961Bc@') {
+        sessionStorage.setItem('authorized', 'true');
+        document.getElementById('passwordModal').style.display = 'none';
+        
+        // Show delete buttons for all existing products
+        document.querySelectorAll('.delete-btn').forEach(button => {
+          button.style.display = 'inline-block';
+        });
+        
+        // Show the add product form
+        document.getElementById('productForm').style.display = 'block';
+      } else {
+        alert('Incorrect password!');
+      }
+    }
+
+    // Add a new product
+    function addProduct() {
+      const t = document.getElementById('productTitle').value.trim(),
+            i = document.getElementById('productImage').value.trim(),
+            d = document.getElementById('productDescription').value.trim(),
+            pr = document.getElementById('productPrice').value.trim(),
+            rt = document.getElementById('productRating').value.trim(),
+            l = document.getElementById('productLink').value.trim();
+      
+      if (!t || !i || !d || !pr || !rt || !l) {
+        return alert('Please fill in all fields!');
+      }
+      
+      const id = 'prod_' + Date.now(),
+            p = {
+              title: t,
+              image: i,
+              description: d,
+              price: pr,
+              rating: rt,
+              link: l,
+              id
+            };
+      
+      renderProduct(p, id);
+      
+      // Update local storage
+      const arr = JSON.parse(localStorage.getItem('myProducts') || '[]');
+      arr.push(p);
+      saveProducts(arr);
+      
+      // Reset the form
+      document.getElementById('productForm').reset();
+      
+      // Scroll to the top of the page
+      window.scrollTo(0, 0);
+    }
+
+    // Attempt to delete a product
+    function attemptDelete(id) {
+      const password = prompt('Enter password to delete:');
+      if (password === '20071961Bc@') {
+        document.getElementById(id).remove();
+        
+        // Update local storage
+        const arr = JSON.parse(localStorage.getItem('myProducts') || '[]')
+                      .filter(x => x.id !== id);
+        saveProducts(arr);
+      } else {
+        alert('Incorrect password!');
+      }
+    }
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', loadProducts);
   </script>
 </body>
 </html>
