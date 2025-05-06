@@ -325,7 +325,7 @@
       resultList.innerHTML = '';
       results.forEach(result => {
         const li = document.createElement('li');
-        li.innerHTML = `<a href="${result.link}">${result.name}</a>`;
+        li.innerHTML = <a href="${result.link}">${result.name}</a>;
         resultList.appendChild(li);
       });
     }
@@ -359,9 +359,8 @@
         const newProductCard = document.createElement('div');
         newProductCard.classList.add('product-card');
 
-        newProductCard.innerHTML = `
+        newProductCard.innerHTML = 
           <img src="${image}" alt="${title}">
           <div class="product-info">
             <h2>${title}</h2>
             <p>${description}</p>
-           
