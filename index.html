@@ -10,44 +10,213 @@
   <title>BelovedBuy - Tech Picks</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Password Modal Styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f2f5;
+    }
+
+    header {
+      background-color: #232f3e;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .product-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .product-card {
+      background-color: white;
+      width: 300px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: auto;
+    }
+
+    .product-info {
+      padding: 15px;
+    }
+
+    .product-info h2 {
+      font-size: 18px;
+      margin: 0 0 10px;
+      color: #333;
+    }
+
+    .product-info a {
+      display: inline-block;
+      margin-top: 10px;
+      text-decoration: none;
+      background-color: #ff9900;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .product-info a:hover {
+      background-color: #e68a00;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #232f3e;
+      color: white;
+      margin-top: 40px;
+    }
+
+    #searchBox {
+      width: 100%;
+      padding: 10px;
+      margin: 20px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    #resultsList {
+      list-style: none;
+      padding: 0;
+    }
+
+    #resultsList li {
+      margin: 5px 0;
+      background: #fff;
+      padding: 8px;
+      border-radius: 5px;
+      box-shadow: 0 0 4px rgba(0,0,0,0.1);
+    }
+
+    #resultsList li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    /* Add Product Button & Form */
+    .add-product-section {
+      text-align: center;
+      margin: 30px auto;
+    }
+
+    .add-product-form {
+      display: none;
+      max-width: 500px;
+      margin: 0 auto 30px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+
+    .add-product-form input, .add-product-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .add-product-form button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .add-button {
+      background-color: #007bff;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .add-button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Password Modal */
     .password-modal {
       display: none;
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      justify-content: center; align-items: center;
-    }
-    .password-modal .modal-content {
-      background: #fff; padding: 20px;
-      border-radius: 10px; text-align: center;
-      max-width: 400px; width: 90%;
-    }
-    .password-modal input {
-      padding: 10px; width: 80%; margin: 10px 0;
-      border: 1px solid #ccc; border-radius: 5px;
-    }
-    .password-modal button {
-      padding: 10px 20px; background: #28a745;
-      color: #fff; border: none; border-radius: 5px;
-      cursor: pointer; font-weight: bold;
-    }
-    .password-modal button:hover {
-      background: #218838;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
     }
 
-    /* Delete Button Hidden by Default */
-    .delete-btn {
-      display: none;
-      position: absolute; top: 10px; right: 10px;
-      background: #dc3545; color: #fff;
-      border: none; padding: 5px 10px;
-      border-radius: 5px; cursor: pointer;
-      font-size: 12px;
+    .password-modal .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
     }
-    .delete-btn:hover {
-      background: #c82333;
+
+    .password-modal input {
+      padding: 10px;
+      margin: 10px 0;
+      width: 80%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .password-modal button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .password-modal button:hover {
+      background-color: #218838;
+    }
+
+    .delete-btn {
+      background-color: #dc3545;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      display: none; /* Hide delete button by default */
     }
   </style>
 </head>
@@ -87,9 +256,8 @@
     <button onclick="addProduct()">✅ Add to Page</button>
   </div>
 
-  <!-- Product List -->
   <section class="product-list" id="productList">
-    <!-- Static Example Products -->
+    <!-- Static products -->
     <div class="product-card" id="product1">
       <img src="https://github.com/Belovedbuy/belovedbuy.github.com/blob/main/tozo.jpg?raw=true" alt="TOZO Earbuds">
       <div class="product-info">
@@ -98,7 +266,7 @@
         <p>Rating: ⭐ 4.3 (84,296 reviews)</p>
         <p>Lightweight, waterproof, immersive sound, 32 EQ presets, and more!</p>
         <a href="product1.html">View Product</a>
-        <button class="delete-btn" onclick="confirmDelete(this)">Delete Product</button>
+        <button class="delete-btn" onclick="showDeleteModal('product1')">Delete Product</button>
       </div>
     </div>
 
@@ -110,7 +278,7 @@
         <p>Rating: ⭐ 4.5 (15,456 reviews)</p>
         <p>RGB lighting, mechanical keys, anti-ghosting, and more!</p>
         <a href="product2.html">View Product</a>
-        <button class="delete-btn" onclick="confirmDelete(this)">Delete Product</button>
+        <button class="delete-btn" onclick="showDeleteModal('product2')">Delete Product</button>
       </div>
     </div>
 
@@ -122,7 +290,7 @@
         <p>Rating: ⭐ 3.9 (11,562 reviews)</p>
         <p>Reliable 20W fast charging pad for iPhone, Samsung, Pixel & AirPods – just $9.99.</p>
         <a href="product3.html">View Product</a>
-        <button class="delete-btn" onclick="confirmDelete(this)">Delete Product</button>
+        <button class="delete-btn" onclick="showDeleteModal('product3')">Delete Product</button>
       </div>
     </div>
   </section>
@@ -131,79 +299,76 @@
     &copy; 2025 BelovedBuy. All rights reserved.
   </footer>
 
-  <!-- Scripts -->
+  <!-- Script section -->
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
   <script>
-    let fuse, isAuthorized = false;
-
-    // Initialize Fuse.js
-    const data = [
+    let fuse;
+    let data = [
       { name: "TOZO A1 Wireless Earbuds", link: "product1.html", features: "Lightweight, waterproof, immersive sound, 32 EQ presets" },
       { name: "RedThunder Gaming Keyboard Set", link: "product2.html", features: "RGB lighting, mechanical keys, anti-ghosting" },
       { name: "FDGAO 20W Wireless Charger", link: "product3.html", features: "20W fast charging pad for iPhone, Samsung, Pixel & AirPods" }
     ];
-    fuse = new Fuse(data, { keys: ['name','features'], threshold: 0.3 });
 
-    // Live Search
+    fuse = new Fuse(data, {
+      keys: ['name', 'features'],
+      threshold: 0.3
+    });
+
     document.getElementById('searchBox').addEventListener('input', function() {
-      const results = fuse.search(this.value).map(r => r.item);
-      const list = document.getElementById('resultsList');
-      list.innerHTML = '';
-      results.forEach(item => {
+      const query = this.value;
+      const results = fuse.search(query);
+      const resultsList = document.getElementById('resultsList');
+      resultsList.innerHTML = '';
+
+      results.forEach(result => {
         const li = document.createElement('li');
-        li.innerHTML = `<a href="${item.link}">${item.name}</a>`;
-        list.appendChild(li);
+        const link = document.createElement('a');
+        link.href = result.item.link;
+        link.textContent = result.item.name;
+        li.appendChild(link);
+        resultsList.appendChild(li);
       });
     });
 
-    // Show Add Form (with password)
     function showPasswordModal() {
       document.getElementById('passwordModal').style.display = 'flex';
     }
+
     function checkPassword() {
-      if (document.getElementById('passwordInput').value === '20071961Bc@') {
-        isAuthorized = true;
+      const password = document.getElementById('passwordInput').value;
+      const correctPassword = '20071961Bc@';
+
+      if (password === correctPassword) {
         document.getElementById('passwordModal').style.display = 'none';
         document.getElementById('productForm').style.display = 'block';
-        document.querySelectorAll('.delete-btn').forEach(b => b.style.display = 'inline-block');
       } else {
-        alert('Incorrect password!');
+        alert("Incorrect password!");
       }
     }
 
-    // Add Product
     function addProduct() {
-      if (!isAuthorized) return alert('Please authorize first.');
-      const t = document.getElementById('productTitle').value,
-            i = document.getElementById('productImage').value,
-            d = document.getElementById('productDescription').value,
-            l = document.getElementById('productLink').value;
-      if (!t||!i||!d||!l) return alert('Fill all fields!');
-      const card = document.createElement('div');
-      card.className = 'product-card';
-      card.innerHTML = `
-        <img src="${i}" alt="${t}">
+      const title = document.getElementById('productTitle').value;
+      const image = document.getElementById('productImage').value;
+      const description = document.getElementById('productDescription').value;
+      const link = document.getElementById('productLink').value;
+
+      const productList = document.getElementById('productList');
+      const newProduct = document.createElement('div');
+      newProduct.classList.add('product-card');
+      
+      newProduct.innerHTML = `
+        <img src="${image}" alt="${title}">
         <div class="product-info">
-          <h2>${t}</h2>
-          <p>${d}</p>
-          <a href="${l}">View Product</a>
-          <button class="delete-btn" onclick="confirmDelete(this)">Delete Product</button>
-        </div>`;
-      document.getElementById('productList').appendChild(card);
+          <h2>${title}</h2>
+          <p>${description}</p>
+          <a href="${link}">View Product</a>
+        </div>
+      `;
+      productList.appendChild(newProduct);
+
       document.getElementById('productForm').reset();
       document.getElementById('productForm').style.display = 'none';
     }
-
-    // Confirm & Delete
-    function confirmDelete(btn) {
-      if (!isAuthorized) return alert('Not authorized.');
-      if (prompt('Enter password to delete:') === '20071961Bc@') {
-        btn.closest('.product-card').remove();
-      } else {
-        alert('Incorrect password.');
-      }
-    }
   </script>
-
 </body>
 </html>
