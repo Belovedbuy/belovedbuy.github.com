@@ -1,0 +1,10 @@
+belovedbuy/
+├── index.html
+├── products/
+│   ├── redthunder-k10.html
+│   ├── tozo-a1.html
+├── css/
+│   └── style.css
+├── images/
+│   ├── redthunder.jpg
+│   └── tozo-a1.jpg
