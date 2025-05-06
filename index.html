@@ -9,76 +9,6 @@
   <meta name="author" content="BelovedBuy">
   <title>BelovedBuy - Tech Picks</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f0f2f5; }
-    header { background-color: #232f3e; color: white; padding: 20px; text-align: center; }
-    h1 { margin: 0; }
-
-    /* Ensure modal covers everything */
-    .password-modal {
-      display: none;
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7); justify-content: center; align-items: center;
-      z-index: 9999;
-    }
-    .password-modal .modal-content {
-      background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px;
-    }
-
-    /* Prevent overlap */
-    .add-product-form { margin: 40px 0; position: relative; z-index: 2; }
-    .product-list { position: relative; z-index: 1; }
-
-    /* Your existing styles… */
-    .product-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 30px; }
-    .product-card {
-      background: white; width: 300px; border-radius:12px; box-shadow:0 0 15px rgba(0,0,0,0.1);
-      overflow:hidden; transition:transform .3s; position: relative;
-    }
-    .product-card:hover { transform: translateY(-5px); }
-    .product-card img { width:100%; height:auto; }
-    .product-info { padding:15px; }
-    .product-info h2 { font-size:18px; margin:0 0 10px; color:#333; }
-    .product-info a {
-      display:inline-block; margin-top:10px; text-decoration:none;
-      background-color:#ff9900; color:white; padding:10px 15px;
-      border-radius:5px; font-weight:bold;
-    }
-    .product-info a:hover { background-color:#e68a00; }
-
-    #searchBox { width:100%; padding:10px; margin:20px 0; border-radius:8px; border:1px solid #ccc; }
-    #resultsList { list-style:none; padding:0; }
-    #resultsList li {
-      margin:5px 0; background:#fff; padding:8px; border-radius:5px;
-      box-shadow:0 0 4px rgba(0,0,0,0.1);
-    }
-    #resultsList li a { text-decoration:none; color:#333; font-weight:bold; }
-
-    .add-product-section { text-align:center; margin:30px auto; }
-    .add-product-btn {
-      background:#28a745; color:white; padding:10px 20px; border-radius:6px;
-      text-decoration:none; font-weight:bold; cursor:pointer;
-    }
-    .add-product-btn:hover { background:#218838; }
-
-    .add-product-form {
-      display:none; background:#fff; padding:20px; border-radius:10px;
-      box-shadow:0 0 8px rgba(0,0,0,0.1); max-width:500px; margin:0 auto 40px;
-    }
-    .add-product-form input, .add-product-form textarea {
-      width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px;
-    }
-    .add-product-form button {
-      background:#28a745; color:white; padding:10px 15px; border:none;
-      border-radius:5px; cursor:pointer; font-weight:bold;
-    }
-
-    .delete-btn {
-      background:#dc3545; color:white; padding:5px 10px; border-radius:5px;
-      font-size:12px; position:absolute; top:10px; right:10px; cursor:pointer;
-      display:none;
-    }
-  </style>
 </head>
 <body>
 
@@ -107,16 +37,17 @@
 
   <!-- Add Product Form -->
   <div id="productForm" class="add-product-form">
-    <input type="text" id="productTitle" placeholder="Product Title">
-    <input type="text" id="productImage" placeholder="Image URL">
-    <textarea id="productDescription" placeholder="Product Description"></textarea>
-    <input type="text" id="productLink" placeholder="Amazon Affiliate Link">
+    <input type="text" id="productTitle"       placeholder="Product Title">
+    <input type="text" id="productImage"       placeholder="Image URL">
+    <textarea    id="productDescription"       placeholder="Product Description"></textarea>
+    <input type="text" id="productLink"        placeholder="Amazon Affiliate Link">
+    <input type="text" id="productBtnLabel"    placeholder="Button Label" value="View Product">
     <button onclick="addProduct()">✅ Add to Page</button>
   </div>
 
   <!-- Product List -->
   <section class="product-list" id="productList">
-    <!-- Your static products remain unchanged -->
+    <!-- Static Product #1 -->
     <div class="product-card" id="product1">
       <img src="https://github.com/Belovedbuy/belovedbuy.github.com/blob/main/tozo.jpg?raw=true" alt="TOZO Earbuds">
       <div class="product-info">
@@ -124,10 +55,12 @@
         <p>Price: <strong>$19.99</strong> (Save 33%)</p>
         <p>Rating: ⭐ 4.3 (84,296 reviews)</p>
         <p>Lightweight, waterproof, immersive sound, 32 EQ presets, and more!</p>
-        <a href="product1.html">View Product</a>
-        <button class="delete-btn" onclick="attemptDelete('product1')">Delete Product</button>
+        <button class="view-btn" data-id="product1">View Product</button>
+        <button class="delete-btn" onclick="attemptDelete('product1')">Delete</button>
       </div>
     </div>
+
+    <!-- Static Product #2 -->
     <div class="product-card" id="product2">
       <img src="https://github.com/Belovedbuy/belovedbuy.github.com/blob/main/redthunder.jpg?raw=true" alt="RedThunder Gaming Combo">
       <div class="product-info">
@@ -135,10 +68,12 @@
         <p>Price: <strong>$49.99</strong></p>
         <p>Rating: ⭐ 4.5 (15,456 reviews)</p>
         <p>RGB lighting, mechanical keys, anti-ghosting, and more!</p>
-        <a href="product2.html">View Product</a>
-        <button class="delete-btn" onclick="attemptDelete('product2')">Delete Product</button>
+        <button class="view-btn" data-id="product2">View Product</button>
+        <button class="delete-btn" onclick="attemptDelete('product2')">Delete</button>
       </div>
     </div>
+
+    <!-- Static Product #3 -->
     <div class="product-card" id="product3">
       <img src="https://raw.githubusercontent.com/Belovedbuy/belovedbuy.github.com/1879dc874eb83cb15548cd8e6ba97b8bce56a58c/wirelesscharger.jpg" alt="FDGAO Wireless Charger">
       <div class="product-info">
@@ -146,93 +81,141 @@
         <p>Price: <strong>$9.99</strong> (Save 23%)</p>
         <p>Rating: ⭐ 3.9 (11,562 reviews)</p>
         <p>Reliable 20W fast charging pad for iPhone, Samsung, Pixel & AirPods – just $9.99.</p>
-        <a href="product3.html">View Product</a>
-        <button class="delete-btn" onclick="attemptDelete('product3')">Delete Product</button>
+        <button class="view-btn" data-id="product3">View Product</button>
+        <button class="delete-btn" onclick="attemptDelete('product3')">Delete</button>
       </div>
     </div>
   </section>
 
+  <!-- Detail Modal -->
+  <div class="detail-modal" id="detailModal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeDetailModal()">×</button>
+      <h2 id="detailTitle"></h2>
+      <img id="detailImage" src="" alt="" style="width:100%; border-radius:5px; margin:10px 0;">
+      <p id="detailDescription"></p>
+      <p><a id="detailLink" href="#" target="_blank" class="view-btn">Go to Affiliate</a></p>
+    </div>
+  </div>
+
   <footer>&copy; 2025 BelovedBuy. All rights reserved.</footer>
 
-  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
   <script>
-    // Render and persist
+    // Render & persist products
     function renderProduct(p, id){
-      const wrap=document.createElement('div');
-      wrap.className='product-card'; wrap.id=id;
-      wrap.innerHTML=`
+      const wrap = document.createElement('div');
+      wrap.className = 'product-card'; wrap.id = id;
+      wrap.innerHTML = `
         <img src="${p.image}" alt="${p.title}">
         <div class="product-info">
           <h2>${p.title}</h2>
           <p>${p.description}</p>
-          <a href="${p.link}" target="_blank">View Product</a>
-          <button class="delete-btn" onclick="attemptDelete('${id}')">Delete Product</button>
+          <button class="view-btn" data-id="${id}">${p.btnLabel || 'View Product'}</button>
+          <button class="delete-btn" onclick="attemptDelete('${id}')">Delete</button>
         </div>`;
       document.getElementById('productList').appendChild(wrap);
     }
-
     function loadProducts(){
-      JSON.parse(localStorage.getItem('myProducts')||'[]')
-        .forEach(item=>renderProduct(item,item.id));
-      if(sessionStorage.getItem('authorized')==='true'){
-        document.querySelectorAll('.delete-btn').forEach(b=>b.style.display='inline-block');
+      JSON.parse(localStorage.getItem('myProducts') || '[]')
+        .forEach(item => renderProduct(item, item.id));
+      if (sessionStorage.getItem('authorized')==='true'){
+        document.querySelectorAll('.delete-btn')
+          .forEach(b=>b.style.display='inline-block');
         document.getElementById('productForm').style.display='block';
       }
     }
-    function saveProducts(arr){ localStorage.setItem('myProducts',JSON.stringify(arr)); }
+    function saveProducts(arr){
+      localStorage.setItem('myProducts', JSON.stringify(arr));
+    }
+    document.addEventListener('DOMContentLoaded', loadProducts);
 
-    document.addEventListener('DOMContentLoaded',loadProducts);
-
+    // Password & form logic
     function showPasswordModal(){
       document.getElementById('passwordModal').style.display='flex';
     }
     function checkPassword(){
-      if(document.getElementById('passwordInput').value==='20071961Bc@'){
+      if (document.getElementById('passwordInput').value==='20071961Bc@'){
         sessionStorage.setItem('authorized','true');
         document.getElementById('passwordModal').style.display='none';
-        document.querySelectorAll('.delete-btn').forEach(b=>b.style.display='inline-block');
+        document.querySelectorAll('.delete-btn')
+          .forEach(b=>b.style.display='inline-block');
         document.getElementById('productForm').style.display='block';
       } else alert('Incorrect password!');
     }
 
+    // Add new product
     function addProduct(){
-      const t=document.getElementById('productTitle').value.trim(),
-            i=document.getElementById('productImage').value.trim(),
-            d=document.getElementById('productDescription').value.trim(),
-            l=document.getElementById('productLink').value.trim();
-      if(!t||!i||!d||!l) return alert('Please fill in all fields!');
-      const id='prod_'+Date.now(),
-            p={title:t,image:i,description:d,link:l,id};
-      renderProduct(p,id);
-      const arr=JSON.parse(localStorage.getItem('myProducts')||'[]');
+      const t = document.getElementById('productTitle').value.trim(),
+            i = document.getElementById('productImage').value.trim(),
+            d = document.getElementById('productDescription').value.trim(),
+            l = document.getElementById('productLink').value.trim(),
+            b = document.getElementById('productBtnLabel').value.trim();
+      if (!t||!i||!d||!l) return alert('Please fill in all fields!');
+      const id = 'prod_' + Date.now(),
+            p = { title:t, image:i, description:d, link:l, btnLabel:b, id };
+      renderProduct(p, id);
+      const arr = JSON.parse(localStorage.getItem('myProducts')||'[]');
       arr.push(p); saveProducts(arr);
       document.getElementById('productForm').reset();
+      document.getElementById('productBtnLabel').value = 'View Product';
     }
 
+    // Delete product
     function attemptDelete(id){
-      const pwd=prompt('Enter password to delete:');
-      if(pwd==='20071961Bc@'){
+      const pwd = prompt('Enter password to delete:');
+      if (pwd==='20071961Bc@'){
         document.getElementById(id).remove();
-        const arr=JSON.parse(localStorage.getItem('myProducts')||'[]')
-                    .filter(x=>x.id!==id);
+        const arr = JSON.parse(localStorage.getItem('myProducts')||'[]')
+                      .filter(x=>x.id!==id);
         saveProducts(arr);
       } else alert('Incorrect password!');
     }
 
+    // Detail modal
+    document.body.addEventListener('click', e => {
+      if (!e.target.classList.contains('view-btn')) return;
+      const id = e.target.getAttribute('data-id');
+      let p = JSON.parse(localStorage.getItem('myProducts')||'[]')
+                .find(x=>x.id===id);
+      if (!p) {
+        const card = document.getElementById(id);
+        p = {
+          title: card.querySelector('h2').textContent,
+          image: card.querySelector('img').src,
+          description: card.querySelector('p:nth-of-type(2)').textContent,
+          link: card.querySelector('a').href,
+          btnLabel: 'Go to Affiliate'
+        };
+      }
+      document.getElementById('detailTitle').textContent       = p.title;
+      document.getElementById('detailImage').src              = p.image;
+      document.getElementById('detailImage').alt              = p.title;
+      document.getElementById('detailDescription').textContent = p.description;
+      const linkEl = document.getElementById('detailLink');
+      linkEl.href = p.link;
+      linkEl.textContent = p.btnLabel || 'Go to Affiliate';
+      document.getElementById('detailModal').style.display = 'flex';
+    });
+    function closeDetailModal(){
+      document.getElementById('detailModal').style.display = 'none';
+    }
+
     // Fuse.js search
-    const fuse=new Fuse([
+    const fuse = new Fuse([
       { name:"TOZO A1 Wireless Earbuds", link:"product1.html", features:"Lightweight, waterproof, immersive sound, 32 EQ presets" },
       { name:"RedThunder Gaming Keyboard Set", link:"product2.html", features:"RGB lighting, mechanical keys, anti-ghosting" },
       { name:"FDGAO 20W Wireless Charger", link:"product3.html", features:"20W fast charging pad for iPhone, Samsung, Pixel & AirPods" }
-    ],{keys:['name','features'],threshold:0.3});
-    document.getElementById('searchBox').addEventListener('input',e=>{
-      const results=fuse.search(e.target.value).map(r=>r.item),
-            list=document.getElementById('resultsList');
-      list.innerHTML=''; results.forEach(i=>{
-        list.innerHTML+=`<li><a href="${i.link}">${i.name}</a></li>`;
+    ], { keys:['name','features'], threshold:0.3 });
+    document.getElementById('searchBox').addEventListener('input', e => {
+      const results = fuse.search(e.target.value).map(r=>r.item),
+            list = document.getElementById('resultsList');
+      list.innerHTML = '';
+      results.forEach(i => {
+        list.innerHTML += `<li><a href="${i.link}">${i.name}</a></li>`;
       });
     });
   </script>
+
 </body>
 </html>
