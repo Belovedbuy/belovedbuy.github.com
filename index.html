@@ -42,7 +42,39 @@
 
   <section class="product-list" id="productList">
     <!-- Existing products -->
-    <!-- These will be dynamically loaded from products.json -->
+    <div class="product-card" id="product1">
+      <img src="https://github.com/Belovedbuy/belovedbuy.github.com/blob/main/tozo.jpg?raw=true" alt="TOZO Earbuds">
+      <div class="product-info">
+        <h2>TOZO A1 Wireless Earbuds</h2>
+        <p>Price: <strong>$19.99</strong> (Save 33%)</p>
+        <p>Rating: ⭐ 4.3 (84,296 reviews)</p>
+        <p>Lightweight, waterproof, immersive sound, 32 EQ presets, and more!</p>
+        <a href="product1.html" class="view-product" target="_blank">View Product</a>
+        <button class="delete-btn" onclick="attemptDelete('product1')">Delete Product</button>
+      </div>
+    </div>
+    <div class="product-card" id="product2">
+      <img src="https://github.com/Belovedbuy/belovedbuy.github.com/blob/main/redthunder.jpg?raw=true" alt="RedThunder Gaming Combo">
+      <div class="product-info">
+        <h2>RedThunder Gaming Keyboard Set</h2>
+        <p>Price: <strong>$49.99</strong></p>
+        <p>Rating: ⭐ 4.5 (15,456 reviews)</p>
+        <p>RGB lighting, mechanical keys, anti-ghosting, and more!</p>
+        <a href="product2.html" class="view-product" target="_blank">View Product</a>
+        <button class="delete-btn" onclick="attemptDelete('product2')">Delete Product</button>
+      </div>
+    </div>
+    <div class="product-card" id="product3">
+      <img src="https://raw.githubusercontent.com/Belovedbuy/belovedbuy.github.com/1879dc874eb83cb15548cd8e6ba97b8bce56a58c/wirelesscharger.jpg" alt="FDGAO Wireless Charger">
+      <div class="product-info">
+        <h2>FDGAO 20W Wireless Charger – Fastest & Cheapest Under $10</h2>
+        <p>Price: <strong>$9.99</strong> (Save 23%)</p>
+        <p>Rating: ⭐ 3.9 (11,562 reviews)</p>
+        <p>Reliable 20W fast charging pad for iPhone, Samsung, Pixel & AirPods – just $9.99.</p>
+        <a href="product3.html" class="view-product" target="_blank">View Product</a>
+        <button class="delete-btn" onclick="attemptDelete('product3')">Delete Product</button>
+      </div>
+    </div>
   </section>
 
   <footer>
@@ -50,44 +82,6 @@
   </footer>
 
   <script>
-    // Load products from products.json
-    async function loadProducts() {
-      try {
-        const response = await fetch('products.json');
-        const products = await response.json();
-        
-        products.forEach(product => {
-          const productCard = document.createElement('div');
-          productCard.className = 'product-card';
-          productCard.id = product.id;
-          
-          productCard.innerHTML = `
-            <img src="${product.image}" alt="${product.title}">
-            <div class="product-info">
-              <h2>${product.title}</h2>
-              <p>Price: <strong>${product.price}</strong></p>
-              <p>Rating: ⭐ ${product.rating}</p>
-              <p>${product.description}</p>
-              <a href="${product.link}" class="view-product" target="_blank">View Product</a>
-              <button class="delete-btn" onclick="attemptDelete('${product.id}')">Delete Product</button>
-            </div>
-          `;
-          
-          document.getElementById('productList').appendChild(productCard);
-        });
-        
-        // Check if authorized and show delete buttons
-        if (sessionStorage.getItem('authorized') === 'true') {
-          document.querySelectorAll('.delete-btn').forEach(button => {
-            button.style.display = 'flex';
-          });
-          document.getElementById('productForm').style.display = 'block';
-        }
-      } catch (error) {
-        console.error('Error loading products:', error);
-      }
-    }
-
     // Show password modal
     function showPasswordModal() {
       document.getElementById('passwordModal').style.display = 'flex';
@@ -147,15 +141,14 @@
       
       document.getElementById('productList').appendChild(productCard);
       
+      // Show delete button for the new product
+      productCard.querySelector('.delete-btn').style.display = 'flex';
+      
       // Reset the form
       document.getElementById('productForm').reset();
       
       // Scroll to the top of the page
       window.scrollTo(0, 0);
-      
-      // Here you would typically save the new product to your products.json file
-      // This requires a backend service which is beyond the scope of this example
-      alert('Product added successfully! Note: To persist this product, you need to add it to products.json manually or implement a backend service.');
     }
 
     // Attempt to delete a product
@@ -163,17 +156,21 @@
       const password = prompt('Enter password to delete:');
       if (password === '20071961Bc@') {
         document.getElementById(id).remove();
-        
-        // Here you would typically remove the product from your products.json file
-        // This requires a backend service which is beyond the scope of this example
-        alert('Product deleted successfully! Note: To permanently delete this product, you need to remove it from products.json manually or implement a backend service.');
       } else {
         alert('Incorrect password!');
       }
     }
 
     // Initialize the page
-    document.addEventListener('DOMContentLoaded', loadProducts);
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if authorized and show delete buttons
+      if (sessionStorage.getItem('authorized') === 'true') {
+        document.querySelectorAll('.delete-btn').forEach(button => {
+          button.style.display = 'flex';
+        });
+        document.getElementById('productForm').style.display = 'block';
+      }
+    });
   </script>
 </body>
 </html>
