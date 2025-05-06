@@ -28,26 +28,6 @@
       margin: 0;
     }
 
-    /* Add Product Button */
-    .add-product-btn {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background-color: #28a745;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 50px;
-      font-size: 16px;
-      text-decoration: none;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      z-index: 1000;
-      transition: background 0.3s ease;
-    }
-
-    .add-product-btn:hover {
-      background-color: #218838;
-    }
-
     .product-list {
       display: flex;
       flex-wrap: wrap;
@@ -181,6 +161,31 @@
     .add-button:hover {
       background-color: #0056b3;
     }
+
+    /* Password Prompt */
+    .password-section {
+      text-align: center;
+      margin: 30px auto;
+      display: none;
+    }
+
+    .password-section input {
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 200px;
+    }
+
+    .password-section button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -190,25 +195,30 @@
     <p>Top-rated tech gadgets just for you</p>
   </header>
 
-  <!-- Floating Add Product Button -->
-  <a href="add-product.html" class="add-product-btn">+ Add Product</a>
-
   <!-- Search Box -->
   <input type="text" id="searchBox" placeholder="Search tech products...">
 
   <!-- Search Results -->
   <ul id="resultsList"></ul>
 
+  <!-- Password Protection Section -->
+  <div id="passwordSection" class="password-section">
+    <h2>Enter Password to Add Product</h2>
+    <input type="password" id="passwordInput" placeholder="Enter Password" />
+    <button onclick="checkPassword()">Submit</button>
+  </div>
+
   <!-- Add Product Section -->
   <div class="add-product-section">
-    <button class="add-button" onclick="toggleForm()">➕ Add New Product</button>
-    <div id="productForm" class="add-product-form">
-      <input type="text" id="productTitle" placeholder="Product Title">
-      <input type="text" id="productImage" placeholder="Image URL">
-      <textarea id="productDescription" placeholder="Product Description"></textarea>
-      <input type="text" id="productLink" placeholder="Amazon Affiliate Link">
-      <button onclick="addProduct()">✅ Add to Page</button>
-    </div>
+    <a href="javascript:void(0)" class="add-product-btn" onclick="showPasswordSection()">+ Add Product</a>
+  </div>
+
+  <div id="productForm" class="add-product-form">
+    <input type="text" id="productTitle" placeholder="Product Title">
+    <input type="text" id="productImage" placeholder="Image URL">
+    <textarea id="productDescription" placeholder="Product Description"></textarea>
+    <input type="text" id="productLink" placeholder="Amazon Affiliate Link">
+    <button onclick="addProduct()">✅ Add to Page</button>
   </div>
 
   <section class="product-list" id="productList">
@@ -223,28 +233,6 @@
         <a href="product1.html">View Product</a>
       </div>
     </div>
-
-    <div class="product-card">
-      <img src="https://github.com/Belovedbuy/belovedbuy.github.com/blob/main/redthunder.jpg?raw=true" alt="RedThunder Gaming Combo">
-      <div class="product-info">
-        <h2>RedThunder Gaming Keyboard Set</h2>
-        <p>Price: <strong>$49.99</strong></p>
-        <p>Rating: ⭐ 4.5 (15,456 reviews)</p>
-        <p>RGB lighting, mechanical keys, anti-ghosting, and more!</p>
-        <a href="product2.html">View Product</a>
-      </div>
-    </div>
-
-    <div class="product-card">
-      <img src="https://raw.githubusercontent.com/Belovedbuy/belovedbuy.github.com/1879dc874eb83cb15548cd8e6ba97b8bce56a58c/wirelesscharger.jpg" alt="FDGAO Wireless Charger">
-      <div class="product-info">
-        <h2>FDGAO 20W Wireless Charger – Fastest & Cheapest Under $10</h2>
-        <p>Price: <strong>$9.99</strong> (Save 23%)</p>
-        <p>Rating: ⭐ 3.9 (11,562 reviews)</p>
-        <p>Reliable 20W fast charging pad for iPhone, Samsung, Pixel & AirPods – just $9.99.</p>
-        <a href="product3.html">View Product</a>
-      </div>
-    </div>
   </section>
 
   <footer>
@@ -256,9 +244,7 @@
   <script>
     let fuse;
     let data = [
-      { name: "TOZO A1 Wireless Earbuds", link: "product1.html", features: "Lightweight, waterproof, immersive sound, 32 EQ presets" },
-      { name: "RedThunder Gaming Keyboard Set", link: "product2.html", features: "RGB lighting, mechanical keys, anti-ghosting" },
-      { name: "FDGAO 20W Wireless Charger", link: "product3.html", features: "20W fast charging pad for iPhone, Samsung, Pixel & AirPods" }
+      { name: "TOZO A1 Wireless Earbuds", link: "product1.html", features: "Lightweight, waterproof, immersive sound, 32 EQ presets" }
     ];
 
     fuse = new Fuse(data, {
@@ -281,10 +267,20 @@
       });
     });
 
-    // Toggle form visibility
-    function toggleForm() {
-      const form = document.getElementById('productForm');
-      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    function showPasswordSection() {
+      document.getElementById('passwordSection').style.display = 'block';
+    }
+
+    function checkPassword() {
+      const enteredPassword = document.getElementById('passwordInput').value;
+      const correctPassword = '20071961Bc@';
+
+      if (enteredPassword === correctPassword) {
+        document.getElementById('passwordSection').style.display = 'none';
+        document.getElementById('productForm').style.display = 'block';
+      } else {
+        alert('Incorrect password');
+      }
     }
 
     // Add new product
@@ -311,7 +307,6 @@
       `;
 
       document.getElementById('productList').appendChild(container);
-      toggleForm();
     }
   </script>
 
