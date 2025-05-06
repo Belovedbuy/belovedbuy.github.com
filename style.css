@@ -1,3 +1,4 @@
+/* General Body Styling */
 body {
   font-family: Arial, sans-serif;
   background: #f4f4f4;
@@ -6,18 +7,21 @@ body {
   margin: auto;
 }
 
+/* Heading Style */
 h1 {
   color: #333;
 }
 
+/* Product Card Style */
 .product {
   background: white;
   padding: 15px;
   margin: 20px 0;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Image Style for Product Cards */
 .product img {
   width: 100%;
   max-width: 300px;
@@ -25,38 +29,43 @@ h1 {
   border-radius: 5px;
 }
 
+/* Link Styling */
 a {
   color: #0066cc;
   text-decoration: none;
   font-weight: bold;
 }
-<style>
-  #searchBox {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-  }
-  #resultsList {
-    list-style: none;
-    padding: 0;
-  }
-  #resultsList li {
-    margin: 5px 0;
-    background: #fff;
-    padding: 8px;
-    border-radius: 5px;
-    box-shadow: 0 0 4px rgba(0,0,0,0.1);
-  }
-  #resultsList li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-  }
-</style>
 
+/* Hover Effect for Links */
 a:hover {
   text-decoration: underline;
 }
 
+/* Search Box Styling */
+#searchBox {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Results List Styling */
+#resultsList {
+  list-style: none;
+  padding: 0;
+}
+
+#resultsList li {
+  margin: 5px 0;
+  background: #fff;
+  padding: 8px;
+  border-radius: 5px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+#resultsList li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
