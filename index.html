@@ -122,6 +122,38 @@
   </footer>
 
 </body>
+<script>
+  let fuse;
+  let data = [];
+
+  // Load product data from JSON
+  fetch('products.json')
+    .then(response => response.json())
+    .then(products => {
+      data = products;
+      fuse = new Fuse(data, {
+        keys: ['name', 'features'],
+        threshold: 0.3 // lower = stricter match
+      });
+    });
+
+  // Handle search input
+  document.getElementById('searchBox').addEventListener('input', function () {
+    const searchTerm = this.value.trim();
+    const resultList = document.getElementById('resultsList');
+    resultList.innerHTML = '';
+
+    if (searchTerm.length === 0) return;
+
+    const results = fuse.search(searchTerm);
+    results.slice(0, 5).forEach(result => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${result.item.link}">${result.item.name}</a>`;
+      resultList.appendChild(li);
+    });
+  });
+</script>
+
 </html>
 <!-- In the <head> -->
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
