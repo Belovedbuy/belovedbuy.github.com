@@ -69,3 +69,23 @@ a:hover {
   color: #333;
   font-weight: bold;
 }
+
+/* Floating Add Product Button */
+.add-product-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #28a745;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  z-index: 1000;
+  transition: background 0.3s ease;
+}
+
+.add-product-btn:hover {
+  background-color: #218838;
+}
