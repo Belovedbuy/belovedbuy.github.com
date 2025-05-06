@@ -216,6 +216,7 @@
       top: 10px;
       right: 10px;
       cursor: pointer;
+      display: none; /* Hide delete button by default */
     }
   </style>
 </head>
@@ -339,6 +340,9 @@
       if (enteredPassword === correctPassword) {
         document.getElementById('passwordModal').style.display = 'none';
         document.getElementById('productForm').style.display = 'block';
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+          btn.style.display = 'inline-block';  // Show delete buttons
+        });
       } else {
         alert('Incorrect password!');
       }
@@ -360,45 +364,4 @@
           <div class="product-info">
             <h2>${title}</h2>
             <p>${description}</p>
-            <a href="${link}">View Product</a>
-            <button class="delete-btn" onclick="showDeleteModal('${newProductCard.id}')">Delete Product</button>
-          </div>
-        `;
-        productList.appendChild(newProductCard);
-        alert('Product added successfully!');
-        document.getElementById('productForm').reset();
-        document.getElementById('productForm').style.display = 'none';
-      } else {
-        alert('Please fill out all fields!');
-      }
-    }
-
-    function showDeleteModal(productId) {
-      const passwordModal = document.createElement('div');
-      passwordModal.classList.add('password-modal');
-      passwordModal.innerHTML = `
-        <div class="modal-content">
-          <h2>Enter Password to Delete Product</h2>
-          <input type="password" id="deletePasswordInput" placeholder="Enter password">
-          <button onclick="checkDeletePassword('${productId}')">Submit</button>
-        </div>
-      `;
-      document.body.appendChild(passwordModal);
-      passwordModal.style.display = 'flex';
-    }
-
-    function checkDeletePassword(productId) {
-      const enteredPassword = document.getElementById('deletePasswordInput').value;
-      const correctPassword = '20071961Bc@';
-      if (enteredPassword === correctPassword) {
-        const productToDelete = document.getElementById(productId);
-        productToDelete.remove();
-        alert('Product deleted successfully!');
-        document.querySelector('.password-modal').style.display = 'none';
-      } else {
-        alert('Incorrect password!');
-      }
-    }
-  </script>
-</body>
-</html>
+           
