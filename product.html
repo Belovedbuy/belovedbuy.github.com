@@ -139,10 +139,17 @@
       }
     }
 
-    // Load products from localStorage
-    function loadProducts() {
-      products = JSON.parse(localStorage.getItem('products') || '[]');
-      renderProductDetail();
+    // Load products from JSON file
+    async function loadProducts() {
+      try {
+        const response = await fetch('products.json');
+        products = await response.json();
+        renderProductDetail();
+      } catch (error) {
+        console.error('Error loading products:', error);
+        products = [];
+        renderProductDetail();
+      }
     }
 
     // Initialize the page
