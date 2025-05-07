@@ -1,0 +1,21 @@
+{
+  "name": "belovedbuy-website",
+  "version": "1.0.0",
+  "description": "A website for tech product reviews and deals",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "build": "echo 'Build completed'",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d client/build"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.13"
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
+  }
+}
