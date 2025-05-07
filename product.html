@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Product Detail Page">
+  <meta name="keywords" content="product, review, buy">
+  <meta name="author" content="BelovedBuy">
+  <title>Product Detail</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    header {
+      background-color: #232f3e;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+    .product-container {
+      background-color: white;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    .product-container img {
+      width: 100%;
+      max-height: 500px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .product-info h1 {
+      margin-bottom: 20px;
+    }
+    .product-meta {
+      margin-bottom: 20px;
+    }
+    .product-meta p {
+      margin-bottom: 10px;
+    }
+    .buy-button {
+      display: inline-block;
+      background-color: #ff9900;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+    .buy-button:hover {
+      background-color: #e68a00;
+    }
+    .back-button {
+      display: inline-block;
+      margin-top: 30px;
+    }
+    .back-button a {
+      color: #333;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Product Detail</h1>
+  </header>
+  <main class="product-container">
+    <script>
+      // Get product ID from URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get('id');
+      
+      // Find the product
+      let product = null;
+      for (const p of products) {
+        if (p.id === productId) {
+          product = p;
+          break;
+        }
+      }
+      
+      if (product) {
+        document.write(`
+          <img src="${product.image}" alt="${product.title}">
+          <div class="product-info">
+            <h1>${product.title}</h1>
+            <div class="product-meta">
+              <p><strong>Price:</strong> ${product.price}</p>
+              <p><strong>Rating:</strong> ${product.rating} ⭐</p>
+            </div>
+            <div class="product-content">
+              ${product.content}
+            </div>
+            <a href="${product.link}" class="buy-button" target="_blank">Buy on Amazon</a>
+          </div>
+        `);
+      } else {
+        document.write('<p>Product not found.</p>');
+      }
+    </script>
+  </main>
+  <div class="back-button">
+    <a href="index.html">← Back to Home</a>
+  </div>
+</body>
+</html>
