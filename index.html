@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Discover the best tech deals and reviews at BelovedBuy. Find affordable, high-quality tech products with detailed reviews and Amazon affiliate links.">
+  <meta name="keywords" content="tech deals, product reviews, wireless earbuds, gaming keyboard, wireless charger, tech gadgets, affordable tech, product comparisons">
+  <meta name="author" content="BelovedBuy">
+  <title>BelovedBuy - Best Tech Deals and Reviews</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>BelovedBuy - Best Tech Deals</h1>
+    <p>Top-rated tech gadgets just for you</p>
+  </header>
+
+  <div class="search-section">
+    <input type="text" id="searchBox" placeholder="Search for products...">
+    <ul id="resultsList"></ul>
+  </div>
+
+  <div class="add-product-section">
+    <button class="add-product-btn" onclick="showPasswordModal()">+ Add Product</button>
+  </div>
+
+  <div class="password-modal" id="passwordModal">
+    <div class="modal-content">
+      <h2>Enter Password</h2>
+      <input type="password" id="passwordInput" placeholder="Enter password">
+      <button onclick="checkPassword()">Submit</button>
+    </div>
+  </div>
+
+  <div id="productForm" class="add-product-form">
+    <input type="text" id="productTitle" placeholder="Product Title">
+    <input type="text" id="productImage" placeholder="Image URL">
+    <textarea id="productDescription" placeholder="Product Description"></textarea>
+    <input type="text" id="productPrice" placeholder="Product Price">
+    <input type="text" id="productRating" placeholder="Product Rating">
+    <input type="text" id="productLink" placeholder="Amazon Product Link">
+    <textarea id="productExplanation" placeholder="Product Explanation"></textarea>
+    <button onclick="addProduct()">✅ Add to Page</button>
+  </div>
+
+  <section class="product-list" id="productList">
+    <!-- Products will be loaded from localStorage -->
+  </section>
+
+  <footer>
+    <p>&copy; 2025 BelovedBuy. All rights reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+  <script src="script.js"></script>
+</body>
+</html>
