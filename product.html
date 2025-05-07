@@ -108,8 +108,13 @@
   </footer>
 
   <script>
-    // Sample product data (in a real scenario, this would be fetched from a backend)
     let products = [];
+    const GITHUB_TOKEN = 'your_github_token'; // Replace with your GitHub personal access token
+    const REPO_OWNER = 'your_github_username'; // Replace with your GitHub username
+    const REPO_NAME = 'your_repo_name'; // Replace with your repository name
+    const FILE_PATH = 'products.json';
+
+    const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
 
     // Function to render product details
     function renderProductDetail() {
@@ -139,11 +144,12 @@
       }
     }
 
-    // Load products from JSON file
+    // Load products from GitHub
     async function loadProducts() {
       try {
-        const response = await fetch('products.json');
-        products = await response.json();
+        const response = await fetch(`${API_URL}?access_token=${GITHUB_TOKEN}`);
+        const data = await response.json();
+        products = JSON.parse(atob(data.content));
         renderProductDetail();
       } catch (error) {
         console.error('Error loading products:', error);
