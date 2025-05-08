@@ -19,17 +19,26 @@
     }
     .product-container img {
       width: 100%;
-      max-height: 300px;
-      object-fit: cover;
+      max-width: 100%;
+      max-height: 500px;
+      object-fit: contain;
       border-radius: 10px;
       margin-bottom: 20px;
+      background: #f1f1f1;
+      display: block;
     }
     .product-meta {
       margin-bottom: 20px;
     }
+    .product-title {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-top: 0.5em;
+      margin-bottom: 0.7em;
+      color: #232f3e;
+    }
     .product-content-blog {
       margin: 24px 0;
-      /* Do not override font-family or font-size! Allow pasted content styles */
       word-break: break-word;
     }
     .buy-button {
@@ -92,8 +101,8 @@
         }
         const product = productSnap.data();
         document.getElementById('productContainer').innerHTML = `
+          <h2 class="product-title">${product.title}</h2>
           <img src="${product.image}" alt="${product.title}">
-          <h1>${product.title}</h1>
           <div class="product-meta">
             <p><strong>Price:</strong> ${product.price}</p>
             <p><strong>Rating:</strong> ${product.rating} ⭐</p>
