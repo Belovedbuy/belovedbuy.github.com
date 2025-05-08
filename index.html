@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="BelovedBuy - Discover the best tech deals and reviews. Find affordable, high-quality tech products with detailed reviews and Amazon affiliate links.">
+  <meta name="description" content="BelovedBuy - Discover the best tech deals and reviews. Find affordable, high-quality tech products with detailed reviews and affiliate links.">
   <meta name="keywords" content="tech deals, product reviews, wireless earbuds, gaming keyboard, wireless charger, tech gadgets, affordable tech, product comparisons">
   <meta name="author" content="BelovedBuy">
   <title>BelovedBuy - Best Tech Deals and Reviews</title>
-
+  
   <!-- Include Firebase SDK -->
   <script type="module" src="firebase.js"></script>
   <script type="module" src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
@@ -38,7 +38,6 @@
       </div>
     </section>
 
-    <!-- Add Product Form -->
     <section class="add-product-form" id="productForm" style="display: none;">
       <h2>Add New Product</h2>
       <input type="text" id="productTitle" placeholder="Product Title">
@@ -49,15 +48,12 @@
       <textarea id="productContent" placeholder="Product Content (for detail page)"></textarea>
       <input type="text" id="amazonLink" placeholder="Amazon Affiliate Link">
       <input type="text" id="kongaLink" placeholder="Konga Affiliate Link">
-      
-      <!-- Dropdown to select which link to display -->
       <label for="displayLink">Choose Link to Display:</label>
       <select id="displayLink">
         <option value="both">Both</option>
         <option value="amazon">Amazon Only</option>
         <option value="konga">Konga Only</option>
       </select>
-
       <button onclick="addProduct()">Add Product</button>
     </section>
 
