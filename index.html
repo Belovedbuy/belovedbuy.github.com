@@ -36,7 +36,7 @@
       <textarea id="productDescription" placeholder="Product Description"></textarea>
       <input type="text" id="productPrice" placeholder="Product Price">
       <input type="text" id="productRating" placeholder="Product Rating (e.g. 4.5)">
-      <textarea id="productContent" placeholder="Product Content / Blog"></textarea>
+      <div id="productContent" class="rich-editor" contenteditable="true" placeholder="Product Content / Blog"></div>
       <input type="text" id="productLink" placeholder="Amazon Affiliate Link">
       <button onclick="addProduct()">Add Product</button>
     </section>
@@ -83,7 +83,7 @@
       const description = document.getElementById('productDescription').value.trim();
       const price = document.getElementById('productPrice').value.trim();
       const rating = document.getElementById('productRating').value.trim();
-      const content = document.getElementById('productContent').value.trim();
+      const content = document.getElementById('productContent').innerHTML.trim();
       const link = document.getElementById('productLink').value.trim();
 
       if (!title || !image || !description || !price || !rating || !content || !link) {
@@ -106,6 +106,7 @@
         products.unshift({ id: docRef.id, ...product });
         renderProducts();
         document.getElementById('productForm').reset();
+        document.getElementById('productContent').innerHTML = '';
         document.getElementById('productForm').style.display = 'none';
       } catch (error) {
         console.error('Error adding product:', error);
@@ -182,7 +183,7 @@
       const results = products.filter(product =>
         product.title.toLowerCase().includes(searchTerm) ||
         product.description.toLowerCase().includes(searchTerm) ||
-        product.content.toLowerCase().includes(searchTerm)
+        (product.content && product.content.toLowerCase().includes(searchTerm))
       );
 
       if (results.length > 0) {
