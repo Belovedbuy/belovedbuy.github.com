@@ -1,9 +1,8 @@
-// Import the functions you need from the SDKs you need
+// Import the Firebase v9+ modular SDK via CDN
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
-import { getFirestore, connectFirestoreEmulator } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
-import { getAuth, connectAuthEmulator } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
 
-// Your web app's Firebase configuration
+// Your web app's Firebase configuration (replace with your own config in production)
 const firebaseConfig = {
   apiKey: "AIzaSyD3O79FecTCvws3w-fu1_Nrz4vNz45v_tI",
   authDomain: "belovedbuy-31c5d.firebaseapp.com",
@@ -17,13 +16,5 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const auth = getAuth(app);
 
-// Connect to emulators if running locally
-if (location.hostname === "localhost") {
-  connectFirestoreEmulator(db, "localhost", 8080);
-  connectAuthEmulator(auth, "http://localhost:9099");
-}
-
-// Export for use in index.html
-export { db, auth };
+export { db };
