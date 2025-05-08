@@ -7,11 +7,12 @@
   <meta name="keywords" content="tech deals, product reviews, wireless earbuds, gaming keyboard, wireless charger, tech gadgets, affordable tech, product comparisons">
   <meta name="author" content="BelovedBuy">
   <title>BelovedBuy - Best Tech Deals and Reviews</title>
-
+  
   <!-- Include Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
-  <script src="path/to/your/firebase.js"></script>
+  <!-- Include your Firebase configuration -->
+  <script type="module" src="firebase.js"></script>
 
   <style>
     /* Base Styles */
@@ -90,42 +91,20 @@
       color: #ff9900;
     }
 
-    .buy-link {
+    .view-product-btn {
       display: inline-block;
-      padding: 10px 15px;
-      margin-top: 10px;
-      font-weight: bold;
-      text-align: center;
-      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
       text-decoration: none;
+      font-weight: bold;
+      margin-top: 15px;
       transition: background-color 0.3s ease;
     }
 
-    .buy-link.amazon {
-      background-color: #ff9900;
-      color: white;
-    }
-
-    .buy-link.amazon:hover {
-      background-color: #cc7a00;
-    }
-
-    .buy-link.konga {
-      background-color: #007bff;
-      color: white;
-    }
-
-    .buy-link.konga:hover {
+    .view-product-btn:hover {
       background-color: #0056b3;
-    }
-
-    .buy-link.jumia {
-      background-color: #28a745;
-      color: white;
-    }
-
-    .buy-link.jumia:hover {
-      background-color: #218838;
     }
   </style>
 </head>
@@ -142,46 +121,42 @@
   </main>
 
   <script type="module">
-    import { db } from "./firebase.js";
-    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
+    import { db } from './firebase.js';
+    import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js';
 
-    async function loadProducts() {
-      const productList = document.getElementById("productList");
-      productList.innerHTML = ""; // Clear the list
+    // Fetch products directly from Firestore
+    async function loadProductsFromFirestore() {
+      const productList = document.getElementById('productList');
+      productList.innerHTML = ''; // Clear the list initially
 
       try {
-        const querySnapshot = await getDocs(collection(db, "products"));
+        const querySnapshot = await getDocs(collection(db, 'products')); // Fetch all products from Firestore
         querySnapshot.forEach((doc) => {
           const product = doc.data();
-          const productCard = document.createElement("div");
-          productCard.className = "product-card";
-
-          // Determine the platform for the link and its class
-          let buyLinkClass = "";
-          if (product.link.includes("amazon")) buyLinkClass = "amazon";
-          else if (product.link.includes("konga")) buyLinkClass = "konga";
-          else if (product.link.includes("jumia")) buyLinkClass = "jumia";
+          const productCard = document.createElement('div');
+          productCard.className = 'product-card';
+          productCard.dataset.id = doc.id;
 
           productCard.innerHTML = `
             <img src="${product.image}" alt="${product.title}">
             <div class="product-info">
               <h2>${product.title}</h2>
-              <p class="product-description">${product.description}</p>
-              <p class="product-price">Price: ${product.price}</p>
               <p class="product-rating">Rating: ${product.rating} ⭐</p>
-              <a href="${product.link}" class="buy-link ${buyLinkClass}" target="_blank">Buy Now</a>
+              <p class="product-price">Price: ${product.price}</p>
+              <p class="product-description">${product.description}</p>
+              <a href="${product.link}" class="view-product-btn" target="_blank">View Product</a>
             </div>
           `;
 
           productList.appendChild(productCard);
         });
       } catch (error) {
-        console.error("Error loading products from Firestore:", error);
+        console.error('Error loading products from Firestore:', error);
       }
     }
 
-    // Load products when the page loads
-    document.addEventListener("DOMContentLoaded", loadProducts);
+    // Initialize the page and fetch products from Firestore
+    document.addEventListener('DOMContentLoaded', loadProductsFromFirestore);
   </script>
 </body>
 </html>
