@@ -3,49 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Product Detail - BelovedBuy</title>
+  <meta name="description" content="Product details">
+  <title>Product Details</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Product Detail</h1>
-  </header>
-
-  <main id="productContainer">
-    <!-- Product details will be dynamically loaded here -->
+  <main>
+    <section id="productDetails">
+      <!-- Product details will be dynamically inserted here -->
+    </section>
   </main>
-
-  <button id="scrollToBuy" class="fixed-button" onclick="scrollToBuy()">View Buy Links</button>
-
-  <footer>
-    <p>&copy; 2025 BelovedBuy</p>
-  </footer>
 
   <script type="module">
     import { db } from "./firebase.js";
     import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
 
     async function loadProduct() {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get("id");
-      if (!id) return;
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get("id");
+      const productDoc = await getDoc(doc(db, "products", productId));
 
-      const productRef = doc(db, "products", id);
-      const productSnap = await getDoc(productRef);
-
-      if (productSnap.exists()) {
-        const product = productSnap.data();
-        const container = document.getElementById("productContainer");
-        container.innerHTML = `
-          <h2>${product.title}</h2>
-          <p>${product.description}</p>
-          <a href="${product.link}">Buy Now</a>
+      if (productDoc.exists()) {
+        const product = productDoc.data();
+        document.getElementById("productDetails").innerHTML = `
+          <img src="${product.image}" alt="${product.title}">
+          <h1>${product.title}</h1>
+          <p>${product.content}</p>
+          <a href="${product.link}" target="_blank">Buy Now</a>
         `;
+      } else {
+        document.getElementById("productDetails").textContent = "Product not found.";
       }
-    }
-
-    function scrollToBuy() {
-      document.querySelector("a[href]").scrollIntoView({ behavior: "smooth" });
     }
 
     document.addEventListener("DOMContentLoaded", loadProduct);
