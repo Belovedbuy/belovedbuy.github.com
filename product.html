@@ -27,15 +27,10 @@
     .product-meta {
       margin-bottom: 20px;
     }
-    .product-content-blog,
-    .product-content-blog * {
-      font-size: 16px !important;
-      line-height: 1.6;
-      font-family: inherit;
-      white-space: pre-line;
-    }
     .product-content-blog {
       margin: 24px 0;
+      /* Do not override font-family or font-size! Allow pasted content styles */
+      word-break: break-word;
     }
     .buy-button {
       display: inline-block;
@@ -81,30 +76,6 @@
       getDoc
     } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
 
-    // Converts user-typed content (with \n, *, -, etc.) to SEO-friendly HTML with headings/lists/paragraphs
-    function toSEOHtml(text) {
-      // Simple markdown-like conversion for SEO: headings, lists, bold, paragraphs
-      let html = text
-        // Headings: ## Heading
-        .replace(/^### (.*)$/gim, '<h3>$1</h3>')
-        .replace(/^## (.*)$/gim, '<h2>$1</h2>')
-        .replace(/^# (.*)$/gim, '<h1>$1</h1>')
-        // Unordered lists: - item or * item
-        .replace(/^\s*[-*] (.*)$/gim, '<li>$1</li>')
-        // Bold: **text**
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        // Italic: *text*
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        // Line breaks for paragraphs
-        .replace(/\n{2,}/g, '</p><p>')
-        .replace(/\n/g, '<br>');
-      // Wrap <li> in <ul>
-      html = html.replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>');
-      // Ensure wrapped in <p>
-      html = `<p>${html}</p>`;
-      return html;
-    }
-
     async function loadProduct() {
       const urlParams = new URLSearchParams(window.location.search);
       const productId = urlParams.get('id');
@@ -129,7 +100,7 @@
           </div>
           <p>${product.description}</p>
           <article class="product-content-blog" itemscope itemtype="http://schema.org/Article">
-            ${toSEOHtml(product.content)}
+            ${product.content}
           </article>
           <a href="${product.link}" class="buy-button" target="_blank" rel="nofollow sponsored noopener">Buy on Amazon</a>
         `;
