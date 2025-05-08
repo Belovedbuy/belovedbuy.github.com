@@ -4,17 +4,59 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Add New Product</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+  </style>
 </head>
 <body>
   <h1>Add a New Product</h1>
   <form id="addProductForm">
     <input type="text" id="title" placeholder="Product Title" required>
     <input type="text" id="image" placeholder="Image URL" required>
-    <textarea id="description" placeholder="Product Description"></textarea>
-    <textarea id="content" placeholder="Product Content/Blog"></textarea>
+    <textarea id="description" placeholder="Product Description" required></textarea>
+    <textarea id="content" placeholder="Product Content/Blog" required></textarea>
     <input type="text" id="price" placeholder="Price" required>
     <input type="text" id="rating" placeholder="Rating" required>
-    <input type="url" id="link" placeholder="Affiliate Link (Amazon, Konga, etc.)">
+    <input type="url" id="link" placeholder="Affiliate Link (Amazon, Konga, etc.)" required>
     <button type="submit">Add Product</button>
   </form>
 
@@ -25,19 +67,32 @@
     document.getElementById("addProductForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
+      const submitButton = e.target.querySelector('button');
+      submitButton.disabled = true;
+      submitButton.textContent = "Adding Product...";
+
       const newProduct = {
-        title: document.getElementById("title").value,
-        image: document.getElementById("image").value,
-        description: document.getElementById("description").value,
-        content: document.getElementById("content").value,
-        price: document.getElementById("price").value,
-        rating: document.getElementById("rating").value,
-        link: document.getElementById("link").value,
+        title: document.getElementById("title").value.trim(),
+        image: document.getElementById("image").value.trim(),
+        description: document.getElementById("description").value.trim(),
+        content: document.getElementById("content").value.trim(),
+        price: document.getElementById("price").value.trim(),
+        rating: document.getElementById("rating").value.trim(),
+        link: document.getElementById("link").value.trim(),
       };
 
-      await addDoc(collection(db, "products"), newProduct);
-      alert("Product added successfully!");
-      window.location.href = "index.html";
+      try {
+        // Add product to Firestore
+        await addDoc(collection(db, "products"), newProduct);
+        alert("Product added successfully!");
+        window.location.href = "index.html";
+      } catch (error) {
+        console.error("Error adding product:", error);
+        alert("Failed to add product. Please try again.");
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "Add Product";
+      }
     });
   </script>
 </body>
