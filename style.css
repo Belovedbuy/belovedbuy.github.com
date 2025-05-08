@@ -98,6 +98,10 @@ main {
   align-items: center;
 }
 
+.password-modal[style*="flex"] {
+  display: flex !important;
+}
+
 .modal-content {
   background-color: white;
   padding: 30px;
@@ -196,6 +200,7 @@ main {
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
 }
 
 .product-card:hover {
@@ -256,7 +261,10 @@ main {
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
-  display: none;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: block;
 }
 
 .delete-btn:hover {
@@ -269,6 +277,7 @@ footer {
   padding: 20px;
   background-color: #f0f0f0;
   border-radius: 10px;
+  margin-top: 40px;
 }
 
 /* Responsive Adjustments */
