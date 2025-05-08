@@ -7,12 +7,298 @@
   <meta name="keywords" content="tech deals, product reviews, wireless earbuds, gaming keyboard, wireless charger, tech gadgets, affordable tech, product comparisons">
   <meta name="author" content="BelovedBuy">
   <title>BelovedBuy - Best Tech Deals and Reviews</title>
-
+  
   <!-- Include Firebase SDK -->
-  <script type="module" src="firebase.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
   <script type="module" src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
 
-  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f8f9fa;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: #232f3e;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Main Content Styles */
+    main {
+      margin-bottom: 50px;
+    }
+
+    /* Search Section */
+    .search-section {
+      margin-bottom: 30px;
+    }
+
+    #searchBox {
+      width: 100%;
+      padding: 15px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    #resultsList {
+      margin-top: 10px;
+      list-style: none;
+    }
+
+    #resultsList li {
+      padding: 10px;
+      background-color: white;
+      margin-bottom: 5px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    #resultsList a {
+      text-decoration: none;
+      color: #333;
+    }
+
+    /* Management Section */
+    .management-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .add-product-btn {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .add-product-btn:hover {
+      background-color: #218838;
+    }
+
+    /* Password Modal */
+    .password-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-content h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .modal-content button {
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .modal-content button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Add Product Form */
+    .add-product-form {
+      display: none;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .add-product-form h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .add-product-form input,
+    .add-product-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .add-product-form textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .add-product-form button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .add-product-form button:hover {
+      background-color: #218838;
+    }
+
+    /* Product List */
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    /* Product Card */
+    .product-card {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 20px;
+    }
+
+    .product-info h2 {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .product-info p {
+      margin-bottom: 10px;
+    }
+
+    .product-price {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .product-rating {
+      color: #ff9900;
+    }
+
+    .view-product-btn {
+      display: inline-block;
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 15px;
+      transition: background-color 0.3s ease;
+    }
+
+    .view-product-btn:hover {
+      background-color: #0056b3;
+    }
+
+    /* Delete Button */
+    .delete-btn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      display: none;
+    }
+
+    .delete-btn:hover {
+      background-color: #c82333;
+    }
+
+    /* Footer Styles */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #f0f0f0;
+      border-radius: 10px;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .product-list {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .product-list {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -46,13 +332,12 @@
       <input type="text" id="productPrice" placeholder="Product Price">
       <input type="text" id="productRating" placeholder="Product Rating">
       <textarea id="productContent" placeholder="Product Content (for detail page)"></textarea>
-      <input type="text" id="amazonLink" placeholder="Amazon Affiliate Link">
-      <input type="text" id="kongaLink" placeholder="Konga Affiliate Link">
+      <input type="text" id="productLink" placeholder="Amazon Affiliate Link">
       <button onclick="addProduct()">Add Product</button>
     </section>
 
     <section class="product-list" id="productList">
-      <!-- Products will be loaded dynamically -->
+      <!-- Products will be added here dynamically -->
     </section>
   </main>
 
@@ -60,102 +345,27 @@
     <p>&copy; 2025 BelovedBuy. All rights reserved.</p>
   </footer>
 
+
+```html name=index.html
   <script type="module">
-    import { db } from "./firebase.js";
-    import {
-      collection,
-      getDocs,
-      addDoc,
-      doc,
-      deleteDoc
-    } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
 
-    let products = [];
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
     let isAuthorized = false;
-
-    // Load products from Firestore
-    async function loadProducts() {
-      const productList = document.getElementById('productList');
-      productList.innerHTML = ''; // Clear existing products
-
-      try {
-        const querySnapshot = await getDocs(collection(db, "products"));
-        products = []; // Reset the products array
-
-        querySnapshot.forEach(doc => {
-          const product = { id: doc.id, ...doc.data() };
-          products.push(product);
-
-          // Create product card
-          const productCard = `
-            <div class="product-card">
-              <img src="${product.image}" alt="${product.title}">
-              <div class="product-info">
-                <h2>${product.title}</h2>
-                <p class="product-rating">Rating: ${product.rating} ⭐</p>
-                <p class="product-price">Price: ${product.price}</p>
-                <p class="product-description">${product.description}</p>
-                <a href="product.html?id=${product.id}" class="view-product-btn" target="_blank">View Product</a>
-              </div>
-              ${isAuthorized ? `<button class="delete-btn" onclick="deleteProduct('${product.id}')">Delete</button>` : ''}
-            </div>
-          `;
-          productList.innerHTML += productCard;
-        });
-      } catch (error) {
-        console.error("Error loading products:", error);
-        productList.innerHTML = '<p>Error loading products. Please try again later.</p>';
-      }
-    }
-
-    // Add a new product to Firestore
-    async function addProduct() {
-      const title = document.getElementById('productTitle').value.trim();
-      const image = document.getElementById('productImage').value.trim();
-      const description = document.getElementById('productDescription').value.trim();
-      const price = document.getElementById('productPrice').value.trim();
-      const rating = document.getElementById('productRating').value.trim();
-      const content = document.getElementById('productContent').value.trim();
-      const amazonLink = document.getElementById('amazonLink').value.trim();
-      const kongaLink = document.getElementById('kongaLink').value.trim();
-
-      if (!title || !image || !description || !price || !rating || !content || (!amazonLink && !kongaLink)) {
-        return alert('Please fill in all fields!');
-      }
-
-      try {
-        await addDoc(collection(db, "products"), {
-          title,
-          image,
-          description,
-          price,
-          rating,
-          content,
-          amazonLink,
-          kongaLink
-        });
-        alert("Product added successfully!");
-        loadProducts(); // Reload products
-        document.getElementById('productForm').reset(); // Reset form
-      } catch (error) {
-        console.error("Error adding product:", error);
-        alert("Error adding product. Please try again later.");
-      }
-    }
-
-    // Delete a product from Firestore
-    async function deleteProduct(id) {
-      if (confirm('Are you sure you want to delete this product?')) {
-        try {
-          await deleteDoc(doc(db, "products", id));
-          alert("Product deleted successfully!");
-          loadProducts(); // Reload products
-        } catch (error) {
-          console.error("Error deleting product:", error);
-          alert("Error deleting product. Please try again later.");
-        }
-      }
-    }
 
     // Show password modal
     function showPasswordModal() {
@@ -169,36 +379,71 @@
         isAuthorized = true;
         document.getElementById('passwordModal').style.display = 'none';
         document.getElementById('productForm').style.display = 'block';
-        renderProducts();
+        loadProducts();
       } else {
         alert('Incorrect password!');
       }
     }
 
-    // Advanced search functionality
-    document.getElementById('searchBox').addEventListener('input', function(e) {
-      const searchTerm = e.target.value.toLowerCase();
-      const resultsList = document.getElementById('resultsList');
-      resultsList.innerHTML = '';
+    // Add a new product to Firestore
+    async function addProduct() {
+      const title = document.getElementById('productTitle').value.trim();
+      const image = document.getElementById('productImage').value.trim();
+      const description = document.getElementById('productDescription').value.trim();
+      const price = document.getElementById('productPrice').value.trim();
+      const rating = document.getElementById('productRating').value.trim();
+      const content = document.getElementById('productContent').value.trim();
+      const link = document.getElementById('productLink').value.trim();
 
-      if (!searchTerm) return;
-
-      const results = products.filter(product => 
-        product.title.toLowerCase().includes(searchTerm) || 
-        product.description.toLowerCase().includes(searchTerm) ||
-        product.content.toLowerCase().includes(searchTerm)
-      );
-
-      if (results.length > 0) {
-        results.forEach(result => {
-          const li = document.createElement('li');
-          li.innerHTML = `<a href="product.html?id=${result.id}">${result.title}</a>`;
-          resultsList.appendChild(li);
-        });
-      } else {
-        resultsList.innerHTML = '<li>No results found</li>';
+      if (!title || !image || !description || !price || !rating || !content || !link) {
+        return alert('Please fill in all fields!');
       }
-    });
+
+      try {
+        await addDoc(collection(db, "products"), {
+          title,
+          image,
+          description,
+          price,
+          rating,
+          content,
+          link
+        });
+        alert("Product added successfully!");
+        loadProducts();
+        document.getElementById('productForm').reset();
+      } catch (error) {
+        console.error("Error adding product:", error);
+      }
+    }
+
+    // Load products from Firestore
+    async function loadProducts() {
+      const productList = document.getElementById('productList');
+      productList.innerHTML = '';
+
+      try {
+        const querySnapshot = await getDocs(collection(db, "products"));
+        querySnapshot.forEach(doc => {
+          const product = doc.data();
+          const productCard = `
+            <div class="product-card">
+              <img src="${product.image}" alt="${product.title}">
+              <div class="product-info">
+                <h2>${product.title}</h2>
+                <p class="product-rating">Rating: ${product.rating} ⭐</p>
+                <p class="product-price">Price: ${product.price}</p>
+                <p class="product-description">${product.description}</p>
+                <a href="product.html?id=${doc.id}" class="view-product-btn" target="_blank">View Product</a>
+              </div>
+            </div>
+          `;
+          productList.innerHTML += productCard;
+        });
+      } catch (error) {
+        console.error("Error loading products:", error);
+      }
+    }
 
     // Initialize the page
     document.addEventListener('DOMContentLoaded', loadProducts);
