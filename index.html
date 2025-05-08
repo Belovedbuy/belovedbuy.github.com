@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="BelovedBuy - Discover the best tech deals and reviews. Find affordable, high-quality tech products with detailed reviews and affiliate links.">
+  <meta name="description" content="BelovedBuy - Discover the best tech deals and reviews.">
   <meta name="keywords" content="tech deals, product reviews, wireless earbuds, gaming keyboard, wireless charger, tech gadgets, affordable tech, product comparisons">
   <meta name="author" content="BelovedBuy">
   <title>BelovedBuy - Best Tech Deals and Reviews</title>
@@ -30,7 +30,8 @@
       <button class="add-product-btn" onclick="showPasswordModal()">+ Add Product</button>
     </section>
 
-    <section class="password-modal" id="passwordModal">
+    <!-- Password Modal -->
+    <section class="password-modal" id="passwordModal" style="display: none;">
       <div class="modal-content">
         <h2>Enter Password</h2>
         <input type="password" id="passwordInput" placeholder="Enter password">
@@ -38,6 +39,7 @@
       </div>
     </section>
 
+    <!-- Add Product Form -->
     <section class="add-product-form" id="productForm" style="display: none;">
       <h2>Add New Product</h2>
       <input type="text" id="productTitle" placeholder="Product Title">
@@ -57,6 +59,7 @@
       <button onclick="addProduct()">Add Product</button>
     </section>
 
+    <!-- Product List -->
     <section class="product-list" id="productList">
       <!-- Products will be dynamically added here -->
     </section>
@@ -167,7 +170,7 @@
 
     // Show password modal
     function showPasswordModal() {
-      document.getElementById('passwordModal').style.display = 'block';
+      document.getElementById('passwordModal').style.display = 'flex';
     }
 
     // Check password
@@ -177,7 +180,6 @@
         isAuthorized = true;
         document.getElementById('passwordModal').style.display = 'none';
         document.getElementById('productForm').style.display = 'block';
-        loadProducts();
       } else {
         alert('Incorrect password!');
       }
