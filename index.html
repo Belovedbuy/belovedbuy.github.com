@@ -3,16 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="BelovedBuy - Discover the best tech deals and reviews. Find affordable, high-quality tech products with detailed reviews and Amazon affiliate links.">
+  <meta name="description" content="BelovedBuy - Discover the best tech deals and reviews. Find affordable, high-quality tech products with detailed reviews and affiliate links.">
   <meta name="keywords" content="tech deals, product reviews, wireless earbuds, gaming keyboard, wireless charger, tech gadgets, affordable tech, product comparisons">
   <meta name="author" content="BelovedBuy">
   <title>BelovedBuy - Best Tech Deals and Reviews</title>
-
+  
   <!-- Include Firebase SDK -->
-  <script type="module" src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
-  <script type="module" src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
+  
+  <!-- Include your Firebase configuration -->
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
 
-  <link rel="stylesheet" href="style.css">
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
+
+  <style>
+    /* Existing styles */
+    /* ... Your styles remain unchanged ... */
+  </style>
 </head>
 <body>
   <header>
@@ -61,41 +81,32 @@
   </footer>
 
   <script type="module">
-    // Import Firebase Firestore
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
+    import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
 
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    let isAuthorized = false;
-
-    // Show password modal
-    function showPasswordModal() {
-      document.getElementById('passwordModal').style.display = 'block';
-    }
-
-    // Check password
-    function checkPassword() {
-      const password = document.getElementById('passwordInput').value;
-      if (password === '20071961Bc@') {
-        isAuthorized = true;
-        document.getElementById('passwordModal').style.display = 'none';
-        document.getElementById('productForm').style.display = 'block';
-        loadProducts();
-      } else {
-        alert('Incorrect password!');
+    // Load products from Firestore
+    async function loadProducts() {
+      const productsList = document.getElementById('productList');
+      productsList.innerHTML = ''; // Clear existing products
+      try {
+        const querySnapshot = await getDocs(collection(db, "products"));
+        querySnapshot.forEach(doc => {
+          const product = doc.data();
+          const productCard = `
+            <div class="product-card">
+              <img src="${product.image}" alt="${product.title}">
+              <div class="product-info">
+                <h2>${product.title}</h2>
+                <p class="product-rating">Rating: ${product.rating} ⭐</p>
+                <p class="product-price">Price: ${product.price}</p>
+                <p class="product-description">${product.description}</p>
+                <a href="product.html?id=${doc.id}" class="view-product-btn" target="_blank">View Product</a>
+              </div>
+            </div>
+          `;
+          productsList.innerHTML += productCard;
+        });
+      } catch (error) {
+        console.error("Error loading products:", error);
       }
     }
 
@@ -127,37 +138,24 @@
         });
         alert("Product added successfully!");
         loadProducts(); // Reload products
-        document.getElementById('productForm').reset();
       } catch (error) {
         console.error("Error adding product:", error);
       }
     }
 
-    // Load products from Firestore
-    async function loadProducts() {
-      const productList = document.getElementById('productList');
-      productList.innerHTML = ''; // Clear existing products
+    // Show password modal
+    function showPasswordModal() {
+      document.getElementById('passwordModal').style.display = 'block';
+    }
 
-      try {
-        const querySnapshot = await getDocs(collection(db, "products"));
-        querySnapshot.forEach(doc => {
-          const product = doc.data();
-          const productCard = `
-            <div class="product-card">
-              <img src="${product.image}" alt="${product.title}">
-              <div class="product-info">
-                <h2>${product.title}</h2>
-                <p class="product-rating">Rating: ${product.rating} ⭐</p>
-                <p class="product-price">Price: ${product.price}</p>
-                <p class="product-description">${product.description}</p>
-                <a href="product.html?id=${doc.id}" class="view-product-btn" target="_blank">View Product</a>
-              </div>
-            </div>
-          `;
-          productList.innerHTML += productCard;
-        });
-      } catch (error) {
-        console.error("Error loading products:", error);
+    // Check password
+    function checkPassword() {
+      const password = document.getElementById('passwordInput').value;
+      if (password === '20071961Bc@') {
+        document.getElementById('passwordModal').style.display = 'none';
+        document.getElementById('productForm').style.display = 'block';
+      } else {
+        alert('Incorrect password!');
       }
     }
 
