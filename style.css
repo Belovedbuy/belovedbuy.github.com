@@ -217,11 +217,11 @@ main {
 .product-img-home {
   width: 100%;
   height: auto;
-  object-fit: contain;
-  border-radius: 10px 10px 0 0;
-  max-height: 200px;
-  background: #f3f3f3;
+  max-height: 300px;
   display: block;
+  object-fit: contain;    /* Ensures the whole image is shown, not cropped */
+  background: #f3f3f3;
+  border-radius: 10px 10px 0 0;
 }
 
 .product-info {
