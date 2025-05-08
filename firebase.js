@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
 
-// Your web app's Firebase configuration (replace with your own config in production)
+// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyD3O79FecTCvws3w-fu1_Nrz4vNz45v_tI",
   authDomain: "belovedbuy-31c5d.firebaseapp.com",
