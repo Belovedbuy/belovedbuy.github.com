@@ -6,7 +6,7 @@
   <meta name="description" content="Read detailed reviews and info about this product. Find affordable, high-quality tech products with detailed reviews and Amazon affiliate links.">
   <meta name="keywords" content="product review, tech deals, product details, buy product, product price">
   <meta name="author" content="BelovedBuy">
-  <title>Product Detail - BelovedBuy</title>
+  <title id="seoTitle">Product Detail - BelovedBuy</title>
   <link rel="stylesheet" href="style.css">
   <style>
     .product-container {
@@ -20,22 +20,14 @@
     .product-container img {
       width: 100%;
       max-width: 100%;
-      max-height: 500px;
+      height: auto;
       object-fit: contain;
       border-radius: 10px;
       margin-bottom: 20px;
-      background: #f1f1f1;
       display: block;
     }
     .product-meta {
       margin-bottom: 20px;
-    }
-    .product-title {
-      font-size: 2rem;
-      font-weight: bold;
-      margin-top: 0.5em;
-      margin-bottom: 0.7em;
-      color: #232f3e;
     }
     .product-content-blog {
       margin: 24px 0;
@@ -66,59 +58,63 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1>BelovedBuy - Product Detail</h1>
-  </header>
-  <main class="product-container" id="productContainer">
-    <!-- Product details will be loaded here dynamically -->
-  </main>
-  <div class="back-button">
-    <a href="index.html">← Back to Home</a>
-  </div>
-  <footer>
-    <p>&copy; 2025 BelovedBuy. All rights reserved.</p>
-  </footer>
-  <script type="module">
-    import { db } from "./firebase.js";
-    import {
-      doc,
-      getDoc
-    } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
+<header>
+  <h1>BelovedBuy - Product Detail</h1>
+</header>
+<main class="product-container" id="productContainer">
+  <!-- Product details will be loaded here dynamically -->
+</main>
+<div class="back-button">
+  <a href="index.html">← Back to Home</a>
+</div>
+<footer>
+  <p>&copy; 2025 BelovedBuy. All rights reserved.</p>
+</footer>
+<script type="module">
+import { db } from "./firebase.js";
+import {
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
 
-    async function loadProduct() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const productId = urlParams.get('id');
-      if (!productId) {
-        document.getElementById('productContainer').innerHTML = '<p>Product not found.</p>';
-        return;
-      }
-      try {
-        const docRef = doc(db, "products", productId);
-        const productSnap = await getDoc(docRef);
-        if (!productSnap.exists()) {
-          document.getElementById('productContainer').innerHTML = '<p>Product not found.</p>';
-          return;
-        }
-        const product = productSnap.data();
-        document.getElementById('productContainer').innerHTML = `
-          <h2 class="product-title">${product.title}</h2>
-          <img src="${product.image}" alt="${product.title}">
-          <div class="product-meta">
-            <p><strong>Price:</strong> ${product.price}</p>
-            <p><strong>Rating:</strong> ${product.rating} ⭐</p>
-          </div>
-          <p>${product.description}</p>
-          <article class="product-content-blog" itemscope itemtype="http://schema.org/Article">
-            ${product.content}
-          </article>
-          <a href="${product.link}" class="buy-button" target="_blank" rel="nofollow sponsored noopener">Buy on Amazon</a>
-        `;
-      } catch (error) {
-        document.getElementById('productContainer').innerHTML = '<p>Error loading product.</p>';
-        console.error(error);
-      }
+// Product content is stored as HTML from the rich editor, so just render it.
+async function loadProduct() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get('id');
+  if (!productId) {
+    document.getElementById('productContainer').innerHTML = '<p>Product not found.</p>';
+    return;
+  }
+  try {
+    const docRef = doc(db, "products", productId);
+    const productSnap = await getDoc(docRef);
+    if (!productSnap.exists()) {
+      document.getElementById('productContainer').innerHTML = '<p>Product not found.</p>';
+      return;
     }
-    document.addEventListener('DOMContentLoaded', loadProduct);
-  </script>
+    const product = productSnap.data();
+    document.title = `${product.title} - BelovedBuy`;
+    // SEO: use semantic tags and include product title and content
+    document.getElementById('productContainer').innerHTML = `
+      <img src="${product.image}" alt="${product.title}">
+      <h1 itemprop="name">${product.title}</h1>
+      <div class="product-meta">
+        <p><strong>Price:</strong> ${product.price}</p>
+        <p><strong>Rating:</strong> ${product.rating} ⭐</p>
+      </div>
+      <p>${product.description}</p>
+      <article class="product-content-blog" itemscope itemtype="http://schema.org/Article">
+        <header><h2>${product.title}</h2></header>
+        ${product.content}
+      </article>
+      <a href="${product.link}" class="buy-button" target="_blank" rel="nofollow sponsored noopener">Buy on Amazon</a>
+    `;
+  } catch (error) {
+    document.getElementById('productContainer').innerHTML = '<p>Error loading product.</p>';
+    console.error(error);
+  }
+}
+document.addEventListener('DOMContentLoaded', loadProduct);
+</script>
 </body>
 </html>
