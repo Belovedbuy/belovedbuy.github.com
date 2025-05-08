@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="BelovedBuy - Discover the best tech deals and reviews. Find affordable, high-quality tech products with detailed reviews and Amazon affiliate links.">
-  <meta name="keywords" content="tech deals, product reviews, wireless earbuds, gaming keyboard, wireless charger, tech gadgets, affordable tech, product comparisons">
+  <meta name="description" content="BelovedBuy - Discover, compare, and buy the best tech gadgets.">
+  <meta name="keywords" content="tech deals, product reviews, gadgets, electronics, buy tech">
   <meta name="author" content="BelovedBuy">
   <title>BelovedBuy - Best Tech Deals and Reviews</title>
   <link rel="stylesheet" href="style.css">
@@ -113,7 +113,7 @@
     }
 
     // Delete a product
-    async function deleteProduct(id) {
+    window.deleteProduct = async function(id) {
       if (confirm('Are you sure you want to delete this product?')) {
         try {
           await deleteDoc(doc(db, "products", id));
@@ -202,9 +202,7 @@
       document.getElementById('productForm').style.display = 'none';
     });
 
-    // Expose for inline onclick attributes
     window.addProduct = addProduct;
-    window.deleteProduct = deleteProduct;
   </script>
 </body>
 </html>
