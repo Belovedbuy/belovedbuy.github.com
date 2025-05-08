@@ -107,24 +107,11 @@
     <p>&copy; 2025 BelovedBuy. All rights reserved.</p>
   </footer>
 
-  <script>
-    let products = [];
-    const GITHUB_TOKEN = 'your_github_token'; // Replace with your GitHub personal access token
-    const REPO_OWNER = 'your_github_username'; // Replace with your GitHub username
-    const REPO_NAME = 'your_repo_name'; // Replace with your repository name
-    const FILE_PATH = 'products.json';
-
-    const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
+  <script type="module">
+    import { db } from "./firebase.js";
 
     // Function to render product details
-    function renderProductDetail() {
-      // Get product ID from URL parameters
-      const urlParams = new URLSearchParams(window.location.search);
-      const productId = urlParams.get('id');
-
-      // Find the product
-      const product = products.find(p => p.id === productId);
-
+    function renderProductDetail(product) {
       if (product) {
         document.getElementById('productContainer').innerHTML = `
           <img src="${product.image}" alt="${product.title}">
@@ -144,24 +131,5 @@
       }
     }
 
-    // Load products from GitHub
-    async function loadProducts() {
-      try {
-        const response = await fetch(`${API_URL}?access_token=${GITHUB_TOKEN}`);
-        const data = await response.json();
-        products = JSON.parse(atob(data.content));
-        renderProductDetail();
-      } catch (error) {
-        console.error('Error loading products:', error);
-        products = [];
-        renderProductDetail();
-      }
-    }
-
-    // Initialize the page
-    document.addEventListener('DOMContentLoaded', function() {
-      loadProducts();
-    });
-  </script>
-</body>
-</html>
+    // Load single product from Firestore Emulator
+    async function loadProduct()
