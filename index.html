@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="BelovedBuy - Discover the best tech deals and reviews.">
+  <meta name="description" content="BelovedBuy - Discover the best tech deals and reviews. Find affordable, high-quality tech products with detailed reviews and affiliate links.">
   <meta name="keywords" content="tech deals, product reviews, wireless earbuds, gaming keyboard, wireless charger, tech gadgets, affordable tech, product comparisons">
   <meta name="author" content="BelovedBuy">
   <title>BelovedBuy - Best Tech Deals and Reviews</title>
@@ -21,11 +21,13 @@
   </header>
 
   <main>
+    <!-- Search Section -->
     <section class="search-section">
       <input type="text" id="searchBox" placeholder="Search for products...">
       <ul id="resultsList"></ul>
     </section>
 
+    <!-- Management Section -->
     <section class="management-section">
       <button class="add-product-btn" onclick="showPasswordModal()">+ Add Product</button>
     </section>
@@ -65,6 +67,7 @@
     </section>
   </main>
 
+  <!-- Footer -->
   <footer>
     <p>&copy; 2025 BelovedBuy. All rights reserved.</p>
   </footer>
@@ -82,7 +85,24 @@
     let products = [];
     let isAuthorized = false;
 
-    // Load products from Firestore
+    // Function to show the password modal
+    function showPasswordModal() {
+      document.getElementById('passwordModal').style.display = 'flex';
+    }
+
+    // Function to check the entered password
+    function checkPassword() {
+      const password = document.getElementById('passwordInput').value;
+      if (password === '20071961Bc@') {
+        isAuthorized = true;
+        document.getElementById('passwordModal').style.display = 'none';
+        document.getElementById('productForm').style.display = 'block';
+      } else {
+        alert('Incorrect password!');
+      }
+    }
+
+    // Function to load products from Firestore
     async function loadProducts() {
       const productList = document.getElementById('productList');
       productList.innerHTML = ''; // Clear existing products
@@ -117,7 +137,7 @@
       }
     }
 
-    // Add a new product to Firestore
+    // Function to add a new product to Firestore
     async function addProduct() {
       const title = document.getElementById('productTitle').value.trim();
       const image = document.getElementById('productImage').value.trim();
@@ -154,7 +174,7 @@
       }
     }
 
-    // Delete a product from Firestore
+    // Function to delete a product from Firestore
     async function deleteProduct(id) {
       if (confirm('Are you sure you want to delete this product?')) {
         try {
@@ -165,23 +185,6 @@
           console.error("Error deleting product:", error);
           alert("Error deleting product. Please try again later.");
         }
-      }
-    }
-
-    // Show password modal
-    function showPasswordModal() {
-      document.getElementById('passwordModal').style.display = 'flex';
-    }
-
-    // Check password
-    function checkPassword() {
-      const password = document.getElementById('passwordInput').value;
-      if (password === '20071961Bc@') {
-        isAuthorized = true;
-        document.getElementById('passwordModal').style.display = 'none';
-        document.getElementById('productForm').style.display = 'block';
-      } else {
-        alert('Incorrect password!');
       }
     }
 
