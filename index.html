@@ -3,36 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="BelovedBuy - Discover the best tech deals and reviews. Find affordable, high-quality tech products with detailed reviews and affiliate links.">
+  <meta name="description" content="BelovedBuy - Discover the best tech deals and reviews. Find affordable, high-quality tech products with detailed reviews and Amazon affiliate links.">
   <meta name="keywords" content="tech deals, product reviews, wireless earbuds, gaming keyboard, wireless charger, tech gadgets, affordable tech, product comparisons">
   <meta name="author" content="BelovedBuy">
   <title>BelovedBuy - Best Tech Deals and Reviews</title>
-  
+
   <!-- Include Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
-  
-  <!-- Include your Firebase configuration -->
-  <script>
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
+  <!-- Include your JavaScript file -->
+  <script type="module" src="firebase.js"></script>
 
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-  </script>
+  <link rel="stylesheet" href="style.css">
 
-  <style>
-    /* Existing styles */
-    /* ... Your styles remain unchanged ... */
-  </style>
 </head>
 <body>
   <header>
@@ -72,7 +55,7 @@
     </section>
 
     <section class="product-list" id="productList">
-      <!-- Products will be added dynamically -->
+      <!-- Products will be added here dynamically -->
     </section>
   </main>
 
@@ -81,12 +64,22 @@
   </footer>
 
   <script type="module">
-    import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
+    import { db } from "./firebase.js";
+    import {
+      collection,
+      getDocs,
+      addDoc,
+      doc,
+      deleteDoc
+    } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
+
+    let isAuthorized = false;
 
     // Load products from Firestore
     async function loadProducts() {
-      const productsList = document.getElementById('productList');
-      productsList.innerHTML = ''; // Clear existing products
+      const productList = document.getElementById('productList');
+      productList.innerHTML = ''; // Clear existing products
+
       try {
         const querySnapshot = await getDocs(collection(db, "products"));
         querySnapshot.forEach(doc => {
@@ -101,12 +94,14 @@
                 <p class="product-description">${product.description}</p>
                 <a href="product.html?id=${doc.id}" class="view-product-btn" target="_blank">View Product</a>
               </div>
+              ${isAuthorized ? `<button class="delete-btn" onclick="deleteProduct('${doc.id}')">Delete</button>` : ''}
             </div>
           `;
-          productsList.innerHTML += productCard;
+          productList.innerHTML += productCard;
         });
       } catch (error) {
         console.error("Error loading products:", error);
+        productList.innerHTML = '<p>Error loading products. Please try again later.</p>';
       }
     }
 
@@ -143,6 +138,19 @@
       }
     }
 
+    // Delete a product from Firestore
+    async function deleteProduct(id) {
+      if (confirm('Are you sure you want to delete this product?')) {
+        try {
+          await deleteDoc(doc(db, "products", id));
+          alert("Product deleted successfully!");
+          loadProducts(); // Reload products
+        } catch (error) {
+          console.error("Error deleting product:", error);
+        }
+      }
+    }
+
     // Show password modal
     function showPasswordModal() {
       document.getElementById('passwordModal').style.display = 'block';
@@ -152,12 +160,44 @@
     function checkPassword() {
       const password = document.getElementById('passwordInput').value;
       if (password === '20071961Bc@') {
+        isAuthorized = true;
         document.getElementById('passwordModal').style.display = 'none';
         document.getElementById('productForm').style.display = 'block';
+        loadProducts(); // Reload products to enable delete buttons
       } else {
         alert('Incorrect password!');
       }
     }
+
+    // Advanced search functionality
+    document.getElementById('searchBox').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const resultsList = document.getElementById('resultsList');
+      resultsList.innerHTML = '';
+
+      if (!searchTerm) return;
+
+      const results = [];
+      products.forEach(product => {
+        if (
+          product.title.toLowerCase().includes(searchTerm) ||
+          product.description.toLowerCase().includes(searchTerm) ||
+          product.content.toLowerCase().includes(searchTerm)
+        ) {
+          results.push(product);
+        }
+      });
+
+      results.forEach(result => {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="product.html?id=${result.id}">${result.title}</a>`;
+        resultsList.appendChild(li);
+      });
+
+      if (results.length === 0) {
+        resultsList.innerHTML = '<li>No results found</li>';
+      }
+    });
 
     // Initialize the page
     document.addEventListener('DOMContentLoaded', loadProducts);
