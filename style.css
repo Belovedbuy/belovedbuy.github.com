@@ -1,3 +1,4 @@
+/* Base Styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -28,6 +29,7 @@ main {
   margin-bottom: 50px;
 }
 
+/* Search Section */
 .search-section {
   margin-bottom: 30px;
 }
@@ -59,6 +61,7 @@ main {
   color: #333;
 }
 
+/* Management Section */
 .management-section {
   text-align: center;
   margin-bottom: 30px;
@@ -79,6 +82,7 @@ main {
   background-color: #218838;
 }
 
+/* Password Modal */
 .password-modal {
   display: none;
   position: fixed;
@@ -135,6 +139,7 @@ main {
   background-color: #0056b3;
 }
 
+/* Add Product Form */
 .add-product-form {
   display: none;
   background-color: white;
@@ -159,21 +164,9 @@ main {
   font-size: 16px;
 }
 
-.add-product-form .rich-editor[contenteditable="true"] {
+.add-product-form textarea {
   min-height: 150px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 12px;
-  background: #fff;
-  margin-bottom: 15px;
-  font-size: 16px;
-  font-family: inherit;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.add-product-form .rich-editor[contenteditable="true"]:focus {
-  border-color: #007bff;
+  resize: vertical;
 }
 
 .add-product-form button {
@@ -191,12 +184,14 @@ main {
   background-color: #218838;
 }
 
+/* Product List */
 .product-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 30px;
 }
 
+/* Product Card */
 .product-card {
   background-color: white;
   border-radius: 10px;
@@ -204,9 +199,6 @@ main {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
 }
 
 .product-card:hover {
@@ -214,21 +206,14 @@ main {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
-.product-img-home {
+.product-card img.product-img-home {
   width: 100%;
-  height: auto;
-  max-height: 300px;
-  display: block;
-  object-fit: contain;    /* Ensures the whole image is shown, not cropped */
-  background: #f3f3f3;
-  border-radius: 10px 10px 0 0;
+  height: 200px;
+  object-fit: cover;
 }
 
 .product-info {
   padding: 20px;
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
 }
 
 .product-info h2 {
@@ -265,37 +250,21 @@ main {
   background-color: #0056b3;
 }
 
-.delete-btn {
-  background-color: #dc3545;
+/* Buy Links Section */
+.buy-button {
+  display: inline-block;
+  background-color: #ff9900;
   color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  margin-left: 10px;
-  margin-top: 10px;
-  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
 }
 
-.delete-btn:hover {
-  background-color: #c82333;
-}
-
-.edit-btn {
-  background-color: #ffc107;
-  color: #232f3e;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  margin-top: 10px;
-  display: inline-block;
-}
-
-.edit-btn:hover {
-  background-color: #e0a800;
+.buy-button:hover {
+  background-color: #e68a00;
 }
 
 /* Footer Styles */
@@ -307,6 +276,7 @@ footer {
   margin-top: 40px;
 }
 
+/* Responsive Adjustments */
 @media (max-width: 768px) {
   .product-list {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
