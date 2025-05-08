@@ -7,13 +7,11 @@
   <meta name="keywords" content="tech deals, product reviews, wireless earbuds, gaming keyboard, wireless charger, tech gadgets, affordable tech, product comparisons">
   <meta name="author" content="BelovedBuy">
   <title>BelovedBuy - Best Tech Deals and Reviews</title>
-  
+
   <!-- Include Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore-compat.js"></script>
-  <!-- Include your JavaScript file -->
-  <script type="module" src="path/to/your/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
+  <script src="path/to/your/firebase.js"></script>
 
   <style>
     /* Base Styles */
@@ -44,115 +42,90 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    /* Main Content Styles */
-    main {
-      margin-bottom: 50px;
+    /* Product List */
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
     }
 
-    /* Search Section */
-    .search-section {
-      margin-bottom: 30px;
-    }
-
-    #searchBox {
-      width: 100%;
-      padding: 15px;
-      font-size: 16px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-    }
-
-    #resultsList {
-      margin-top: 10px;
-      list-style: none;
-    }
-
-    #resultsList li {
-      padding: 10px;
+    .product-card {
       background-color: white;
-      margin-bottom: 5px;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    }
-
-    #resultsList a {
-      text-decoration: none;
-      color: #333;
-    }
-
-    /* Management Section */
-    .management-section {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .add-product-btn {
-      background-color: #28a745;
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .add-product-btn:hover {
-      background-color: #218838;
-    }
-
-    /* Password Modal */
-    .password-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background-color: white;
-      padding: 30px;
       border-radius: 10px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .modal-content h2 {
-      margin-bottom: 20px;
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 20px;
+    }
+
+    .product-info h2 {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .product-info p {
+      margin-bottom: 10px;
+    }
+
+    .product-price {
+      font-weight: bold;
       color: #333;
     }
 
-    .modal-content input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 20px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 16px;
+    .product-rating {
+      color: #ff9900;
     }
 
-    .modal-content button {
-      width: 100%;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
+    .buy-link {
+      display: inline-block;
+      padding: 10px 15px;
+      margin-top: 10px;
+      font-weight: bold;
+      text-align: center;
+      border-radius: 5px;
+      text-decoration: none;
       transition: background-color 0.3s ease;
     }
 
-    .modal-content button:hover {
+    .buy-link.amazon {
+      background-color: #ff9900;
+      color: white;
+    }
+
+    .buy-link.amazon:hover {
+      background-color: #cc7a00;
+    }
+
+    .buy-link.konga {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .buy-link.konga:hover {
       background-color: #0056b3;
+    }
+
+    .buy-link.jumia {
+      background-color: #28a745;
+      color: white;
+    }
+
+    .buy-link.jumia:hover {
+      background-color: #218838;
     }
   </style>
 </head>
@@ -163,46 +136,52 @@
   </header>
 
   <main>
-    <section class="management-section">
-      <button class="add-product-btn" onclick="showPasswordModal()">+ Add Product</button>
+    <section class="product-list" id="productList">
+      <!-- Products will be dynamically added here -->
     </section>
-
-    <!-- Password Modal -->
-    <div class="password-modal" id="passwordModal">
-      <div class="modal-content">
-        <h2>Enter Password</h2>
-        <input type="password" id="passwordInput" placeholder="Enter password">
-        <button onclick="checkPassword()">Submit</button>
-      </div>
-    </div>
   </main>
 
-  <script>
-    // Show the password modal
-    function showPasswordModal() {
-      console.log("Password modal displayed"); // Debugging log
-      const modal = document.getElementById("passwordModal");
-      modal.style.display = "flex";
-    }
+  <script type="module">
+    import { db } from "./firebase.js";
+    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
 
-    // Validate the password and redirect
-    function checkPassword() {
-      const passwordInput = document.getElementById("passwordInput").value;
-      if (passwordInput === "20071961Bc@") {
-        console.log("Password correct. Redirecting to add-product.html...");
-        window.location.href = "add-product.html";
-      } else {
-        alert("Incorrect Password");
+    async function loadProducts() {
+      const productList = document.getElementById("productList");
+      productList.innerHTML = ""; // Clear the list
+
+      try {
+        const querySnapshot = await getDocs(collection(db, "products"));
+        querySnapshot.forEach((doc) => {
+          const product = doc.data();
+          const productCard = document.createElement("div");
+          productCard.className = "product-card";
+
+          // Determine the platform for the link and its class
+          let buyLinkClass = "";
+          if (product.link.includes("amazon")) buyLinkClass = "amazon";
+          else if (product.link.includes("konga")) buyLinkClass = "konga";
+          else if (product.link.includes("jumia")) buyLinkClass = "jumia";
+
+          productCard.innerHTML = `
+            <img src="${product.image}" alt="${product.title}">
+            <div class="product-info">
+              <h2>${product.title}</h2>
+              <p class="product-description">${product.description}</p>
+              <p class="product-price">Price: ${product.price}</p>
+              <p class="product-rating">Rating: ${product.rating} ⭐</p>
+              <a href="${product.link}" class="buy-link ${buyLinkClass}" target="_blank">Buy Now</a>
+            </div>
+          `;
+
+          productList.appendChild(productCard);
+        });
+      } catch (error) {
+        console.error("Error loading products from Firestore:", error);
       }
     }
 
-    // Close the modal when clicking outside it
-    window.onclick = function(event) {
-      const modal = document.getElementById("passwordModal");
-      if (event.target === modal) {
-        modal.style.display = "none";
-      }
-    };
+    // Load products when the page loads
+    document.addEventListener("DOMContentLoaded", loadProducts);
   </script>
 </body>
 </html>
