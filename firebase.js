@@ -1,16 +1,14 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
+import { getFirestore, connectFirestoreEmulator } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
+import { getAuth, connectAuthEmulator } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyD3O79FecTCvws3w-fu1_Nrz4vNz45v_tI",
   authDomain: "belovedbuy-31c5d.firebaseapp.com",
   projectId: "belovedbuy-31c5d",
-  storageBucket: "belovedbuy-31c5d.firebasestorage.app",
+  storageBucket: "belovedbuy-31c5d.appspot.com",
   messagingSenderId: "883090922749",
   appId: "1:883090922749:web:7ea0c73afbcae374217294",
   measurementId: "G-PK17J7WBPQ"
@@ -18,4 +16,14 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+// Connect to emulators if running locally
+if (location.hostname === "localhost") {
+  connectFirestoreEmulator(db, "localhost", 8080);
+  connectAuthEmulator(auth, "http://localhost:9099");
+}
+
+// Export for use in index.html
+export { db, auth };
