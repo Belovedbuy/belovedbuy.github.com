@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="BelovedBuy - Discover the best tech deals and reviews. Find affordable, high-quality tech products with detailed reviews and affiliate links.">
+  <meta name="description" content="BelovedBuy - Discover the best tech deals and reviews. Find affordable, high-quality tech products with detailed reviews and Amazon affiliate links.">
   <meta name="keywords" content="tech deals, product reviews, wireless earbuds, gaming keyboard, wireless charger, tech gadgets, affordable tech, product comparisons">
   <meta name="author" content="BelovedBuy">
   <title>BelovedBuy - Best Tech Deals and Reviews</title>
@@ -21,18 +21,15 @@
   </header>
 
   <main>
-    <!-- Search Section -->
     <section class="search-section">
       <input type="text" id="searchBox" placeholder="Search for products...">
       <ul id="resultsList"></ul>
     </section>
 
-    <!-- Management Section -->
     <section class="management-section">
       <button class="add-product-btn" onclick="showPasswordModal()">+ Add Product</button>
     </section>
 
-    <!-- Password Modal -->
     <section class="password-modal" id="passwordModal" style="display: none;">
       <div class="modal-content">
         <h2>Enter Password</h2>
@@ -41,7 +38,6 @@
       </div>
     </section>
 
-    <!-- Add Product Form -->
     <section class="add-product-form" id="productForm" style="display: none;">
       <h2>Add New Product</h2>
       <input type="text" id="productTitle" placeholder="Product Title">
@@ -61,13 +57,11 @@
       <button onclick="addProduct()">Add Product</button>
     </section>
 
-    <!-- Product List -->
     <section class="product-list" id="productList">
       <!-- Products will be dynamically added here -->
     </section>
   </main>
 
-  <!-- Footer -->
   <footer>
     <p>&copy; 2025 BelovedBuy. All rights reserved.</p>
   </footer>
@@ -85,12 +79,12 @@
     let products = [];
     let isAuthorized = false;
 
-    // Function to show the password modal
+    // Show the password modal
     function showPasswordModal() {
       document.getElementById('passwordModal').style.display = 'flex';
     }
 
-    // Function to check the entered password
+    // Check the password
     function checkPassword() {
       const password = document.getElementById('passwordInput').value;
       if (password === '20071961Bc@') {
@@ -102,14 +96,14 @@
       }
     }
 
-    // Function to load products from Firestore
+    // Fetch products from Firestore
     async function loadProducts() {
       const productList = document.getElementById('productList');
       productList.innerHTML = ''; // Clear existing products
 
       try {
         const querySnapshot = await getDocs(collection(db, "products"));
-        products = []; // Reset the products array
+        products = []; // Reset products array
 
         querySnapshot.forEach(doc => {
           const product = { id: doc.id, ...doc.data() };
@@ -137,7 +131,7 @@
       }
     }
 
-    // Function to add a new product to Firestore
+    // Add a product to Firestore
     async function addProduct() {
       const title = document.getElementById('productTitle').value.trim();
       const image = document.getElementById('productImage').value.trim();
@@ -174,7 +168,7 @@
       }
     }
 
-    // Function to delete a product from Firestore
+    // Delete a product from Firestore
     async function deleteProduct(id) {
       if (confirm('Are you sure you want to delete this product?')) {
         try {
@@ -188,7 +182,7 @@
       }
     }
 
-    // Advanced search functionality
+    // Search functionality
     document.getElementById('searchBox').addEventListener('input', function(e) {
       const searchTerm = e.target.value.toLowerCase();
       const resultsList = document.getElementById('resultsList');
@@ -196,8 +190,8 @@
 
       if (!searchTerm) return;
 
-      const results = products.filter(product => 
-        product.title.toLowerCase().includes(searchTerm) || 
+      const results = products.filter(product =>
+        product.title.toLowerCase().includes(searchTerm) ||
         product.description.toLowerCase().includes(searchTerm) ||
         product.content.toLowerCase().includes(searchTerm)
       );
@@ -213,7 +207,7 @@
       }
     });
 
-    // Initialize the page
+    // Initialize
     document.addEventListener('DOMContentLoaded', loadProducts);
   </script>
 </body>
