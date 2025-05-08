@@ -210,7 +210,7 @@ main {
 
 .product-card img {
   width: 100%;
-  height: 200px;
+  height: 120px; /* Smaller image for homepage */
   object-fit: cover;
 }
 
@@ -252,7 +252,7 @@ main {
   background-color: #0056b3;
 }
 
-/* Delete Button */
+/* Delete Button (shown in admin mode) */
 .delete-btn {
   background-color: #dc3545;
   color: white;
