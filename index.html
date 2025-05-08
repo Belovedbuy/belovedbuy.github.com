@@ -349,21 +349,31 @@
   </footer>
 
   <script>
+    // Your Firebase configuration
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
     let products = [];
     let isAuthorized = false;
-    const GITHUB_TOKEN = 'your_github_token'; // Replace with your GitHub personal access token
-    const REPO_OWNER = 'your_github_username'; // Replace with your GitHub username
-    const REPO_NAME = 'your_repo_name'; // Replace with your repository name
-    const FILE_PATH = 'products.json';
 
-    const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
-
-    // Load products from GitHub
+    // Load products from Firestore
     async function loadProducts() {
       try {
-        const response = await fetch(`${API_URL}?access_token=${GITHUB_TOKEN}`);
-        const data = await response.json();
-        products = JSON.parse(atob(data.content));
+        const snapshot = await db.collection('products').get();
+        products = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
         renderProducts();
       } catch (error) {
         console.error('Error loading products:', error);
@@ -372,23 +382,25 @@
       }
     }
 
-    // Save products to GitHub
-    async function saveProducts() {
+    // Save a new product to Firestore
+    async function saveProduct(product) {
       try {
-        const content = btoa(JSON.stringify(products));
-        await fetch(API_URL, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `token ${GITHUB_TOKEN}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            message: 'Update products',
-            content: content,
-          }),
-        });
+        await db.collection('products').add(product);
+        loadProducts();
       } catch (error) {
-        console.error('Error saving products:', error);
+        console.error('Error saving product:', error);
+      }
+    }
+
+    // Delete a product from Firestore
+    async function deleteProduct(id) {
+      if (confirm('Are you sure you want to delete this product?')) {
+        try {
+          await db.collection('products').doc(id).delete();
+          loadProducts();
+        } catch (error) {
+          console.error('Error deleting product:', error);
+        }
       }
     }
 
@@ -425,7 +437,6 @@
       }
 
       const product = {
-        id: 'prod_' + Date.now(),
         title,
         image,
         description,
@@ -435,21 +446,10 @@
         link
       };
 
-      products.push(product);
-      saveProducts();
-      renderProducts();
+      saveProduct(product);
 
       // Reset form
       document.getElementById('productForm').reset();
-    }
-
-    // Delete a product
-    function deleteProduct(id) {
-      if (confirm('Are you sure you want to delete this product?')) {
-        products = products.filter(product => product.id !== id);
-        saveProducts();
-        renderProducts();
-      }
     }
 
     // Render products
