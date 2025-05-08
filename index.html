@@ -7,33 +7,21 @@
   <meta name="keywords" content="tech deals, product reviews, wireless earbuds, gaming keyboard, wireless charger, tech gadgets, affordable tech, product comparisons">
   <meta name="author" content="BelovedBuy">
   <title>BelovedBuy - Best Tech Deals and Reviews</title>
-  
-  <!-- Include Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore-compat.js"></script>
-
-  <style>
-    /* ... (Keep all your CSS as is) ... */
-    /* For brevity, all your previous styles here unchanged */
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>BelovedBuy - Best Tech Deals</h1>
-    <p>Top-rated tech gadgets just for you</p>
+    <h1>BelovedBuy</h1>
+    <p>Discover, compare, and buy the best tech products</p>
   </header>
-
   <main>
     <section class="search-section">
       <input type="text" id="searchBox" placeholder="Search for products...">
       <ul id="resultsList"></ul>
     </section>
-
     <section class="management-section">
       <button class="add-product-btn" onclick="showPasswordModal()">+ Add Product</button>
     </section>
-
     <section class="password-modal" id="passwordModal">
       <div class="modal-content">
         <h2>Enter Password</h2>
@@ -41,48 +29,35 @@
         <button onclick="checkPassword()">Submit</button>
       </div>
     </section>
-
     <section class="add-product-form" id="productForm">
       <h2>Add New Product</h2>
       <input type="text" id="productTitle" placeholder="Product Title">
       <input type="text" id="productImage" placeholder="Image URL">
       <textarea id="productDescription" placeholder="Product Description"></textarea>
       <input type="text" id="productPrice" placeholder="Product Price">
-      <input type="text" id="productRating" placeholder="Product Rating">
-      <textarea id="productContent" placeholder="Product Content (for detail page)"></textarea>
+      <input type="text" id="productRating" placeholder="Product Rating (e.g. 4.5)">
+      <textarea id="productContent" placeholder="Product Content / Blog"></textarea>
       <input type="text" id="productLink" placeholder="Amazon Affiliate Link">
       <button onclick="addProduct()">Add Product</button>
     </section>
-
     <section class="product-list" id="productList">
-      <!-- Products will be added here dynamically -->
+      <!-- Products will be rendered here -->
     </section>
   </main>
-
   <footer>
     <p>&copy; 2025 BelovedBuy. All rights reserved.</p>
   </footer>
-
   <script type="module">
-    // Firebase configuration (replace with your config from the Firebase Console)
-    const firebaseConfig = {
-      apiKey: "fake-api-key",
-      authDomain: "localhost",
-      projectId: "your-project-id",
-      storageBucket: "your-project-id.appspot.com",
-      messagingSenderId: "fake-sender-id",
-      appId: "fake-app-id"
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    // Connect to emulators in development
-    if (location.hostname === "localhost") {
-      db.useEmulator("localhost", 8080);
-      firebase.auth().useEmulator("http://localhost:9099/");
-    }
+    import { db } from "./firebase.js";
+    import {
+      collection,
+      getDocs,
+      addDoc,
+      deleteDoc,
+      doc,
+      query,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
 
     let products = [];
     let isAuthorized = false;
@@ -90,7 +65,8 @@
     // Load products from Firestore
     async function loadProducts() {
       try {
-        const snapshot = await db.collection("products").get();
+        const q = query(collection(db, "products"), orderBy("timestamp", "desc"));
+        const snapshot = await getDocs(q);
         products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         renderProducts();
       } catch (error) {
@@ -100,7 +76,7 @@
       }
     }
 
-    // Save product to Firestore
+    // Add product to Firestore
     async function addProduct() {
       const title = document.getElementById('productTitle').value.trim();
       const image = document.getElementById('productImage').value.trim();
@@ -121,14 +97,16 @@
         price,
         rating,
         content,
-        link
+        link,
+        timestamp: Date.now()
       };
 
       try {
-        const docRef = await db.collection("products").add(product);
-        products.push({ id: docRef.id, ...product });
+        const docRef = await addDoc(collection(db, "products"), product);
+        products.unshift({ id: docRef.id, ...product });
         renderProducts();
         document.getElementById('productForm').reset();
+        document.getElementById('productForm').style.display = 'none';
       } catch (error) {
         console.error('Error adding product:', error);
       }
@@ -138,7 +116,7 @@
     async function deleteProduct(id) {
       if (confirm('Are you sure you want to delete this product?')) {
         try {
-          await db.collection("products").doc(id).delete();
+          await deleteDoc(doc(db, "products", id));
           products = products.filter(product => product.id !== id);
           renderProducts();
         } catch (error) {
@@ -148,22 +126,23 @@
     }
 
     // Show password modal
-    function showPasswordModal() {
+    window.showPasswordModal = function() {
       document.getElementById('passwordModal').style.display = 'flex';
-    }
+    };
 
     // Check password
-    function checkPassword() {
+    window.checkPassword = function() {
       const password = document.getElementById('passwordInput').value;
       if (password === '20071961Bc@') {
         isAuthorized = true;
         document.getElementById('passwordModal').style.display = 'none';
         document.getElementById('productForm').style.display = 'block';
+        document.getElementById('passwordInput').value = '';
         renderProducts();
       } else {
         alert('Incorrect password!');
       }
-    }
+    };
 
     // Render products
     function renderProducts() {
@@ -174,7 +153,7 @@
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
         productCard.dataset.id = product.id;
-        
+
         productCard.innerHTML = `
           <img src="${product.image}" alt="${product.title}">
           <div class="product-info">
@@ -184,14 +163,15 @@
             <p class="product-description">${product.description}</p>
             <a href="product.html?id=${product.id}" class="view-product-btn" target="_blank">View Product</a>
           </div>
-          ${isAuthorized ? `<button class="delete-btn" onclick="deleteProduct('${product.id}')">Delete</button>` : ''}
+          ${isAuthorized ?
+            `<button class="delete-btn" onclick="deleteProduct('${product.id}')">Delete</button>` : ''
+          }
         `;
-        
         productList.appendChild(productCard);
       });
     }
 
-    // Advanced search functionality
+    // Product search functionality
     document.getElementById('searchBox').addEventListener('input', function(e) {
       const searchTerm = e.target.value.toLowerCase();
       const resultsList = document.getElementById('resultsList');
@@ -199,8 +179,8 @@
 
       if (!searchTerm) return;
 
-      const results = products.filter(product => 
-        product.title.toLowerCase().includes(searchTerm) || 
+      const results = products.filter(product =>
+        product.title.toLowerCase().includes(searchTerm) ||
         product.description.toLowerCase().includes(searchTerm) ||
         product.content.toLowerCase().includes(searchTerm)
       );
@@ -219,7 +199,12 @@
     // Initialize the page
     document.addEventListener('DOMContentLoaded', function() {
       loadProducts();
+      document.getElementById('productForm').style.display = 'none';
     });
+
+    // Expose for inline onclick attributes
+    window.addProduct = addProduct;
+    window.deleteProduct = deleteProduct;
   </script>
 </body>
 </html>
