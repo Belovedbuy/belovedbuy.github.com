@@ -1,3 +1,4 @@
+/* Base Styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -14,6 +15,7 @@ body {
   margin: 0 auto;
 }
 
+/* Header Styles */
 header {
   background-color: #232f3e;
   color: white;
@@ -24,10 +26,12 @@ header {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Main Content Styles */
 main {
   margin-bottom: 50px;
 }
 
+/* Search Section */
 .search-section {
   margin-bottom: 30px;
 }
@@ -59,6 +63,7 @@ main {
   color: #333;
 }
 
+/* Management Section */
 .management-section {
   text-align: center;
   margin-bottom: 30px;
@@ -79,7 +84,8 @@ main {
   background-color: #218838;
 }
 
-.password-modal {
+/* Password Modal */
+.password-modal, .edit-modal {
   display: none;
   position: fixed;
   top: 0;
@@ -92,7 +98,7 @@ main {
   align-items: center;
 }
 
-.password-modal[style*="flex"] {
+.password-modal[style*="flex"], .edit-modal[style*="flex"] {
   display: flex !important;
 }
 
@@ -110,13 +116,30 @@ main {
   color: #333;
 }
 
-.modal-content input {
+.modal-content input, .modal-content textarea {
   width: 100%;
   padding: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
+}
+
+.modal-content .rich-editor[contenteditable="true"] {
+  min-height: 150px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  background: #fff;
+  margin-bottom: 15px;
+  font-size: 16px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.modal-content .rich-editor[contenteditable="true"]:focus {
+  border-color: #007bff;
 }
 
 .modal-content button {
@@ -135,6 +158,7 @@ main {
   background-color: #0056b3;
 }
 
+/* Add Product Form */
 .add-product-form {
   display: none;
   background-color: white;
@@ -191,12 +215,14 @@ main {
   background-color: #218838;
 }
 
+/* Product List */
 .product-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 30px;
 }
 
+/* Product Card */
 .product-card {
   background-color: white;
   border-radius: 10px;
@@ -204,9 +230,6 @@ main {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
 }
 
 .product-card:hover {
@@ -218,16 +241,13 @@ main {
   width: 100%;
   height: auto;
   max-height: 300px;
-  object-fit: contain; /* Ensures the image is not cropped */
-  border-radius: 10px 10px 0 0;
-  background: #f3f3f3;
+  object-fit: contain;
+  background: #f8f9fa;
+  display: block;
 }
 
 .product-info {
   padding: 20px;
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
 }
 
 .product-info h2 {
@@ -264,7 +284,26 @@ main {
   background-color: #0056b3;
 }
 
-.delete-btn {
+.links-row {
+  margin: 10px 0;
+}
+.mini-link {
+  display: inline-block;
+  margin-right: 10px;
+  background: #eee;
+  color: #333;
+  padding: 5px 12px;
+  border-radius: 5px;
+  font-size: 13px;
+  text-decoration: none;
+}
+.mini-link:hover {
+  background: #007bff;
+  color: #fff;
+}
+
+/* Delete and Edit Button (shown in admin mode) */
+.delete-btn, .edit-btn {
   background-color: #dc3545;
   color: white;
   border: none;
@@ -272,29 +311,20 @@ main {
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
-  margin-left: 10px;
-  margin-top: 10px;
-  display: inline-block;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: block;
 }
-
+.edit-btn {
+  background: #007bff;
+  right: 95px;
+}
 .delete-btn:hover {
   background-color: #c82333;
 }
-
-.edit-btn {
-  background-color: #ffc107;
-  color: #232f3e;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  margin-top: 10px;
-  display: inline-block;
-}
-
 .edit-btn:hover {
-  background-color: #e0a800;
+  background: #0056b3;
 }
 
 /* Footer Styles */
