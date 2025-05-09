@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Read detailed reviews and info about this product. Find affordable, high-quality tech products with detailed reviews and Amazon, Jumia, Konga links.">
+  <meta name="description" content="Read detailed reviews and info about this product. Find affordable, high-quality tech products with detailed reviews and Amazon affiliate links.">
   <meta name="keywords" content="product review, tech deals, product details, buy product, product price">
   <meta name="author" content="BelovedBuy">
   <title>Product Detail - BelovedBuy</title>
@@ -19,27 +19,20 @@
     }
     .product-container img {
       width: 100%;
-      max-width: 100%;
-      height: auto;
-      object-fit: contain;
+      max-height: 300px;
+      object-fit: cover;
       border-radius: 10px;
       margin-bottom: 20px;
-      display: block;
     }
     .product-meta {
       margin-bottom: 20px;
     }
     .product-content-blog {
       margin: 24px 0;
+      /* Do not override font-family or font-size! Allow pasted content styles */
       word-break: break-word;
     }
-    .link-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin: 20px 0;
-    }
-    .buy-button, .jumia-button, .konga-button {
+    .buy-button {
       display: inline-block;
       background-color: #ff9900;
       color: white;
@@ -47,14 +40,12 @@
       border-radius: 8px;
       text-decoration: none;
       font-weight: bold;
-      margin-top: 10px;
+      margin-top: 20px;
       transition: background-color 0.3s ease;
     }
-    .buy-button:hover { background-color: #e68a00; }
-    .jumia-button { background: #00B3B0; }
-    .jumia-button:hover { background: #007b7a; }
-    .konga-button { background: #e5007d; }
-    .konga-button:hover { background: #a8005a; }
+    .buy-button:hover {
+      background-color: #e68a00;
+    }
     .back-button {
       display: inline-block;
       margin-top: 30px;
@@ -63,14 +54,11 @@
       color: #333;
       text-decoration: none;
     }
-    h1 {
-      margin-bottom: 10px;
-    }
   </style>
 </head>
 <body>
   <header>
-    <h1 id="productTitleSEO"></h1>
+    <h1>BelovedBuy - Product Detail</h1>
   </header>
   <main class="product-container" id="productContainer">
     <!-- Product details will be loaded here dynamically -->
@@ -103,14 +91,6 @@
           return;
         }
         const product = productSnap.data();
-        // SEO Title
-        document.getElementById('productTitleSEO').textContent = product.title;
-        // Links Row
-        let linksHtml = "";
-        if (product.amazonLink) linksHtml += `<a href="${product.amazonLink}" class="buy-button" target="_blank" rel="nofollow sponsored noopener">Buy on Amazon</a>`;
-        if (product.jumiaLink) linksHtml += `<a href="${product.jumiaLink}" class="jumia-button" target="_blank" rel="nofollow noopener">Buy on Jumia</a>`;
-        if (product.kongaLink) linksHtml += `<a href="${product.kongaLink}" class="konga-button" target="_blank" rel="nofollow noopener">Buy on Konga</a>`;
-
         document.getElementById('productContainer').innerHTML = `
           <img src="${product.image}" alt="${product.title}">
           <h1>${product.title}</h1>
@@ -118,12 +98,11 @@
             <p><strong>Price:</strong> ${product.price}</p>
             <p><strong>Rating:</strong> ${product.rating} ⭐</p>
           </div>
-          <div class="link-buttons">${linksHtml}</div>
           <p>${product.description}</p>
           <article class="product-content-blog" itemscope itemtype="http://schema.org/Article">
             ${product.content}
           </article>
-          <div class="link-buttons">${linksHtml}</div>
+          <a href="${product.link}" class="buy-button" target="_blank" rel="nofollow sponsored noopener">Buy on Amazon</a>
         `;
       } catch (error) {
         document.getElementById('productContainer').innerHTML = '<p>Error loading product.</p>';
