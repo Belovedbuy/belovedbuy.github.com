@@ -85,7 +85,7 @@ main {
 }
 
 /* Password Modal */
-.password-modal, .edit-modal {
+.password-modal {
   display: none;
   position: fixed;
   top: 0;
@@ -98,7 +98,7 @@ main {
   align-items: center;
 }
 
-.password-modal[style*="flex"], .edit-modal[style*="flex"] {
+.password-modal[style*="flex"] {
   display: flex !important;
 }
 
@@ -116,30 +116,13 @@ main {
   color: #333;
 }
 
-.modal-content input, .modal-content textarea {
+.modal-content input {
   width: 100%;
   padding: 12px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
-}
-
-.modal-content .rich-editor[contenteditable="true"] {
-  min-height: 150px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 12px;
-  background: #fff;
-  margin-bottom: 15px;
-  font-size: 16px;
-  font-family: inherit;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.modal-content .rich-editor[contenteditable="true"]:focus {
-  border-color: #007bff;
 }
 
 .modal-content button {
@@ -239,11 +222,8 @@ main {
 
 .product-card img {
   width: 100%;
-  height: auto;
-  max-height: 300px;
-  object-fit: contain;
-  background: #f8f9fa;
-  display: block;
+  height: 120px;
+  object-fit: cover;
 }
 
 .product-info {
@@ -284,26 +264,8 @@ main {
   background-color: #0056b3;
 }
 
-.links-row {
-  margin: 10px 0;
-}
-.mini-link {
-  display: inline-block;
-  margin-right: 10px;
-  background: #eee;
-  color: #333;
-  padding: 5px 12px;
-  border-radius: 5px;
-  font-size: 13px;
-  text-decoration: none;
-}
-.mini-link:hover {
-  background: #007bff;
-  color: #fff;
-}
-
-/* Delete and Edit Button (shown in admin mode) */
-.delete-btn, .edit-btn {
+/* Delete Button (shown in admin mode) */
+.delete-btn {
   background-color: #dc3545;
   color: white;
   border: none;
@@ -316,15 +278,9 @@ main {
   right: 15px;
   display: block;
 }
-.edit-btn {
-  background: #007bff;
-  right: 95px;
-}
+
 .delete-btn:hover {
   background-color: #c82333;
-}
-.edit-btn:hover {
-  background: #0056b3;
 }
 
 /* Footer Styles */
