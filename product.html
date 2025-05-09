@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Read detailed reviews and info about this product. Find affordable, high-quality tech products with detailed reviews and affiliate links.">
+  <meta name="description" content="Read detailed reviews and info about this product. Find affordable, high-quality tech products with detailed reviews and Amazon, Jumia, Konga links.">
   <meta name="keywords" content="product review, tech deals, product details, buy product, product price">
   <meta name="author" content="BelovedBuy">
   <title>Product Detail - BelovedBuy</title>
@@ -17,15 +17,13 @@
       margin: 30px auto;
       max-width: 800px;
     }
-    /* Show image in full, no cropping */
     .product-container img {
       width: 100%;
+      max-width: 100%;
       height: auto;
       object-fit: contain;
       border-radius: 10px;
       margin-bottom: 20px;
-      max-height: 600px;
-      background: #f8f9fa;
       display: block;
     }
     .product-meta {
@@ -34,9 +32,14 @@
     .product-content-blog {
       margin: 24px 0;
       word-break: break-word;
-      /* Don't set font-family or font-size, allow pasted styles! */
     }
-    .buy-button {
+    .link-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .buy-button, .jumia-button, .konga-button {
       display: inline-block;
       background-color: #ff9900;
       color: white;
@@ -44,12 +47,14 @@
       border-radius: 8px;
       text-decoration: none;
       font-weight: bold;
-      margin-top: 20px;
+      margin-top: 10px;
       transition: background-color 0.3s ease;
     }
-    .buy-button:hover {
-      background-color: #e68a00;
-    }
+    .buy-button:hover { background-color: #e68a00; }
+    .jumia-button { background: #00B3B0; }
+    .jumia-button:hover { background: #007b7a; }
+    .konga-button { background: #e5007d; }
+    .konga-button:hover { background: #a8005a; }
     .back-button {
       display: inline-block;
       margin-top: 30px;
@@ -58,13 +63,18 @@
       color: #333;
       text-decoration: none;
     }
+    h1 {
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>BelovedBuy - Product Detail</h1>
+    <h1 id="productTitleSEO"></h1>
   </header>
-  <main class="product-container" id="productContainer"></main>
+  <main class="product-container" id="productContainer">
+    <!-- Product details will be loaded here dynamically -->
+  </main>
   <div class="back-button">
     <a href="index.html">← Back to Home</a>
   </div>
@@ -73,7 +83,10 @@
   </footer>
   <script type="module">
     import { db } from "./firebase.js";
-    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
+    import {
+      doc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
 
     async function loadProduct() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -89,23 +102,28 @@
           document.getElementById('productContainer').innerHTML = '<p>Product not found.</p>';
           return;
         }
-        const p = productSnap.data();
-        // Choose link text based on type
-        let buyText = "Buy on Amazon";
-        if (p.linkType === "jumia") buyText = "Buy on Jumia";
-        else if (p.linkType === "konga") buyText = "Buy on Konga";
+        const product = productSnap.data();
+        // SEO Title
+        document.getElementById('productTitleSEO').textContent = product.title;
+        // Links Row
+        let linksHtml = "";
+        if (product.amazonLink) linksHtml += `<a href="${product.amazonLink}" class="buy-button" target="_blank" rel="nofollow sponsored noopener">Buy on Amazon</a>`;
+        if (product.jumiaLink) linksHtml += `<a href="${product.jumiaLink}" class="jumia-button" target="_blank" rel="nofollow noopener">Buy on Jumia</a>`;
+        if (product.kongaLink) linksHtml += `<a href="${product.kongaLink}" class="konga-button" target="_blank" rel="nofollow noopener">Buy on Konga</a>`;
+
         document.getElementById('productContainer').innerHTML = `
-          <img src="${p.image}" alt="${p.title}">
-          <h1 itemprop="name">${p.title}</h1>
+          <img src="${product.image}" alt="${product.title}">
+          <h1>${product.title}</h1>
           <div class="product-meta">
-            <p><strong>Price:</strong> ${p.price}</p>
-            <p><strong>Rating:</strong> ${p.rating} ⭐</p>
+            <p><strong>Price:</strong> ${product.price}</p>
+            <p><strong>Rating:</strong> ${product.rating} ⭐</p>
           </div>
-          <p>${p.description}</p>
+          <div class="link-buttons">${linksHtml}</div>
+          <p>${product.description}</p>
           <article class="product-content-blog" itemscope itemtype="http://schema.org/Article">
-            <section itemprop="articleBody">${p.content}</section>
+            ${product.content}
           </article>
-          <a href="${p.link}" class="buy-button" target="_blank" rel="nofollow sponsored noopener">${buyText}</a>
+          <div class="link-buttons">${linksHtml}</div>
         `;
       } catch (error) {
         document.getElementById('productContainer').innerHTML = '<p>Error loading product.</p>';
