@@ -85,7 +85,7 @@ We welcome contributions! Here’s how you can help:
 
 ## 📧 Contact
 For questions, suggestions, or feedback, feel free to contact us:
-- **Email**: support@belovedbuy.com
+- **Email**: chukwumabeloved@gmail.com
 - **Website**: [BelovedBuy](https://belovedbuy.github.io)
 
 ---
@@ -98,3 +98,5 @@ For questions, suggestions, or feedback, feel free to contact us:
 ---
 
 Thank you for visiting **BelovedBuy**! Your support helps us grow and continue providing value to the tech community. 💻❤️
+## 🛡️ License
+This project is licensed under the [MIT License](LICENSE). You are free to use, modify, and distribute this project, provided that proper attribution is given.
