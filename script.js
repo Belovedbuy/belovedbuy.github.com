@@ -1,187 +1,326 @@
-// Initialize Firebase (replace with your Firebase configuration)
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f8f9fa;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-// Check if the user is authorized
-let isAuthorized = sessionStorage.getItem("authorized") === "true";
+/* Header Styles */
+header {
+  background-color: #232f3e;
+  color: white;
+  padding: 30px 20px;
+  text-align: center;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-// Load products from Firebase Firestore
-async function loadProducts() {
-  try {
-    const productList = document.getElementById("productList");
-    productList.innerHTML = "";
+/* Main Content Styles */
+main {
+  margin-bottom: 50px;
+}
 
-    const querySnapshot = await db.collection("products").get();
-    querySnapshot.forEach((doc) => {
-      const product = doc.data();
-      const productCard = document.createElement("div");
-      productCard.className = "product-card";
-      productCard.dataset.id = doc.id;
+/* Search Section */
+.search-section {
+  margin-bottom: 30px;
+}
 
-      productCard.innerHTML = `
-        <img src="${product.image}" alt="${product.title}">
-        <div class="product-info">
-          <h2>${product.title}</h2>
-          <p class="product-rating">Rating: ${product.rating} ⭐</p>
-          <p class="product-price">Price: ${product.price}</p>
-          <p class="product-description">${product.description}</p>
-          <a href="product.html?id=${doc.id}" class="view-product-btn" target="_blank">View Product</a>
-        </div>
-        ${isAuthorized ? `<button class="delete-btn" onclick="deleteProduct('${doc.id}')">Delete</button>` : ""}
-      `;
+#searchBox {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
 
-      productList.appendChild(productCard);
-    });
+#resultsList {
+  margin-top: 10px;
+  list-style: none;
+}
 
-    // Show delete buttons if authorized
-    if (isAuthorized) {
-      document.querySelectorAll(".delete-btn").forEach((button) => {
-        button.style.display = "block";
-      });
-      document.getElementById("productForm").style.display = "block";
-    }
-  } catch (error) {
-    console.error("Error loading products:", error);
+#resultsList li {
+  padding: 10px;
+  background-color: white;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#resultsList a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* Management Section */
+.management-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.add-product-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-product-btn:hover {
+  background-color: #218838;
+}
+
+/* Password Modal */
+.password-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.password-modal[style*="flex"] {
+  display: flex !important;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.modal-content button {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+  background-color: #0056b3;
+}
+
+/* Add Product Form */
+.add-product-form {
+  display: none;
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.add-product-form h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.add-product-form input,
+.add-product-form textarea,
+.add-product-form select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.add-product-form .rich-editor[contenteditable="true"] {
+  min-height: 150px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  background: #fff;
+  margin-bottom: 15px;
+  font-size: 16px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.add-product-form .rich-editor[contenteditable="true"]:focus {
+  border-color: #007bff;
+}
+
+.add-product-form button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+.add-product-form button:hover {
+  background-color: #218838;
+}
+
+/* Edit Button */
+.edit-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+.edit-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Product List */
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+/* Product Card */
+.product-card {
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.product-home-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 250px;
+  object-fit: contain;
+  background: #f8f9fa;
+}
+
+/* Product Info */
+.product-info {
+  padding: 20px;
+}
+
+.product-info h2 {
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.product-info p {
+  margin-bottom: 10px;
+}
+
+.product-price {
+  font-weight: bold;
+  color: #333;
+}
+
+.product-rating {
+  color: #ff9900;
+}
+
+.view-product-btn {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.view-product-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Delete Button (shown in admin mode) */
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+/* Footer Styles */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  margin-top: 40px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .product-list {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
 }
 
-// Show password modal
-function showPasswordModal() {
-  document.getElementById("passwordModal").style.display = "flex";
-}
-
-// Check password
-async function checkPassword() {
-  const password = document.getElementById("passwordInput").value;
-  if (password === "20071961Bc@") {
-    isAuthorized = true;
-    sessionStorage.setItem("authorized", "true");
-    document.getElementById("passwordModal").style.display = "none";
-
-    // Show delete buttons and add product form
-    document.querySelectorAll(".delete-btn").forEach((button) => {
-      button.style.display = "block";
-    });
-    document.getElementById("productForm").style.display = "block";
-
-    // Reload products to show delete buttons
-    loadProducts();
-  } else {
-    alert("Incorrect password!");
+@media (max-width: 480px) {
+  .product-list {
+    grid-template-columns: 1fr;
   }
 }
-
-// Add a new product
-async function addProduct() {
-  const title = document.getElementById("productTitle").value.trim();
-  const image = document.getElementById("productImage").value.trim();
-  const description = document.getElementById("productDescription").value.trim();
-  const price = document.getElementById("productPrice").value.trim();
-  const rating = document.getElementById("productRating").value.trim();
-  const content = document.getElementById("productContent").value.trim();
-  const link = document.getElementById("productLink").value.trim();
-
-  if (!title || !image || !description || !price || !rating || !content || !link) {
-    return alert("Please fill in all fields!");
-  }
-
-  try {
-    await db.collection("products").add({
-      title,
-      image,
-      description,
-      price,
-      rating,
-      content,
-      link,
-    });
-
-    // Reset form and hide it
-    document.getElementById("productForm").reset();
-    document.getElementById("productForm").style.display = "none";
-
-    // Reload products to show the new product
-    loadProducts();
-  } catch (error) {
-    console.error("Error adding product:", error);
-  }
-}
-
-// Delete a product
-async function deleteProduct(id) {
-  if (confirm("Are you sure you want to delete this product?")) {
-    try {
-      await db.collection("products").doc(id).delete();
-
-      // Reload products to update the display
-      loadProducts();
-    } catch (error) {
-      console.error("Error deleting product:", error);
-    }
-  }
-}
-
-// Advanced search functionality
-document.getElementById("searchBox").addEventListener("input", async function (e) {
-  const searchTerm = e.target.value.toLowerCase();
-
-  if (!searchTerm) {
-    document.getElementById("resultsList").innerHTML = "";
-    return;
-  }
-
-  try {
-    const products = [];
-    const titleQuery = await db
-      .collection("products")
-      .where("title", ">=", searchTerm)
-      .where("title", "<=", searchTerm + "\uf8ff")
-      .get();
-    titleQuery.forEach((doc) => products.push({ id: doc.id, ...doc.data() }));
-
-    const descriptionQuery = await db
-      .collection("products")
-      .where("description", ">=", searchTerm)
-      .where("description", "<=", searchTerm + "\uf8ff")
-      .get();
-    descriptionQuery.forEach((doc) => {
-      if (!products.some((p) => p.id === doc.id)) {
-        products.push({ id: doc.id, ...doc.data() });
-      }
-    });
-
-    const resultsList = document.getElementById("resultsList");
-    resultsList.innerHTML = "";
-
-    if (products.length > 0) {
-      products.forEach((product) => {
-        const li = document.createElement("li");
-        li.innerHTML = `<a href="product.html?id=${product.id}">${product.title}</a>`;
-        resultsList.appendChild(li);
-      });
-    } else {
-      resultsList.innerHTML = "<li>No results found</li>";
-    }
-  } catch (error) {
-    console.error("Error searching products:", error);
-  }
-});
-
-// Initialize the page
-document.addEventListener("DOMContentLoaded", function () {
-  loadProducts();
-
-  // Check if authorized and show form and delete buttons
-  if (isAuthorized) {
-    document.getElementById("productForm").style.display = "block";
-  }
-});
