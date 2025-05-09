@@ -30,28 +30,39 @@
       </div>
     </section>
     <section class="add-product-form" id="productForm">
-      <h2 id="formTitle">Add New Product</h2>
+      <h2>Add New Product</h2>
       <input type="text" id="productTitle" placeholder="Product Title">
       <input type="text" id="productImage" placeholder="Image URL">
       <textarea id="productDescription" placeholder="Product Description"></textarea>
       <input type="text" id="productPrice" placeholder="Product Price">
       <input type="text" id="productRating" placeholder="Product Rating (e.g. 4.5)">
-      <div>
-        <label for="linkType">Buy Link Type:</label>
-        <select id="linkType">
-          <option value="amazon">Amazon</option>
-          <option value="jumia">Jumia</option>
-          <option value="konga">Konga</option>
-        </select>
-      </div>
-      <input type="text" id="productLink" placeholder="Affiliate Link (Amazon/Jumia/Konga)">
+      <select id="productLinkType">
+        <option value="amazon">Amazon</option>
+        <option value="konga">Konga</option>
+        <option value="jumia">Jumia</option>
+      </select>
+      <input type="text" id="productLink" placeholder="Buy Link (Amazon/Konga/Jumia)">
       <div id="productContent" class="rich-editor" contenteditable="true" placeholder="Product Content / Blog"></div>
-      <button id="submitBtn" onclick="submitProduct()">Add Product</button>
-      <button id="cancelEditBtn" style="display:none;" onclick="cancelEdit()">Cancel</button>
+      <button onclick="addProduct()">Add Product</button>
     </section>
-    <section class="product-list" id="productList">
-      <!-- Products will be rendered here -->
+    <section class="edit-product-form" id="editProductForm">
+      <button class="edit-close-btn" onclick="closeEdit()">Close</button>
+      <h2>Edit Product</h2>
+      <input type="text" id="editProductTitle" placeholder="Product Title">
+      <input type="text" id="editProductImage" placeholder="Image URL">
+      <textarea id="editProductDescription" placeholder="Product Description"></textarea>
+      <input type="text" id="editProductPrice" placeholder="Product Price">
+      <input type="text" id="editProductRating" placeholder="Product Rating (e.g. 4.5)">
+      <select id="editProductLinkType">
+        <option value="amazon">Amazon</option>
+        <option value="konga">Konga</option>
+        <option value="jumia">Jumia</option>
+      </select>
+      <input type="text" id="editProductLink" placeholder="Buy Link (Amazon/Konga/Jumia)">
+      <div id="editProductContent" class="rich-editor" contenteditable="true" placeholder="Product Content / Blog"></div>
+      <button onclick="saveEdit()">Save Changes</button>
     </section>
+    <section class="product-list" id="productList"></section>
   </main>
   <footer>
     <p>&copy; 2025 BelovedBuy. All rights reserved.</p>
@@ -59,14 +70,8 @@
   <script type="module">
     import { db } from "./firebase.js";
     import {
-      collection,
-      getDocs,
-      addDoc,
-      updateDoc,
-      deleteDoc,
-      doc,
-      query,
-      orderBy
+      collection, getDocs, addDoc, deleteDoc, doc, updateDoc,
+      query, orderBy, getDoc
     } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js";
 
     let products = [];
@@ -80,95 +85,109 @@
         products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         renderProducts();
       } catch (error) {
-        console.error('Error loading products:', error);
         products = [];
         renderProducts();
       }
     }
 
-    // Submit (add or update) product
-    window.submitProduct = async function() {
+    async function addProduct() {
       const title = document.getElementById('productTitle').value.trim();
       const image = document.getElementById('productImage').value.trim();
       const description = document.getElementById('productDescription').value.trim();
       const price = document.getElementById('productPrice').value.trim();
       const rating = document.getElementById('productRating').value.trim();
       const content = document.getElementById('productContent').innerHTML.trim();
+      const linkType = document.getElementById('productLinkType').value;
       const link = document.getElementById('productLink').value.trim();
-      const linkType = document.getElementById('linkType').value;
 
       if (!title || !image || !description || !price || !rating || !content || !link) {
         return alert('Please fill in all fields!');
       }
 
       const product = {
-        title, image, description, price, rating, content, link, linkType, timestamp: Date.now()
+        title, image, description, price, rating, content,
+        linkType, link, timestamp: Date.now()
       };
 
       try {
-        if (editingProductId) {
-          // Edit existing product
-          await updateDoc(doc(db, "products", editingProductId), product);
-          const idx = products.findIndex(p => p.id === editingProductId);
-          products[idx] = { id: editingProductId, ...product };
-          editingProductId = null;
-        } else {
-          // Add new product
-          const docRef = await addDoc(collection(db, "products"), product);
-          products.unshift({ id: docRef.id, ...product });
-        }
-        clearForm();
+        const docRef = await addDoc(collection(db, "products"), product);
+        products.unshift({ id: docRef.id, ...product });
         renderProducts();
+        document.getElementById('productForm').reset();
+        document.getElementById('productContent').innerHTML = '';
         document.getElementById('productForm').style.display = 'none';
       } catch (error) {
-        console.error('Error submitting product:', error);
+        alert('Error adding product.');
       }
     }
 
-    // Edit product
-    window.editProduct = function(id) {
-      const prod = products.find(p => p.id === id);
-      if (!prod) return;
-      editingProductId = id;
-      document.getElementById('formTitle').textContent = "Edit Product";
-      document.getElementById('productTitle').value = prod.title;
-      document.getElementById('productImage').value = prod.image;
-      document.getElementById('productDescription').value = prod.description;
-      document.getElementById('productPrice').value = prod.price;
-      document.getElementById('productRating').value = prod.rating;
-      document.getElementById('productContent').innerHTML = prod.content;
-      document.getElementById('productLink').value = prod.link;
-      document.getElementById('linkType').value = prod.linkType || "amazon";
-      document.getElementById('productForm').style.display = 'block';
-      document.getElementById('cancelEditBtn').style.display = 'inline-block';
-      document.getElementById('submitBtn').textContent = "Save Changes";
-    }
-
-    window.cancelEdit = function() {
-      editingProductId = null;
-      clearForm();
-      document.getElementById('productForm').style.display = 'none';
-    }
-
-    // Delete
     window.deleteProduct = async function(id) {
       if (confirm('Are you sure you want to delete this product?')) {
         try {
           await deleteDoc(doc(db, "products", id));
           products = products.filter(product => product.id !== id);
           renderProducts();
-        } catch (error) {
-          console.error('Error deleting product:', error);
-        }
+        } catch (error) { alert('Error deleting product'); }
       }
     }
 
-    // Show password modal
+    window.editProduct = function(id) {
+      editingProductId = id;
+      const product = products.find(p => p.id === id);
+      if (!product) return;
+      document.getElementById('editProductTitle').value = product.title;
+      document.getElementById('editProductImage').value = product.image;
+      document.getElementById('editProductDescription').value = product.description;
+      document.getElementById('editProductPrice').value = product.price;
+      document.getElementById('editProductRating').value = product.rating;
+      document.getElementById('editProductLinkType').value = product.linkType || "amazon";
+      document.getElementById('editProductLink').value = product.link;
+      document.getElementById('editProductContent').innerHTML = product.content;
+      document.getElementById('editProductForm').style.display = 'block';
+      window.scrollTo(0,0);
+    };
+
+    window.closeEdit = function() {
+      document.getElementById('editProductForm').style.display = 'none';
+      editingProductId = null;
+    };
+
+    window.saveEdit = async function() {
+      if (!editingProductId) return;
+      const title = document.getElementById('editProductTitle').value.trim();
+      const image = document.getElementById('editProductImage').value.trim();
+      const description = document.getElementById('editProductDescription').value.trim();
+      const price = document.getElementById('editProductPrice').value.trim();
+      const rating = document.getElementById('editProductRating').value.trim();
+      const linkType = document.getElementById('editProductLinkType').value;
+      const link = document.getElementById('editProductLink').value.trim();
+      const content = document.getElementById('editProductContent').innerHTML.trim();
+
+      if (!title || !image || !description || !price || !rating || !content || !link) {
+        return alert('Please fill in all fields!');
+      }
+
+      try {
+        await updateDoc(doc(db, "products", editingProductId), {
+          title, image, description, price, rating, content, linkType, link
+        });
+        // update local
+        const idx = products.findIndex(p => p.id === editingProductId);
+        if (idx !== -1) {
+          products[idx] = { ...products[idx], title, image, description, price, rating, content, linkType, link };
+        }
+        renderProducts();
+        document.getElementById('editProductForm').style.display = 'none';
+        editingProductId = null;
+      } catch (error) {
+        alert('Error saving changes.');
+      }
+    };
+
     window.showPasswordModal = function() {
       document.getElementById('passwordModal').style.display = 'flex';
     };
 
-    // Check password
     window.checkPassword = function() {
       const password = document.getElementById('passwordInput').value;
       if (password === '20071961Bc@') {
@@ -182,7 +201,6 @@
       }
     };
 
-    // Render products
     function renderProducts() {
       const productList = document.getElementById('productList');
       productList.innerHTML = '';
@@ -190,43 +208,31 @@
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
         productCard.dataset.id = product.id;
-        // Image: display in full, no cropping, natural aspect ratio
+
+        let linkLabel = "Buy on Amazon";
+        if (product.linkType === "konga") linkLabel = "Buy on Konga";
+        else if (product.linkType === "jumia") linkLabel = "Buy on Jumia";
+
         productCard.innerHTML = `
-          <img src="${product.image}" alt="${product.title}" class="product-home-img">
+          <img src="${product.image}" alt="${product.title}">
           <div class="product-info">
             <h2>${product.title}</h2>
             <p class="product-rating">Rating: ${product.rating} ⭐</p>
             <p class="product-price">Price: ${product.price}</p>
             <p class="product-description">${product.description}</p>
             <a href="product.html?id=${product.id}" class="view-product-btn" target="_blank">View Product</a>
-            ${
-              isAuthorized
-                ? `<button class="edit-btn" onclick="editProduct('${product.id}')">Edit</button>
-                   <button class="delete-btn" onclick="deleteProduct('${product.id}')">Delete</button>`
-                : ''
-            }
           </div>
+          ${
+            isAuthorized
+            ? `<button class="edit-btn" onclick="editProduct('${product.id}')">Edit</button>
+               <button class="delete-btn" onclick="deleteProduct('${product.id}')">Delete</button>`
+            : ''
+          }
         `;
         productList.appendChild(productCard);
       });
     }
 
-    // Clear form
-    function clearForm() {
-      document.getElementById('formTitle').textContent = "Add New Product";
-      document.getElementById('productTitle').value = '';
-      document.getElementById('productImage').value = '';
-      document.getElementById('productDescription').value = '';
-      document.getElementById('productPrice').value = '';
-      document.getElementById('productRating').value = '';
-      document.getElementById('productContent').innerHTML = '';
-      document.getElementById('productLink').value = '';
-      document.getElementById('linkType').value = 'amazon';
-      document.getElementById('cancelEditBtn').style.display = 'none';
-      document.getElementById('submitBtn').textContent = "Add Product";
-    }
-
-    // Product search functionality
     document.getElementById('searchBox').addEventListener('input', function(e) {
       const searchTerm = e.target.value.toLowerCase();
       const resultsList = document.getElementById('resultsList');
@@ -251,7 +257,10 @@
     document.addEventListener('DOMContentLoaded', function() {
       loadProducts();
       document.getElementById('productForm').style.display = 'none';
+      document.getElementById('editProductForm').style.display = 'none';
     });
+
+    window.addProduct = addProduct;
   </script>
 </body>
 </html>
